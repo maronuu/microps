@@ -1,0 +1,440 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Thu Mar  3 14:55:17 2022
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+DESKTOP_SESSION = ubuntu
+# default
+.SHELLFLAGS := -c
+# environment
+XDG_SESSION_CLASS = user
+# environment
+XDG_SESSION_TYPE = x11
+# environment
+VSCODE_LOG_NATIVE = false
+# environment
+NVM_INC = /home/yutarooguri/.nvm/versions/node/v16.13.1/include/node
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+IM_CONFIG_PHASE = 1
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+XAUTHORITY = /run/user/1000/gdm/Xauthority
+# environment
+GDMSESSION = ubuntu
+# environment
+XMODIFIERS = @im=ibus
+# makefile
+CURDIR := /home/yutarooguri/devs/microps
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"ja","availableLanguages":{"*":"ja"},"_languagePackId":"8e4553dcdcf20a15906b90d5ecdb895e.ja","_translationsConfigFile":"/home/yutarooguri/.config/Code/clp/8e4553dcdcf20a15906b90d5ecdb895e.ja/tcf.json","_cacheRoot":"/home/yutarooguri/.config/Code/clp/8e4553dcdcf20a15906b90d5ecdb895e.ja","_resolvedLanguagePackCoreLocation":"/home/yutarooguri/.config/Code/clp/8e4553dcdcf20a15906b90d5ecdb895e.ja/f80445acd5a3dadef24aa209168452a3d97cc326","_corruptedFile":"/home/yutarooguri/.config/Code/clp/8e4553dcdcf20a15906b90d5ecdb895e.ja/corrupted.info","_languagePackSupport":true}
+# environment
+_ = /usr/share/code/code
+# makefile (from 'Makefile', line 14)
+CFLAGS :=  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux
+# environment
+JOURNAL_STREAM = 8:47954
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# environment
+JAVA_HOME = /usr/lib/jvm/java-11-openjdk-amd64
+# automatic
+@F = $(notdir $@)
+# environment
+GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
+# environment
+USERNAME = yutarooguri
+# environment
+MAKELEVEL := 0
+# environment
+MANDATORY_PATH = /usr/share/gconf/ubuntu.mandatory.path
+# environment
+XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+ROS_ETC_DIR = /opt/ros/noetic/etc/ros
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# makefile (from 'Makefile', line 5)
+OBJS = util.o 
+# makefile (from 'Makefile', line 7)
+TESTS = test/step0.exe 
+# environment
+ROS_PACKAGE_PATH = /home/yutarooguri/catkin_ws/src:/opt/ros/noetic/share
+# environment
+MANAGERPID = 1990
+# environment
+ROS_PYTHON_VERSION = 3
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+LC_NAME = ja_JP.UTF-8
+# environment
+VSCODE_CWD = /home/yutarooguri
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /home/yutarooguri/.local/bin:/home/yutarooguri/bin:/home/yutarooguri/.nvm/versions/node/v16.13.1/bin:/usr/local/bin/:/home/yutarooguri/bin:/opt/ros/noetic/bin:/home/yutarooguri/.pyenv/shims:/home/yutarooguri/.pyenv/bin:/usr/local/cuda-11.1/bin:/home/yutarooguri/.cargo/bin:/home/yutarooguri/.local/bin:/home/yutarooguri/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin:/home/yutarooguri/.fzf/bin
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# environment
+GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+GJS_DEBUG_OUTPUT = stderr
+# environment
+SESSION_MANAGER = local/yutarooguri-ZF:@/tmp/.ICE-unix/2211,unix/yutarooguri-ZF:/tmp/.ICE-unix/2211
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# makefile (from 'Makefile', line 13)
+BASE = platform/linux
+# environment
+ROS_ROOT = /opt/ros/noetic/share/ros
+# environment
+NVM_BIN = /home/yutarooguri/.nvm/versions/node/v16.13.1/bin
+# environment
+BREAKPAD_DUMP_LOCATION = /home/yutarooguri/.config/Code/exthost Crash Reports
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+VSCODE_LOG_STACK = false
+# environment
+VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=5476aeef-4b02-49cd-a5d4-fe3ad9cc6943&iid=5476aeef-4b02-49cd-a5d4-fe3ad9cc6943&sid=5476aeef-4b02-49cd-a5d4-fe3ad9cc6943","uploadToServer":true}
+# environment
+PYENV_ROOT = /home/yutarooguri/.pyenv
+# environment
+INVOCATION_ID = 27d570c7109c4254b6db68dfa7ca25bf
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+CMAKE_PREFIX_PATH = /home/yutarooguri/catkin_ws/devel:/opt/ros/noetic
+# environment
+LS_COLORS = 
+# environment
+ROS_DISTRO = noetic
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 423670
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = :1
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+UE4_ROOT = /home/yutarooguri/UnrealEngine_4.26
+# environment
+PWD = /home/yutarooguri/devs/microps
+# default
+.LOADED := 
+# environment
+SSH_AGENT_PID = 2170
+# environment
+PKG_CONFIG_PATH = /home/yutarooguri/catkin_ws/devel/lib/pkgconfig:/opt/ros/noetic/lib/pkgconfig
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# environment
+GTK_MODULES = gail:atk-bridge
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
+# environment
+HOME = /home/yutarooguri
+# environment
+LD_LIBRARY_PATH = /home/yutarooguri/catkin_ws/devel/lib:/opt/ros/noetic/lib:/usr/local/cuda/include:/usr/local/cuda-11.1/lib64
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# environment
+VSCODE_CODE_CACHE_PATH = /home/yutarooguri/.config/Code/CachedData/f80445acd5a3dadef24aa209168452a3d97cc326
+# environment
+LOGNAME = yutarooguri
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# makefile (from 'Makefile', line 3)
+DRIVERS = 
+# environment
+NVM_CD_FLAGS = 
+# automatic
++F = $(notdir $+)
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+LC_TIME = ja_JP.UTF-8
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+QT_IM_MODULE = ibus
+# environment
+SHLVL = 0
+# environment
+GNOME_SHELL_SESSION_MODE = ubuntu
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-840aad7f-38e0-4b40-ad6f-04c545a4bc53.sock
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = yutarooguri
+# environment
+LC_MONETARY = ja_JP.UTF-8
+# makefile
+.DEFAULT_GOAL := all
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# environment
+ROSLISP_PACKAGE_DIRECTORIES = /home/yutarooguri/catkin_ws/devel/share/common-lisp
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+LC_TELEPHONE = ja_JP.UTF-8
+# default
+MAKE_COMMAND := make
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-06a6c44a-1.64.2-main.sock
+# environment
+PYTHONPATH = /home/yutarooguri/catkin_ws/devel/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+NVM_DIR = /home/yutarooguri/.nvm
+# environment
+ROS_VERSION = 1
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+GDK_BACKEND = x11
+# environment
+LC_PAPER = ja_JP.UTF-8
+# environment
+QT_ACCESSIBILITY = 1
+# environment
+DEFAULTS_PATH = /usr/share/gconf/ubuntu.default.path
+# 'override' directive
+.SHELLSTATUS := 0
+# default
+MAKEFILES := 
+# environment
+LC_NUMERIC = ja_JP.UTF-8
+# environment
+HSR_PROJECT_NAME = hsr_ws
+# automatic
+<F = $(notdir $<)
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+PS1 = \[\e[1;100m\][\D{%Y-%m-%d %H:%M:%S}]\[\e[0;37m\] \h@\[\e[1;33m\]\u\[\e[1;36m\]\n\w \[\e[0m\] \n(*'-')< $ 
+# environment
+LC_MEASUREMENT = ja_JP.UTF-8
+# environment
+ROS_MASTER_URI = http://localhost:11311
+# makefile (from 'Makefile', line 1)
+APPS = 
+# environment
+LC_ALL = C
+# environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+WINDOWPATH = 2
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+ 
+# environment
+LC_IDENTIFICATION = ja_JP.UTF-8
+# default
+.RECIPEPREFIX := 
+# environment
+LC_ADDRESS = ja_JP.UTF-8
+# environment
+LANG = C
+# environment
+VSCODE_PID = 423670
+# variable set hash-table stats:
+# Load=138/1024=13%, Rehash=0, Collisions=24/180=13%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 2083, inode 35662194): 17 files, no impossibilities.
+# test (device 2083, inode 7754282): 5 files, no impossibilities so far.
+
+# 22 files, no impossibilities in 2 directories.
+
+# Implicit Rules
+
+%.c:
+
+%.o: %.c
+#  recipe to execute (from 'Makefile', line 35):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o:
+
+# 3 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+all: test/step0.exe
+#  Phony target (prerequisite of .PHONY).
+#  Command line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+.PHONY: all clean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+.SUFFIXES: .c .o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-03-03 13:37:26.998488999
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+util.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-03-03 13:37:26.998488999
+#  File has been updated.
+#  Successfully updated.
+
+test/step0.o: test/step0.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'test/step0'
+#  Last modified 2022-03-03 13:42:53.82075007
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 35):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Not a target:
+.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+.c.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 35):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+test/step0.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-03-03 13:37:26.998488999
+#  File has been updated.
+#  Successfully updated.
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 38):
+	rm -rf $(APPS) $(APPS:.exe=.o) $(OBJS) $(DRIVERS) $(TESTS) $(TESTS:.exe=.o)
+
+test/step0.exe: test/step0.o util.o test/test.h
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: 'test/step0'
+#  Last modified 2022-03-03 13:42:53.876750458
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 32):
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+# Not a target:
+test/test.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-03-03 13:37:26.998488999
+#  File has been updated.
+#  Successfully updated.
+
+util.o: util.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'util'
+#  Last modified 2022-03-03 13:42:53.848750264
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 35):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# files hash-table stats:
+# Load=15/1024=1%, Rehash=0, Collisions=3/46=7%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 39 / storage = 320 B / avg = 8 B
+# current buf: size = 8162 B / used = 320 B / count = 39 / avg = 8 B
+
+# strcache performance: lookups = 67 / hit rate = 41%
+# hash-table stats:
+# Load=39/8192=0%, Rehash=0, Collisions=7/67=10%
+# Finished Make data base on Thu Mar  3 14:55:17 2022
+
+ 
