@@ -3,9 +3,12 @@
 #include <stdio.h>
 
 #include "net.h"
+#include "platform.h"
 #include "util.h"
 
 #define DUMMY_MTU UINT16_MAX
+
+#define DUMMY_IRQ INTR_IRQ_BASE
 
 static int dummy_transmit(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst) {
     debugf("dev=%s, type=0x%04x, len=%zu", dev->name, type, len);
@@ -13,6 +16,8 @@ static int dummy_transmit(struct net_device *dev, uint16_t type, const uint8_t *
     // drop data
     return 0;
 }
+
+static int dummy_isr(unsigned int irq, void *id) {}
 
 static struct net_device_ops dummy_ops = {
     .transmit = dummy_transmit,
