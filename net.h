@@ -8,6 +8,12 @@
 #define IFNAMSIZ 16
 #endif
 
+// device types
+#define NET_DEVICE_TYPE_DUMMY 0x0000
+#define NET_DEVICE_TYPE_LOOPBACK 0x0001
+#define NET_DEVICE_TYPE_ETHERNET 0x0002
+
+// flags
 #define NET_DEVICE_FLAG_UP 0x0001
 #define NET_DEVICE_FLAG_LOOPBACK 0x0010
 #define NET_DEVICE_FLAG_BROADCAST 0x0020
@@ -16,6 +22,7 @@
 
 #define NET_DEVICE_ADDR_LEN 16
 
+// util funcs
 #define NET_DEVICE_IS_UP(x) ((x)->flags & NET_DEVICE_FLAG_UP)
 #define NET_DEVICE_STATE(x) (NET_DEVICE_IS_UP(x) ? "up" : "down")
 

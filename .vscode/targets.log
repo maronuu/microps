@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Mar  3 14:55:17 2022
+# Make data base, printed on Thu Mar  3 15:37:49 2022
 
 # Variables
 
@@ -48,7 +48,7 @@ SHELL = /bin/sh
 VSCODE_NLS_CONFIG = {"locale":"ja","availableLanguages":{"*":"ja"},"_languagePackId":"8e4553dcdcf20a15906b90d5ecdb895e.ja","_translationsConfigFile":"/home/yutarooguri/.config/Code/clp/8e4553dcdcf20a15906b90d5ecdb895e.ja/tcf.json","_cacheRoot":"/home/yutarooguri/.config/Code/clp/8e4553dcdcf20a15906b90d5ecdb895e.ja","_resolvedLanguagePackCoreLocation":"/home/yutarooguri/.config/Code/clp/8e4553dcdcf20a15906b90d5ecdb895e.ja/f80445acd5a3dadef24aa209168452a3d97cc326","_corruptedFile":"/home/yutarooguri/.config/Code/clp/8e4553dcdcf20a15906b90d5ecdb895e.ja/corrupted.info","_languagePackSupport":true}
 # environment
 _ = /usr/share/code/code
-# makefile (from 'Makefile', line 14)
+# makefile (from 'Makefile', line 17)
 CFLAGS :=  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux
 # environment
 JOURNAL_STREAM = 8:47954
@@ -77,9 +77,9 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # makefile (from 'Makefile', line 5)
-OBJS = util.o 
-# makefile (from 'Makefile', line 7)
-TESTS = test/step0.exe 
+OBJS = util.o net.o 
+# makefile (from 'Makefile', line 9)
+TESTS = test/step0.exe test/step1.exe 
 # environment
 ROS_PACKAGE_PATH = /home/yutarooguri/catkin_ws/src:/opt/ros/noetic/share
 # environment
@@ -106,7 +106,7 @@ GJS_DEBUG_OUTPUT = stderr
 SESSION_MANAGER = local/yutarooguri-ZF:@/tmp/.ICE-unix/2211,unix/yutarooguri-ZF:/tmp/.ICE-unix/2211
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
-# makefile (from 'Makefile', line 13)
+# makefile (from 'Makefile', line 16)
 BASE = platform/linux
 # environment
 ROS_ROOT = /opt/ros/noetic/share/ros
@@ -171,7 +171,7 @@ LOGNAME = yutarooguri
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # makefile (from 'Makefile', line 3)
-DRIVERS = 
+DRIVERS = driver/dummy.o 
 # environment
 NVM_CD_FLAGS = 
 # automatic
@@ -276,7 +276,6 @@ CHROME_DESKTOP = code-url-handler.desktop
 WINDOWPATH = 2
 # default
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
- 
 # environment
 LC_IDENTIFICATION = ja_JP.UTF-8
 # default
@@ -296,17 +295,19 @@ VSCODE_PID = 423670
 
 # Directories
 
-# . (device 2083, inode 35662194): 17 files, no impossibilities.
-# test (device 2083, inode 7754282): 5 files, no impossibilities so far.
+# . (device 2083, inode 35662194): 18 files, no impossibilities.
+# test (device 2083, inode 7754282): 7 files, no impossibilities so far.
+ 
+# driver (device 2083, inode 36052481): 4 files, no impossibilities so far.
 
-# 22 files, no impossibilities in 2 directories.
+# 29 files, no impossibilities in 3 directories.
 
 # Implicit Rules
 
 %.c:
 
 %.o: %.c
-#  recipe to execute (from 'Makefile', line 35):
+#  recipe to execute (from 'Makefile', line 38):
 	$(CC) $(CFLAGS) -c $< -o $@
 
 %.o:
@@ -315,7 +316,7 @@ VSCODE_PID = 423670
 
 # Files
 
-all: test/step0.exe
+all: test/step0.exe test/step1.exe
 #  Phony target (prerequisite of .PHONY).
 #  Command line target.
 #  Implicit rule search has not been done.
@@ -328,6 +329,15 @@ all: test/step0.exe
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+
+net.o: net.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'net'
+#  Last modified 2022-03-03 15:36:55.435031835
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 38):
+	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: all clean
 #  Implicit rule search has not been done.
@@ -342,24 +352,33 @@ all: test/step0.exe
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-03 13:37:26.998488999
+#  Last modified 2022-03-03 15:36:49.598989674
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 util.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-03 13:37:26.998488999
+#  Last modified 2022-03-03 15:07:15.542043962
 #  File has been updated.
 #  Successfully updated.
 
 test/step0.o: test/step0.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'test/step0'
-#  Last modified 2022-03-03 13:42:53.82075007
+#  Last modified 2022-03-03 15:36:55.375031401
 #  File has been updated.
 #  Successfully updated.
-#  recipe to execute (from 'Makefile', line 35):
+#  recipe to execute (from 'Makefile', line 38):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+test/step1.o: test/step1.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'test/step1'
+#  Last modified 2022-03-03 15:36:55.511032383
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 38):
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Not a target:
@@ -372,7 +391,23 @@ test/step0.o: test/step0.c
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 35):
+#  recipe to execute (from 'Makefile', line 38):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Not a target:
+net.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-03-03 15:26:55.138689769
+#  File has been updated.
+#  Successfully updated.
+
+driver/dummy.o: driver/dummy.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'driver/dummy'
+#  Last modified 2022-03-03 15:36:55.451031951
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 38):
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Not a target:
@@ -384,7 +419,7 @@ test/step0.o: test/step0.c
 # Not a target:
 test/step0.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-03 13:37:26.998488999
+#  Last modified 2022-03-03 15:07:40.098219249
 #  File has been updated.
 #  Successfully updated.
 
@@ -393,48 +428,71 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 38):
+#  recipe to execute (from 'Makefile', line 41):
 	rm -rf $(APPS) $(APPS:.exe=.o) $(OBJS) $(DRIVERS) $(TESTS) $(TESTS:.exe=.o)
 
-test/step0.exe: test/step0.o util.o test/test.h
+test/step0.exe: test/step0.o util.o net.o driver/dummy.o test/test.h
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: 'test/step0'
-#  Last modified 2022-03-03 13:42:53.876750458
+#  Last modified 2022-03-03 15:36:55.49103224
 #  File has been updated.
 #  Successfully updated.
-#  recipe to execute (from 'Makefile', line 32):
+#  recipe to execute (from 'Makefile', line 35):
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 # Not a target:
 test/test.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-03 13:37:26.998488999
+#  Last modified 2022-03-03 15:07:35.098183555
 #  File has been updated.
 #  Successfully updated.
+
+# Not a target:
+test/step1.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-03-03 15:36:11.5387147
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+driver/dummy.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-03-03 15:31:25.352645951
+#  File has been updated.
+#  Successfully updated.
+
+test/step1.exe: test/step1.o util.o net.o driver/dummy.o test/test.h
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: 'test/step1'
+#  Last modified 2022-03-03 15:36:55.539032585
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 35):
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 util.o: util.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'util'
-#  Last modified 2022-03-03 13:42:53.848750264
+#  Last modified 2022-03-03 15:36:55.407031633
 #  File has been updated.
 #  Successfully updated.
-#  recipe to execute (from 'Makefile', line 35):
+#  recipe to execute (from 'Makefile', line 38):
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # files hash-table stats:
-# Load=15/1024=1%, Rehash=0, Collisions=3/46=7%
+# Load=22/1024=2%, Rehash=0, Collisions=6/71=8%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 39 / storage = 320 B / avg = 8 B
-# current buf: size = 8162 B / used = 320 B / count = 39 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 52 / storage = 459 B / avg = 8 B
+# current buf: size = 8162 B / used = 459 B / count = 52 / avg = 8 B
 
-# strcache performance: lookups = 67 / hit rate = 41%
+# strcache performance: lookups = 91 / hit rate = 42%
 # hash-table stats:
-# Load=39/8192=0%, Rehash=0, Collisions=7/67=10%
-# Finished Make data base on Thu Mar  3 14:55:17 2022
+# Load=52/8192=1%, Rehash=0, Collisions=8/91=9%
+# Finished Make data base on Thu Mar  3 15:37:49 2022
 
  
