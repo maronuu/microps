@@ -4,7 +4,7 @@
 int main(void) {
     debugf("Hello, World!");
 
-    debugdump(test_data, sizeof(test_data));
+     debugdump(test_data, sizeof(test_data));
 
     return 0;
 }
