@@ -1,10 +1,5 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory '/home/yutarooguri/devs/microps'
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c driver/dummy.c -o driver/dummy.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step0.exe test/step0.o util.o net.o platform/linux/intr.o driver/dummy.o test/test.h 
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step1.c -o test/step1.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step1.exe test/step1.o util.o net.o platform/linux/intr.o driver/dummy.o test/test.h 
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step2.c -o test/step2.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step2.exe test/step2.o util.o net.o platform/linux/intr.o driver/dummy.o test/test.h 
+make: Nothing to be done for 'all'.
 make: Leaving directory '/home/yutarooguri/devs/microps'
  
