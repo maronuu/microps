@@ -5,6 +5,7 @@
 
 #include "platform.h"
 #include "util.h"
+#include "net.h"
 
 struct irq_entry {
     struct irq_entry *next;
@@ -75,6 +76,9 @@ static void *intr_thread(void *arg) {
             case SIGHUP:  // end of interruption
                 terminate = 1;
                 break;
+            case SIGUSR1:
+                net_softirq_handler();  // SIGUSR1, then software irq
+                break;
             default:
                 for (entry = irqs; entry; entry = entry->next) {
                     // call handler whose irq-idx equals to entry's irq-idx
@@ -122,5 +126,6 @@ int intr_init(void) {
     pthread_barrier_init(&barrier, NULL, 2);  // number of threads to wait = 2
     sigemptyset(&sigmask);                    // init signal set
     sigaddset(&sigmask, SIGHUP);              // add SIGHUP to signal set
+    sigaddset(&sigmask, SIGUSR1);              // add SIGUSR1 to signal set
     return 0;
 }
