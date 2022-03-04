@@ -240,7 +240,7 @@ static void ip_input(const uint8_t *data, size_t len, struct net_device *dev) {
     ip_dump(data, total);
     for (protocol = protocols; protocol; protocol = protocol->next) {
         if (protocol->type == hdr->protocol) {
-            protocol->handler(data, total - hlen, hdr->src, hdr->dst, iface);
+            protocol->handler(data + hlen, total - hlen, hdr->src, hdr->dst, iface);
             return;
         }
     }
