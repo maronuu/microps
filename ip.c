@@ -26,11 +26,18 @@ struct ip_hdr {
     uint8_t options[];
 };
 
+struct ip_protocol {
+    struct ip_protocol *next;
+    uint8_t type;
+    void (*handler)(const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst, struct ip_iface *iface);
+};
+
 const ip_addr_t IP_ADDR_ANY = 0x00000000;       /* 0.0.0.0 */
 const ip_addr_t IP_ADDR_BROADCAST = 0xffffffff; /* 255.255.255.255 */
 
 /* NOTE: if you want to add/delete the entries after net_run(), you need to protect these lists with a mutex. */
 static struct ip_iface *ifaces;
+static struct ip_protocol *protocols;
 
 // string -> network byte order
 int ip_addr_pton(const char *p, ip_addr_t *n) {
@@ -156,11 +163,37 @@ struct ip_iface *ip_iface_select(ip_addr_t addr) {
     return NULL;
 }
 
+int ip_protocol_register(uint8_t type, void (*handler)(const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst, struct ip_iface *iface)) {
+    struct ip_protocol *entry;
+
+    // duplication check
+    for (entry = protocols; entry; entry = entry->next) {
+        if (entry->type == type) {
+            errorf("already registered, type=%u", type);
+            return -1;
+        }
+    }
+    // register
+    entry = memory_alloc(sizeof(*entry));
+    if (!entry) {
+        errorf("memory_alloc() failed");
+        return -1;
+    }
+    entry->type = type;
+    entry->handler = handler;
+    entry->next = protocols;
+    protocols = entry;
+
+    infof("registered, type=%u", entry->type);
+    return 0;
+}
+
 static void ip_input(const uint8_t *data, size_t len, struct net_device *dev) {
     struct ip_hdr *hdr;
     uint8_t v;
     uint16_t hlen, total, offset;
     struct ip_iface *iface;
+    struct ip_protocol *protocol;
     char addr[IP_ADDR_STR_LEN];
 
     if (len < IP_HDR_SIZE_MIN) {
@@ -205,6 +238,13 @@ static void ip_input(const uint8_t *data, size_t len, struct net_device *dev) {
     debugf("dev=%s, iface=%s, protocol=%u, total=%u", dev->name, ip_addr_ntop(iface->unicast, addr, sizeof(addr)),
            hdr->protocol, total);
     ip_dump(data, total);
+    for (protocol = protocols; protocol; protocol = protocol->next) {
+        if (protocol->type == hdr->protocol) {
+            protocol->handler(data, total - hlen, hdr->src, hdr->dst, iface);
+            return;
+        }
+    }
+    // unsupported protocol
 }
 
 static int ip_output_device(struct ip_iface *iface, const uint8_t *data, size_t len, ip_addr_t dst) {
@@ -247,7 +287,7 @@ static ssize_t ip_output_core(struct ip_iface *iface, uint8_t protocol, const ui
     // no option
     memcpy(hdr + 1, data, len);
     debugf("dev=%s, dst=%s, protocol=%u, len=%u", NET_IFACE(iface)->dev->name, ip_addr_ntop(dst, addr, sizeof(addr)),
-           protocol, total);
+           protocol, len);
     ip_dump(buf, total);
     return ip_output_device(iface, buf, total, dst);
 }
@@ -294,7 +334,6 @@ ssize_t ip_output(uint8_t protocol, const uint8_t *data, size_t len, ip_addr_t s
     }
     // generate ip datagram
     id = ip_generate_id();
-    // TODO:
     if (ip_output_core(iface, protocol, data, len, iface->unicast, dst, id, 0) == -1) {
         errorf("ip_output_core() failed");
         return -1;
