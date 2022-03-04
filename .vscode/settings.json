@@ -3,5 +3,6 @@
     "files.associations": {
         "*.m": "matlab",
         "dummy.h": "c"
-    }
+    },
+    "cSpell.words": []
 }

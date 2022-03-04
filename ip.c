@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #include "net.h"
+#include "platform.h"
 #include "util.h"
 
 struct ip_hdr {
@@ -25,6 +26,9 @@ struct ip_hdr {
 const ip_addr_t IP_ADDR_ANY = 0x00000000;       /* 0.0.0.0 */
 const ip_addr_t IP_ADDR_BROADCAST = 0xffffffff; /* 255.255.255.255 */
 
+/* NOTE: if you want to add/delete the entries after net_run(), you need to protect these lists with a mutex. */
+static struct ip_iface *ifaces;
+
 // string -> network byte order
 int ip_addr_pton(const char *p, ip_addr_t *n) {
     char *sp, *ep;
@@ -40,7 +44,8 @@ int ip_addr_pton(const char *p, ip_addr_t *n) {
         if (ep == sp) {
             return -1;
         }
-        if ((idx == 3 && *ep != '\0') || (idx != 3 && *ep == '.')) {
+        if ((idx == 3 && *ep != '\0') || (idx != 3 && *ep != '.')) {
+            errorf("idx=%d, sp=%s, ep=%s", idx, sp, ep);
             return -1;
         }
         ((uint8_t *)n)[idx] = ret;
@@ -65,9 +70,9 @@ static void ip_dump(const uint8_t *data, size_t len) {
 
     flockfile(stderr);
     hdr = (struct ip_hdr *)data;
-    v = (hdr->vhl & 0xf0) >> 4; // version
+    v = (hdr->vhl & 0xf0) >> 4;  // version
     hl = (hdr->vhl & 0x0f);
-    hlen = hl << 2; // byte unit
+    hlen = hl << 2;  // byte unit
 
     fprintf(stderr, "       vhl: 0x%02x [v: %u, hl: %u (%u)]\n", hdr->vhl, v, hl, hlen);
     fprintf(stderr, "       tos: 0x%02x\n", hdr->tos);
@@ -88,11 +93,69 @@ static void ip_dump(const uint8_t *data, size_t len) {
     funlockfile(stderr);
 }
 
+struct ip_iface *ip_iface_alloc(const char *unicast, const char *netmask) {
+    struct ip_iface *iface;
+
+    // allocate memory
+    iface = memory_alloc(sizeof(*iface));
+    if (!iface) {
+        errorf("memory_alloc() failed");
+        return NULL;
+    }
+    // set interface family id
+    NET_IFACE(iface)->family = NET_IFACE_FAMILY_IP;
+    // unicast
+    if (ip_addr_pton(unicast, &iface->unicast) == -1) {
+        errorf("ip_addr_pton() failed");
+        memory_free(iface);
+        return NULL;
+    }
+    // netmask
+    if (ip_addr_pton(netmask, &iface->netmask) == -1) {
+        errorf("ip_addr_pton() failed");
+        memory_free(iface);
+        return NULL;
+    }
+    // broadcast
+    iface->broadcast = (iface->unicast | (~iface->netmask));
+
+    return iface;
+}
+
+/* NOTE: must not be call after net_run() */
+int ip_iface_register(struct net_device *dev, struct ip_iface *iface) {
+    char addr1[IP_ADDR_STR_LEN];
+    char addr2[IP_ADDR_STR_LEN];
+    char addr3[IP_ADDR_STR_LEN];
+
+    // register ip interface
+    net_device_add_iface(dev, NET_IFACE(iface));
+    // insert into list
+    NET_IFACE(iface)->next = dev->ifaces;
+    dev->ifaces = NET_IFACE(iface);
+
+    infof("registered: dev=%s, unicast=%s, netmask=%s, broadcast=%s", dev->name,
+          ip_addr_ntop(iface->unicast, addr1, sizeof(addr1)), ip_addr_ntop(iface->netmask, addr2, sizeof(addr2)),
+          ip_addr_ntop(iface->broadcast, addr3, sizeof(addr3)));
+    return 0;
+}
+
+struct ip_iface *ip_iface_select(ip_addr_t addr) {
+    struct ip_iface *entry;
+    for (entry = ifaces; entry; entry = entry->next) {
+        if (entry->unicast == addr || entry->broadcast == addr) {
+            return entry;
+        }
+    }
+    return NULL;
+}
 
 static void ip_input(const uint8_t *data, size_t len, struct net_device *dev) {
     struct ip_hdr *hdr;
     uint8_t v;
     uint16_t hlen, total, offset;
+    struct ip_iface *iface;
+    char addr[IP_ADDR_STR_LEN];
 
     if (len < IP_HDR_SIZE_MIN) {
         errorf("too short");
@@ -127,7 +190,14 @@ static void ip_input(const uint8_t *data, size_t len, struct net_device *dev) {
         errorf("fragments does not support");
         return;
     }
-    debugf("dev=%s, protocol=%u, total=%u", dev->name, hdr->protocol, total);
+    // get IP interface
+    iface = (struct ip_iface *)net_device_get_iface(dev, NET_IFACE_FAMILY_IP);
+    // validation
+    if (hdr->dst != iface->broadcast && hdr->dst != iface->unicast && hdr->dst != IP_ADDR_BROADCAST) {
+        return;
+    }
+    debugf("dev=%s, iface=%s, protocol=%u, total=%u", dev->name, ip_addr_ntop(iface->unicast, addr, sizeof(addr)),
+           hdr->protocol, total);
     ip_dump(data, total);
 }
 
