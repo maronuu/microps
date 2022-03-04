@@ -1,22 +1,5 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/yutarooguri/devs/microps'
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step0.c -o test/step0.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c util.c -o util.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c net.c -o net.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c ip.c -o ip.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c platform/linux/intr.c -o platform/linux/intr.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c driver/dummy.c -o driver/dummy.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c driver/loopback.c -o driver/loopback.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step0.exe test/step0.o util.o net.o ip.o platform/linux/intr.o driver/dummy.o driver/loopback.o test/test.h 
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step1.c -o test/step1.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step1.exe test/step1.o util.o net.o ip.o platform/linux/intr.o driver/dummy.o driver/loopback.o test/test.h 
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step2.c -o test/step2.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step2.exe test/step2.o util.o net.o ip.o platform/linux/intr.o driver/dummy.o driver/loopback.o test/test.h 
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step3.c -o test/step3.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step3.exe test/step3.o util.o net.o ip.o platform/linux/intr.o driver/dummy.o driver/loopback.o test/test.h 
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step4.c -o test/step4.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step4.exe test/step4.o util.o net.o ip.o platform/linux/intr.o driver/dummy.o driver/loopback.o test/test.h 
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step5.c -o test/step5.o
-cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step5.exe test/step5.o util.o net.o ip.o platform/linux/intr.o driver/dummy.o driver/loopback.o test/test.h 
+make: Nothing to be done for 'all'.
 make: Leaving directory '/home/yutarooguri/devs/microps'
  
