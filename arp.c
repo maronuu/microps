@@ -20,6 +20,7 @@
 #define ARP_OP_REPLY 2
 
 #define ARP_CACHE_SIZE 32
+#define ARP_CACHE_TIMEOUT 30  // [sec]
 
 #define ARP_CACHE_STATE_FREE 0
 #define ARP_CACHE_STATE_INCOMPLETE 1
@@ -141,7 +142,6 @@ static struct arp_cache *arp_cache_update(ip_addr_t pa, const uint8_t *ha) {
     // search entry
     cache = arp_cache_select(pa);
     if (!cache) {
-        errorf("arp_cache_select() failed");
         return NULL;
     }
     // update
@@ -188,12 +188,12 @@ static int arp_request(struct net_iface *iface, ip_addr_t tpa) {
     request.hdr.op = hton16(ARP_OP_REQUEST);
     memcpy(request.sha, iface->dev->addr, ETHER_ADDR_LEN);
     memcpy(request.spa, &((struct ip_iface *)iface)->unicast, IP_ADDR_LEN);
-    memset(request.tha, 0, ETHER_ADDR_LEN); // temporary value = 0
+    memset(request.tha, 0, ETHER_ADDR_LEN);  // temporary value = 0
     memcpy(request.tpa, &tpa, sizeof(tpa));
 
     debugf("dev=%s, len=%zu", iface->dev->name, sizeof(request));
     arp_dump((uint8_t *)&request, sizeof(request));
-    
+
     return net_device_output(iface->dev, ETHER_TYPE_ARP, (uint8_t *)&request, sizeof(request), iface->dev->broadcast);
 }
 
@@ -311,9 +311,33 @@ int arp_resolve(struct net_iface *iface, ip_addr_t pa, uint8_t *ha) {
     return ARP_RESOLVE_FOUND;
 }
 
+static void arp_timer_handler(void) {
+    struct arp_cache *entry;
+    struct timeval now, diff;
+
+    mutex_lock(&mutex);
+    gettimeofday(&now, NULL);
+    for (entry = caches; entry < tailof(caches) ; ++entry) {
+        if (entry->state != ARP_CACHE_STATE_FREE && entry->state != ARP_CACHE_STATE_STATIC) {
+            // delete timeout entry
+            timersub(&now, &entry->timestamp, &diff);   // diff = now - entry.ts
+            if (diff.tv_sec > ARP_CACHE_TIMEOUT) {
+                // if diff > timeout, then timeout
+                arp_cache_delete(entry);
+            }
+        }
+    }
+    mutex_unlock(&mutex);
+}
+
 int arp_init(void) {
+    struct timeval interval = {1, 0};   // 1s
     if (net_protocol_register(NET_PROTOCOL_TYPE_ARP, arp_input) == -1) {
         errorf("net_protocol_register() failed");
+        return -1;
+    }
+    if (net_timer_register(interval, arp_timer_handler) == -1) {
+        errorf("net_timer_register() failed");
         return -1;
     }
     return 0;

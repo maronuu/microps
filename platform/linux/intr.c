@@ -1,11 +1,13 @@
+#include <errno.h>
 #include <pthread.h>
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
+#include "net.h"
 #include "platform.h"
 #include "util.h"
-#include "net.h"
 
 struct irq_entry {
     struct irq_entry *next;
@@ -60,12 +62,33 @@ int intr_request_irq(unsigned int irq, int (*handler)(unsigned int irq, void *de
 
 int intr_raise_irq(unsigned int irq) { return pthread_kill(tid, (int)irq); }
 
+static int intr_timer_setup(struct itimerspec *interval) {
+    timer_t id;
+    if (timer_create(CLOCK_REALTIME, NULL, &id) == -1) {
+        errorf("timer_create: %s", strerror(errno));
+        return -1;
+    }
+    if (timer_settime(id, 0, interval, NULL) == -1) {
+        errorf("timer_settime: %s", strerror(errno));
+        return -1;
+    }
+    return 0;
+}
+
 static void *intr_thread(void *arg) {
+    const struct timespec ts = {0, 1000000};  // ms
+    struct itimerspec interval = {ts, ts};
+
     int terminate = 0, sig, err;
     struct irq_entry *entry;
 
     debugf("start...");
     pthread_barrier_wait(&barrier);
+    if (intr_timer_setup(&interval) == -1) {
+        errorf("intr_timer_setup() failed");
+        return NULL;
+    }
+
     while (!terminate) {
         err = sigwait(&sigmask, &sig);
         if (err) {
@@ -75,6 +98,10 @@ static void *intr_thread(void *arg) {
         switch (sig) {
             case SIGHUP:  // end of interruption
                 terminate = 1;
+                break;
+            case SIGALRM:
+                // timer
+                net_timer_handler();
                 break;
             case SIGUSR1:
                 net_softirq_handler();  // SIGUSR1, then software irq
@@ -126,6 +153,7 @@ int intr_init(void) {
     pthread_barrier_init(&barrier, NULL, 2);  // number of threads to wait = 2
     sigemptyset(&sigmask);                    // init signal set
     sigaddset(&sigmask, SIGHUP);              // add SIGHUP to signal set
-    sigaddset(&sigmask, SIGUSR1);              // add SIGUSR1 to signal set
+    sigaddset(&sigmask, SIGUSR1);             // add SIGUSR1 to signal set
+    sigaddset(&sigmask, SIGALRM);             // add SIGALRM to signal set
     return 0;
 }
