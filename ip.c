@@ -1,6 +1,5 @@
 #include "ip.h"
 
-#include <assert.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -39,14 +38,13 @@ const ip_addr_t IP_ADDR_BROADCAST = 0xffffffff; /* 255.255.255.255 */
 static struct ip_iface *ifaces;
 static struct ip_protocol *protocols;
 
-// string -> network byte order
 int ip_addr_pton(const char *p, ip_addr_t *n) {
     char *sp, *ep;
     int idx;
     long ret;
 
     sp = (char *)p;
-    for (idx = 0; idx < 4; ++idx) {
+    for (idx = 0; idx < 4; idx++) {
         ret = strtol(sp, &ep, 10);
         if (ret < 0 || ret > 255) {
             return -1;
@@ -55,7 +53,6 @@ int ip_addr_pton(const char *p, ip_addr_t *n) {
             return -1;
         }
         if ((idx == 3 && *ep != '\0') || (idx != 3 && *ep != '.')) {
-            errorf("idx=%d, sp=%s, ep=%s", idx, sp, ep);
             return -1;
         }
         ((uint8_t *)n)[idx] = ret;
@@ -80,23 +77,21 @@ static void ip_dump(const uint8_t *data, size_t len) {
 
     flockfile(stderr);
     hdr = (struct ip_hdr *)data;
-    v = (hdr->vhl & 0xf0) >> 4;  // version
-    hl = (hdr->vhl & 0x0f);
-    hlen = hl << 2;  // byte unit
-
-    fprintf(stderr, "       vhl: 0x%02x [v: %u, hl: %u (%u)]\n", hdr->vhl, v, hl, hlen);
-    fprintf(stderr, "       tos: 0x%02x\n", hdr->tos);
+    v = (hdr->vhl & 0xf0) >> 4;
+    hl = hdr->vhl & 0x0f;
+    hlen = hl << 2;
+    fprintf(stderr, "        vhl: 0x%02x [v: %u, hl: %u (%u)]\n", hdr->vhl, v, hl, hlen);
+    fprintf(stderr, "        tos: 0x%02x\n", hdr->tos);
     total = ntoh16(hdr->total);
-    fprintf(stderr, "     total: %u (payload: %u)\n", total, total - hlen);
-    fprintf(stderr, "        id: %u\n", ntoh16(hdr->id));
+    fprintf(stderr, "      total: %u (payload: %u)\n", total, total - hlen);
+    fprintf(stderr, "         id: %u\n", ntoh16(hdr->id));
     offset = ntoh16(hdr->offset);
-    fprintf(stderr, "    offset: 0x%04x [flags=%x, offset=%u]\n", offset, (offset & 0xe000) >> 13, offset & 0x1fff);
-    fprintf(stderr, "       ttl: %u\n", hdr->ttl);
-    fprintf(stderr, "  protocol: %u\n", hdr->protocol);
-    fprintf(stderr, "       sum: 0x%04x\n", ntoh16(hdr->sum));
-    fprintf(stderr, "       src: %s\n", ip_addr_ntop(hdr->src, addr, sizeof(addr)));
-    fprintf(stderr, "       dst: %s\n", ip_addr_ntop(hdr->dst, addr, sizeof(addr)));
-
+    fprintf(stderr, "     offset: 0x%04x [flags=%x, offset=%u]\n", offset, (offset & 0xe000) >> 13, offset & 0x1fff);
+    fprintf(stderr, "        ttl: %u\n", hdr->ttl);
+    fprintf(stderr, "   protocol: %u\n", hdr->protocol);
+    fprintf(stderr, "        sum: 0x%04x\n", ntoh16(hdr->sum));
+    fprintf(stderr, "        src: %s\n", ip_addr_ntop(hdr->src, addr, sizeof(addr)));
+    fprintf(stderr, "        dst: %s\n", ip_addr_ntop(hdr->dst, addr, sizeof(addr)));
 #ifdef HEXDUMP
     hexdump(stderr, data, len);
 #endif
@@ -106,29 +101,23 @@ static void ip_dump(const uint8_t *data, size_t len) {
 struct ip_iface *ip_iface_alloc(const char *unicast, const char *netmask) {
     struct ip_iface *iface;
 
-    // allocate memory
     iface = memory_alloc(sizeof(*iface));
     if (!iface) {
-        errorf("memory_alloc() failed");
+        errorf("memory_alloc() failure");
         return NULL;
     }
-    // set interface family id
     NET_IFACE(iface)->family = NET_IFACE_FAMILY_IP;
-    // unicast
     if (ip_addr_pton(unicast, &iface->unicast) == -1) {
-        errorf("ip_addr_pton() failed");
+        errorf("ip_addr_pton() failure, addr=%s", unicast);
         memory_free(iface);
         return NULL;
     }
-    // netmask
     if (ip_addr_pton(netmask, &iface->netmask) == -1) {
-        errorf("ip_addr_pton() failed");
+        errorf("ip_addr_pton() failure, addr=%s", netmask);
         memory_free(iface);
         return NULL;
     }
-    // broadcast
-    iface->broadcast = (iface->unicast | (~iface->netmask));
-
+    iface->broadcast = (iface->unicast & iface->netmask) | ~iface->netmask;
     return iface;
 }
 
@@ -138,12 +127,12 @@ int ip_iface_register(struct net_device *dev, struct ip_iface *iface) {
     char addr2[IP_ADDR_STR_LEN];
     char addr3[IP_ADDR_STR_LEN];
 
-    // register ip interface
-    net_device_add_iface(dev, NET_IFACE(iface));
-    // insert into list
+    if (net_device_add_iface(dev, NET_IFACE(iface)) == -1) {
+        errorf("net_device_add_iface() failure");
+        return -1;
+    }
     iface->next = ifaces;
     ifaces = iface;
-
     infof("registered: dev=%s, unicast=%s, netmask=%s, broadcast=%s", dev->name,
           ip_addr_ntop(iface->unicast, addr1, sizeof(addr1)), ip_addr_ntop(iface->netmask, addr2, sizeof(addr2)),
           ip_addr_ntop(iface->broadcast, addr3, sizeof(addr3)));
@@ -152,38 +141,35 @@ int ip_iface_register(struct net_device *dev, struct ip_iface *iface) {
 
 struct ip_iface *ip_iface_select(ip_addr_t addr) {
     struct ip_iface *entry;
-    // char tmp[IP_ADDR_STR_LEN];
+
     for (entry = ifaces; entry; entry = entry->next) {
-        // debugf("unicast=%s, broadcast=%s", ip_addr_ntop(entry->unicast, tmp, sizeof(tmp)),
-        //        ip_addr_ntop(entry->broadcast, tmp, sizeof(tmp)));
         if (entry->unicast == addr) {
-            return entry;
+            break;
         }
     }
-    return NULL;
+    return entry;
 }
 
-int ip_protocol_register(uint8_t type, void (*handler)(const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst, struct ip_iface *iface)) {
+/* NOTE: must not be call after net_run() */
+int ip_protocol_register(uint8_t type, void (*handler)(const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst,
+                                                       struct ip_iface *iface)) {
     struct ip_protocol *entry;
 
-    // duplication check
     for (entry = protocols; entry; entry = entry->next) {
         if (entry->type == type) {
-            errorf("already registered, type=%u", type);
+            errorf("already exists, type=%u", type);
             return -1;
         }
     }
-    // register
     entry = memory_alloc(sizeof(*entry));
     if (!entry) {
-        errorf("memory_alloc() failed");
+        errorf("memory_alloc() failure");
         return -1;
     }
     entry->type = type;
     entry->handler = handler;
     entry->next = protocols;
     protocols = entry;
-
     infof("registered, type=%u", entry->type);
     return 0;
 }
@@ -193,58 +179,60 @@ static void ip_input(const uint8_t *data, size_t len, struct net_device *dev) {
     uint8_t v;
     uint16_t hlen, total, offset;
     struct ip_iface *iface;
-    struct ip_protocol *protocol;
     char addr[IP_ADDR_STR_LEN];
+    struct ip_protocol *proto;
 
     if (len < IP_HDR_SIZE_MIN) {
         errorf("too short");
         return;
     }
     hdr = (struct ip_hdr *)data;
-
-    // version
-    v = (hdr->vhl & 0xf0) >> 4;
+    v = hdr->vhl >> 4;
     if (v != IP_VERSION_IPV4) {
-        errorf("version is not ipv4");
+        errorf("ip version error: v=%u", v);
         return;
     }
     hlen = (hdr->vhl & 0x0f) << 2;
     if (len < hlen) {
-        errorf("data length is shorter than header length");
+        errorf("header length error: len=%zu < hlen=%u", len, hlen);
         return;
     }
     total = ntoh16(hdr->total);
     if (len < total) {
-        errorf("data length is shorter than total length");
+        errorf("total length error: len=%zu < total=%u", len, total);
         return;
     }
-    uint16_t sum = cksum16((uint16_t *)data, len, 0);
-    if (sum != 0) {
-        errorf("check sum failed");
+    if (cksum16((uint16_t *)hdr, hlen, 0) != 0) {
+        errorf("checksum error: sum=0x%04x, verify=0x%04x", ntoh16(hdr->sum),
+               ntoh16(cksum16((uint16_t *)hdr, hlen, -hdr->sum)));
         return;
     }
-
     offset = ntoh16(hdr->offset);
     if (offset & 0x2000 || offset & 0x1fff) {
         errorf("fragments does not support");
         return;
     }
-    // get IP interface
     iface = (struct ip_iface *)net_device_get_iface(dev, NET_IFACE_FAMILY_IP);
-    // validation
-    if (hdr->dst != iface->broadcast && hdr->dst != iface->unicast && hdr->dst != IP_ADDR_BROADCAST) {
+    if (!iface) {
+        /* iface is not registered to the device */
         return;
+    }
+    if (hdr->dst != iface->unicast) {
+        if (hdr->dst != iface->broadcast && hdr->dst != IP_ADDR_BROADCAST) {
+            /* for other host */
+            return;
+        }
     }
     debugf("dev=%s, iface=%s, protocol=%u, total=%u", dev->name, ip_addr_ntop(iface->unicast, addr, sizeof(addr)),
            hdr->protocol, total);
     ip_dump(data, total);
-    for (protocol = protocols; protocol; protocol = protocol->next) {
-        if (protocol->type == hdr->protocol) {
-            protocol->handler(data + hlen, total - hlen, hdr->src, hdr->dst, iface);
+    for (proto = protocols; proto; proto = proto->next) {
+        if (proto->type == hdr->protocol) {
+            proto->handler((uint8_t *)hdr + hlen, total - hlen, hdr->src, hdr->dst, iface);
             return;
         }
     }
-    // unsupported protocol
+    /* unsupported protocol */
 }
 
 static int ip_output_device(struct ip_iface *iface, const uint8_t *data, size_t len, ip_addr_t dst) {
@@ -254,11 +242,10 @@ static int ip_output_device(struct ip_iface *iface, const uint8_t *data, size_t 
         if (dst == iface->broadcast || dst == IP_ADDR_BROADCAST) {
             memcpy(hwaddr, NET_IFACE(iface)->dev->broadcast, NET_IFACE(iface)->dev->alen);
         } else {
-            errorf("arp does not implemented");
+            errorf("arp does not implement");
             return -1;
         }
     }
-    // send
     return net_device_output(NET_IFACE(iface)->dev, NET_PROTOCOL_TYPE_IP, data, len, hwaddr);
 }
 
@@ -270,24 +257,22 @@ static ssize_t ip_output_core(struct ip_iface *iface, uint8_t protocol, const ui
     char addr[IP_ADDR_STR_LEN];
 
     hdr = (struct ip_hdr *)buf;
-    // generate ip datagram
     hlen = IP_HDR_SIZE_MIN;
     hdr->vhl = (IP_VERSION_IPV4 << 4) | (hlen >> 2);
     hdr->tos = 0;
-    hdr->id = hton16(id);
     total = hlen + len;
     hdr->total = hton16(total);
+    hdr->id = hton16(id);
     hdr->offset = hton16(offset);
     hdr->ttl = 0xff;
     hdr->protocol = protocol;
     hdr->sum = 0;
     hdr->src = src;
     hdr->dst = dst;
-    hdr->sum = cksum16((uint16_t *)hdr, hlen, 0);
-    // no option
+    hdr->sum = cksum16((uint16_t *)hdr, hlen, 0); /* don't convert byteoder */
     memcpy(hdr + 1, data, len);
     debugf("dev=%s, dst=%s, protocol=%u, len=%u", NET_IFACE(iface)->dev->name, ip_addr_ntop(dst, addr, sizeof(addr)),
-           protocol, len);
+           protocol, total);
     ip_dump(buf, total);
     return ip_output_device(iface, buf, total, dst);
 }
@@ -309,33 +294,27 @@ ssize_t ip_output(uint8_t protocol, const uint8_t *data, size_t len, ip_addr_t s
     uint16_t id;
 
     if (src == IP_ADDR_ANY) {
-        errorf("ip routing does not implemented");
+        errorf("ip routing does not implement");
         return -1;
-    } else {
-        // search ip_iface whose addr equals to src
+    } else { /* NOTE: I'll rewrite this block later. */
         iface = ip_iface_select(src);
         if (!iface) {
-            errorf("ip_iface_select failed");
+            errorf("iface not found, src=%s", ip_addr_ntop(src, addr, sizeof(addr)));
             return -1;
         }
-        // check reachability
-        if (dst != IP_ADDR_BROADCAST) {
-            if ((dst & iface->netmask) != (iface->unicast & iface->netmask)) {
-                errorf("unreachable");
-                return -1;
-            }
+        if ((dst & iface->netmask) != (iface->unicast & iface->netmask) && dst != IP_ADDR_BROADCAST) {
+            errorf("not reached, dst=%s", ip_addr_ntop(src, addr, sizeof(addr)));
+            return -1;
         }
     }
-    // mtu check
     if (NET_IFACE(iface)->dev->mtu < IP_HDR_SIZE_MIN + len) {
         errorf("too long, dev=%s, mtu=%u < %zu", NET_IFACE(iface)->dev->name, NET_IFACE(iface)->dev->mtu,
                IP_HDR_SIZE_MIN + len);
         return -1;
     }
-    // generate ip datagram
     id = ip_generate_id();
     if (ip_output_core(iface, protocol, data, len, iface->unicast, dst, id, 0) == -1) {
-        errorf("ip_output_core() failed");
+        errorf("ip_output_core() failure");
         return -1;
     }
     return len;
@@ -343,7 +322,7 @@ ssize_t ip_output(uint8_t protocol, const uint8_t *data, size_t len, ip_addr_t s
 
 int ip_init(void) {
     if (net_protocol_register(NET_PROTOCOL_TYPE_IP, ip_input) == -1) {
-        errorf("net_protocol_register() failed");
+        errorf("net_protocol_register() failure");
         return -1;
     }
     return 0;
