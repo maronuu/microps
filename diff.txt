@@ -1,0 +1,5281 @@
+diff --git a/.clang-format b/.clang-format
+new file mode 100644
+index 0000000..9c2687a
+--- /dev/null
++++ b/.clang-format
+@@ -0,0 +1,13 @@
++# デフォルト設定
++BasedOnStyle: Google
++# インデント幅
++IndentWidth: 4
++# 言語
++Language: Cpp
++Standard: Auto
++# 1行あたりの
++ColumnLimit: 120
++# 改行コード
++UseCRLF: false
++# 個別の設定項目を以下似追加
++# AccessModifierOffset: -4
+\ No newline at end of file
+diff --git a/.gitignore b/.gitignore
+index c6127b3..b344a0a 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -50,3 +50,9 @@ modules.order
+ Module.symvers
+ Mkfile.old
+ dkms.conf
++
++
++pf_packet
++pf_packet.c
++tap
++tap.c
+\ No newline at end of file
+diff --git a/.vscode/c_cpp_properties.json b/.vscode/c_cpp_properties.json
+new file mode 100644
+index 0000000..50128da
+--- /dev/null
++++ b/.vscode/c_cpp_properties.json
+@@ -0,0 +1,20 @@
++{
++    "configurations": [
++        {
++            "name": "Linux",
++            "includePath": [
++                "${workspaceFolder}/**",
++                "${workspaceFolder}/driver/*",
++                "${workspaceFolder}/platform/linux/*",
++                "${workspaceFolder}/*"
++            ],
++            "defines": [],
++            "compilerPath": "/usr/bin/clang",
++            "cStandard": "c11",
++            "cppStandard": "c++14",
++            "intelliSenseMode": "linux-clang-x64",
++            "configurationProvider": "ms-vscode.makefile-tools"
++        }
++    ],
++    "version": 4
++}
+\ No newline at end of file
+diff --git a/.vscode/configurationCache.log b/.vscode/configurationCache.log
+new file mode 100644
+index 0000000..618ed81
+--- /dev/null
++++ b/.vscode/configurationCache.log
+@@ -0,0 +1 @@
++{"buildTargets":[],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[]},"fileIndex":[]}}
+\ No newline at end of file
+diff --git a/.vscode/dryrun.log b/.vscode/dryrun.log
+new file mode 100644
+index 0000000..de6555b
+--- /dev/null
++++ b/.vscode/dryrun.log
+@@ -0,0 +1,47 @@
++make --dry-run --keep-going --print-directory
++make: Entering directory '/home/yutarooguri/devs/microps'
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c ip.c -o ip.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c icmp.c -o icmp.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c ether.c -o ether.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c arp.c -o arp.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c platform/linux/intr.c -o platform/linux/intr.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c driver/dummy.c -o driver/dummy.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c driver/loopback.c -o driver/loopback.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c platform/linux/driver/ether_tap.c -o platform/linux/driver/ether_tap.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step0.exe test/step0.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step1.c -o test/step1.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step1.exe test/step1.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step2.c -o test/step2.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step2.exe test/step2.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step3.c -o test/step3.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step3.exe test/step3.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step4.c -o test/step4.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step4.exe test/step4.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step5.c -o test/step5.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step5.exe test/step5.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step6.c -o test/step6.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step6.exe test/step6.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step7.c -o test/step7.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step7.exe test/step7.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step8.c -o test/step8.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step8.exe test/step8.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step9.c -o test/step9.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step9.exe test/step9.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step10.c -o test/step10.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step10.exe test/step10.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step11.c -o test/step11.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step11.exe test/step11.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step12.c -o test/step12.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step12.exe test/step12.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step13.c -o test/step13.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step13.exe test/step13.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step14.c -o test/step14.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step14.exe test/step14.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step15.c -o test/step15.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step15.exe test/step15.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step16.c -o test/step16.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step16.exe test/step16.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step17.c -o test/step17.o
++cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step17.exe test/step17.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
++make: Leaving directory '/home/yutarooguri/devs/microps'
++ 
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 0000000..837d5d6
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1,8 @@
++{
++    "makefile.extensionOutputFolder": "./.vscode",
++    "files.associations": {
++        "*.m": "matlab",
++        "dummy.h": "c"
++    },
++    "cSpell.words": []
++}
+\ No newline at end of file
+diff --git a/.vscode/targets.log b/.vscode/targets.log
+new file mode 100644
+index 0000000..890934c
+--- /dev/null
++++ b/.vscode/targets.log
+@@ -0,0 +1,786 @@
++make all --print-data-base --no-builtin-variables --no-builtin-rules --question
++# GNU Make 4.2.1
++# Built for x86_64-pc-linux-gnu
++# Copyright (C) 1988-2016 Free Software Foundation, Inc.
++# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
++# This is free software: you are free to change and redistribute it.
++# There is NO WARRANTY, to the extent permitted by law.
++
++# Make data base, printed on Tue Mar  8 16:56:11 2022
++
++# Variables
++
++# 'override' directive
++GNUMAKEFLAGS := 
++# automatic
++<D = $(patsubst %/,%,$(dir $<))
++# automatic
++?F = $(notdir $?)
++# environment
++DESKTOP_SESSION = ubuntu
++# default
++.SHELLFLAGS := -c
++# environment
++XDG_SESSION_CLASS = user
++# environment
++XDG_SESSION_TYPE = x11
++# environment
++VSCODE_LOG_NATIVE = false
++# environment
++NVM_INC = /home/yutarooguri/.nvm/versions/node/v16.13.1/include/node
++# automatic
++?D = $(patsubst %/,%,$(dir $?))
++# automatic
++@D = $(patsubst %/,%,$(dir $@))
++# environment
++XAUTHORITY = /run/user/1000/gdm/Xauthority
++# environment
++GDMSESSION = ubuntu
++# environment
++XMODIFIERS = @im=ibus
++# makefile
++CURDIR := /home/yutarooguri/devs/microps
++# makefile
++SHELL = /bin/sh
++# environment
++VTE_VERSION = 6003
++# environment
++VSCODE_NLS_CONFIG = {"locale":"ja","availableLanguages":{"*":"ja"},"_languagePackId":"a9a0bfeaf58221023f5a2dc36226764e.ja","_translationsConfigFile":"/home/yutarooguri/.config/Code/clp/a9a0bfeaf58221023f5a2dc36226764e.ja/tcf.json","_cacheRoot":"/home/yutarooguri/.config/Code/clp/a9a0bfeaf58221023f5a2dc36226764e.ja","_resolvedLanguagePackCoreLocation":"/home/yutarooguri/.config/Code/clp/a9a0bfeaf58221023f5a2dc36226764e.ja/b5205cc8eb4fbaa726835538cd82372cc0222d43","_corruptedFile":"/home/yutarooguri/.config/Code/clp/a9a0bfeaf58221023f5a2dc36226764e.ja/corrupted.info","_languagePackSupport":true}
++# environment
++JOURNAL_STREAM = 8:52341
++# makefile (from 'Makefile', line 38)
++CFLAGS :=  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux
++# environment
++XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
++# makefile (from 'Makefile', line 1)
++MAKEFILE_LIST :=  Makefile
++# environment
++JAVA_HOME = /usr/lib/jvm/java-11-openjdk-amd64
++# automatic
++@F = $(notdir $@)
++# environment
++IM_CONFIG_PHASE = 1
++# environment
++USERNAME = yutarooguri
++# environment
++MAKELEVEL := 0
++# environment
++MANDATORY_PATH = /usr/share/gconf/ubuntu.mandatory.path
++# environment
++XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
++# environment
++ROS_ETC_DIR = /opt/ros/noetic/etc/ros
++# environment
++DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
++# environment
++VSCODE_VERBOSE_LOGGING = true
++# environment
++_ = /usr/bin/code
++# makefile (from 'Makefile', line 41)
++OBJS := util.o net.o ip.o icmp.o ether.o arp.o  platform/linux/intr.o
++# makefile (from 'Makefile', line 14)
++TESTS = test/step0.exe test/step1.exe test/step2.exe test/step3.exe test/step4.exe test/step5.exe test/step6.exe test/step7.exe test/step8.exe test/step9.exe test/step10.exe test/step11.exe test/step12.exe test/step13.exe test/step14.exe test/step15.exe test/step16.exe test/step17.exe 
++# environment
++ROS_PACKAGE_PATH = /home/yutarooguri/catkin_ws/src:/opt/ros/noetic/share
++# environment
++MANAGERPID = 1974
++# environment
++ROS_PYTHON_VERSION = 3
++# environment
++LESSOPEN = | /usr/bin/lesspipe %s
++# environment
++LC_NAME = ja_JP.UTF-8
++# environment
++VSCODE_CWD = /home/yutarooguri/devs/microps
++# default
++MAKE_HOST := x86_64-pc-linux-gnu
++# environment
++PATH = /home/yutarooguri/.nvm/versions/node/v16.13.1/bin:/usr/local/bin/:/home/yutarooguri/bin:/opt/ros/noetic/bin:/home/yutarooguri/.pyenv/shims:/home/yutarooguri/.pyenv/bin:/usr/local/cuda-11.1/bin:/home/yutarooguri/.cargo/bin:/home/yutarooguri/.local/bin:/home/yutarooguri/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin:/home/yutarooguri/.fzf/bin
++# environment
++XDG_SESSION_DESKTOP = ubuntu
++# environment
++GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
++# environment
++SESSION_MANAGER = local/yutarooguri-ZF:@/tmp/.ICE-unix/2188,unix/yutarooguri-ZF:/tmp/.ICE-unix/2188
++# environment
++XDG_RUNTIME_DIR = /run/user/1000
++# makefile (from 'Makefile', line 37)
++BASE = platform/linux
++# environment
++ROS_ROOT = /opt/ros/noetic/share/ros
++# environment
++NVM_BIN = /home/yutarooguri/.nvm/versions/node/v16.13.1/bin
++# environment
++XDG_MENU_PREFIX = gnome-
++# environment
++VSCODE_LOG_STACK = false
++# environment
++ELECTRON_RUN_AS_NODE = 1
++# environment
++PYENV_ROOT = /home/yutarooguri/.pyenv
++# environment
++INVOCATION_ID = 75202db092f541789472bbb1e6fc3c21
++# makefile (from 'Makefile', line 39)
++LDFLAGS :=  -lrt
++# default
++.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
++# environment
++CMAKE_PREFIX_PATH = /home/yutarooguri/catkin_ws/devel:/opt/ros/noetic
++# environment
++LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
++# environment
++ROS_DISTRO = noetic
++# environment
++SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
++# automatic
++%F = $(notdir $%)
++# environment
++DISPLAY = :1
++# environment
++VSCODE_PIPE_LOGGING = true
++# environment
++UE4_ROOT = /home/yutarooguri/UnrealEngine_4.26
++# environment
++PWD = /home/yutarooguri/devs/microps
++# default
++.LOADED := 
++# environment
++SSH_AGENT_PID = 2152
++# environment
++PKG_CONFIG_PATH = /home/yutarooguri/catkin_ws/devel/lib/pkgconfig:/opt/ros/noetic/lib/pkgconfig
++# environment
++ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
++# environment
++GTK_MODULES = gail:atk-bridge
++# environment
++VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
++# environment
++HOME = /home/yutarooguri
++# environment
++LD_LIBRARY_PATH = /home/yutarooguri/catkin_ws/devel/lib:/opt/ros/noetic/lib:/usr/local/cuda/include:/usr/local/cuda-11.1/lib64
++# environment
++LESSCLOSE = /usr/bin/lesspipe %s %s
++# environment
++VSCODE_CLI = 1
++# environment
++VSCODE_CODE_CACHE_PATH = /home/yutarooguri/.config/Code/CachedData/b5205cc8eb4fbaa726835538cd82372cc0222d43
++# environment
++LOGNAME = yutarooguri
++# environment
++APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
++# makefile (from 'Makefile', line 40)
++DRIVERS := driver/dummy.o driver/loopback.o  platform/linux/driver/ether_tap.o
++# environment
++NVM_CD_FLAGS = 
++# automatic
+++F = $(notdir $+)
++# environment
++ELECTRON_NO_ATTACH_CONSOLE = 1
++# environment
++VSCODE_HANDLES_UNCAUGHT_ERRORS = true
++# environment
++GNOME_DESKTOP_SESSION_ID = this-is-deprecated
++# automatic
++^D = $(patsubst %/,%,$(dir $^))
++# environment
++LC_TIME = ja_JP.UTF-8
++# environment
++COLORTERM = truecolor
++# default
++MAKE = $(MAKE_COMMAND)
++# default
++MAKECMDGOALS := all
++# environment
++QT_IM_MODULE = ibus
++# environment
++SHLVL = 1
++# environment
++GNOME_SHELL_SESSION_MODE = ubuntu
++# environment
++VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-916f4230-f181-411f-ae5a-50c87c00cb3a.sock
++# default
++MAKE_VERSION := 4.2.1
++# environment
++USER = yutarooguri
++# environment
++LC_MONETARY = ja_JP.UTF-8
++# makefile
++.DEFAULT_GOAL := all
++# environment
++XDG_CURRENT_DESKTOP = Unity
++# environment
++ROSLISP_PACKAGE_DIRECTORIES = /home/yutarooguri/catkin_ws/devel/share/common-lisp
++# automatic
++%D = $(patsubst %/,%,$(dir $%))
++# environment
++LC_TELEPHONE = ja_JP.UTF-8
++# default
++MAKE_COMMAND := make
++# environment
++OLDPWD = /home/yutarooguri/devs/aist_research_prj
++# default
++.VARIABLES := 
++# automatic
++*F = $(notdir $*)
++# environment
++VSCODE_IPC_HOOK = /run/user/1000/vscode-06a6c44a-1.65.0-main.sock
++# environment
++PYTHONPATH = /home/yutarooguri/catkin_ws/devel/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
++# makefile
++MAKEFLAGS = pqrR
++# environment
++MFLAGS = -pqrR
++# automatic
++*D = $(patsubst %/,%,$(dir $*))
++# environment
++NVM_DIR = /home/yutarooguri/.nvm
++# environment
++ROS_VERSION = 1
++# automatic
+++D = $(patsubst %/,%,$(dir $+))
++# environment
++GDK_BACKEND = x11
++# environment
++LC_PAPER = ja_JP.UTF-8
++# environment
++NO_AT_BRIDGE = 1
++# environment
++LC_IDENTIFICATION = ja_JP.UTF-8
++# environment
++QT_ACCESSIBILITY = 1
++# environment
++DEFAULTS_PATH = /usr/share/gconf/ubuntu.default.path
++# 'override' directive
++.SHELLSTATUS := 0
++# default
++MAKEFILES := 
++# environment
++LC_NUMERIC = ja_JP.UTF-8
++# environment
++HSR_PROJECT_NAME = hsr_ws
++# automatic
++<F = $(notdir $<)
++# environment
++PS1 = \[\e[38;5;250m\]\[\e[48;5;240m\] \u \[\e[48;5;31m\]\[\e[38;5;240m\]\[\e[38;5;15m\]\[\e[48;5;31m\] ~ \[\e[48;5;237m\]\[\e[38;5;31m\]\[\e[38;5;250m\]\[\e[48;5;237m\] devs \[\e[48;5;237m\]\[\e[38;5;244m\]\[\e[38;5;254m\]\[\e[48;5;237m\] microps \[\e[48;5;148m\]\[\e[38;5;237m\]\[\e[38;5;0m\]\[\e[48;5;148m\] work \[\e[48;5;130m\]\[\e[38;5;148m\]\[\e[38;5;15m\]\[\e[48;5;130m\] 2✎ \[\e[48;5;236m\]\[\e[38;5;130m\]\[\e[38;5;15m\]\[\e[48;5;236m\] \$ \[\e[0m\]\[\e[38;5;236m\]\[\e[0m\] \n(*'-')<$ 
++# environment
++LC_MEASUREMENT = ja_JP.UTF-8
++# environment
++ROS_MASTER_URI = http://localhost:11311
++# makefile (from 'Makefile', line 1)
++APPS = 
++# environment
++LC_ALL = C
++# environment
++GJS_DEBUG_TOPICS = JS ERROR;JS LOG
++# environment
++ 
++GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/900b4548_1fc1_4f03_8c23_5769c90862be
++# automatic
++^F = $(notdir $^)
++# environment
++GNOME_TERMINAL_SERVICE = :1.138
++# default
++SUFFIXES := 
++# environment
++CHROME_DESKTOP = code-url-handler.desktop
++# environment
++WINDOWPATH = 2
++# default
++.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
++# environment
++GJS_DEBUG_OUTPUT = stderr
++# default
++.RECIPEPREFIX := 
++# environment
++LC_ADDRESS = ja_JP.UTF-8
++# environment
++LANG = C
++# environment
++TERM = xterm-256color
++# environment
++VSCODE_PID = 443988
++# variable set hash-table stats:
++# Load=144/1024=14%, Rehash=0, Collisions=25/198=13%
++
++# Pattern-specific Variable Values
++
++# No pattern-specific variable values.
++
++# Directories
++
++# . (device 2083, inode 35662194): 28 files, no impossibilities.
++# test (device 2083, inode 7754282): 10 files, no impossibilities so far.
++
++# 38 files, no impossibilities in 2 directories.
++
++# Implicit Rules
++
++%.c:
++
++%.o: %.c
++#  recipe to execute (from 'Makefile', line 62):
++	$(CC) $(CFLAGS) -c $< -o $@
++
++%.o:
++
++# 3 implicit rules, 0 (0.0%) terminal.
++
++# Files
++
++# Not a target:
++icmp.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++test/step12.exe: test/step12.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step12'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++test/step7.exe: test/step7.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step7'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++test/step2.exe: test/step2.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step2'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++# Not a target:
++test/step3.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step7.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++all: test/step0.exe test/step1.exe test/step2.exe test/step3.exe test/step4.exe test/step5.exe test/step6.exe test/step7.exe test/step8.exe test/step9.exe test/step10.exe test/step11.exe test/step12.exe test/step13.exe test/step14.exe test/step15.exe test/step16.exe test/step17.exe
++#  Phony target (prerequisite of .PHONY).
++#  Command line target.
++#  Implicit rule search has not been done.
++#  File does not exist.
++#  File has been updated.
++#  Needs to be updated (-q is set).
++# variable set hash-table stats:
++# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
++
++# Not a target:
++.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++net.o: net.c
++#  Implicit rule search has been done.
++#  Implicit/static pattern stem: 'net'
++#  Last modified 2022-03-08 16:55:58.343827138
++#  File has been updated.
++#  Successfully updated.
++#  recipe to execute (from 'Makefile', line 62):
++	$(CC) $(CFLAGS) -c $< -o $@
++
++.PHONY: all clean
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++test/step5.exe: test/step5.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step5'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++# Not a target:
++test/step14.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step6.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++ip.o: ip.c
++#  Implicit rule search has been done.
++#  Implicit/static pattern stem: 'ip'
++#  File does not exist.
++#  File has been updated.
++#  Needs to be updated (-q is set).
++# automatic
++# @ := ip.o
++# automatic
++# % := 
++# automatic
++# * := ip
++# automatic
++# + := ip.c
++# automatic
++# | := 
++# automatic
++# < := ip.c
++# automatic
++# ^ := ip.c
++# automatic
++# ? := ip.c
++# variable set hash-table stats:
++# Load=8/32=25%, Rehash=0, Collisions=1/15=7%
++#  recipe to execute (from 'Makefile', line 62):
++	$(CC) $(CFLAGS) -c $< -o $@
++
++test/step8.exe: test/step8.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step8'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++test/step13.exe: test/step13.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step13'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++.SUFFIXES: .c .o
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step8.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++Makefile:
++#  Implicit rule search has been done.
++#  Last modified 2022-03-08 16:55:47.191728599
++#  File has been updated.
++#  Successfully updated.
++
++# Not a target:
++util.c:
++#  Implicit rule search has been done.
++#  Last modified 2022-03-04 11:52:13.667772557
++#  File has been updated.
++#  Successfully updated.
++
++test/step0.o: test/step0.c
++#  Implicit rule search has been done.
++#  Implicit/static pattern stem: 'test/step0'
++#  Last modified 2022-03-08 16:55:58.211825972
++#  File has been updated.
++#  Successfully updated.
++#  recipe to execute (from 'Makefile', line 62):
++	$(CC) $(CFLAGS) -c $< -o $@
++
++# Not a target:
++ether.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++test/step4.exe: test/step4.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step4'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++test/step9.exe: test/step9.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step9'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++# Not a target:
++test/step1.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++test/step15.exe: test/step15.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step15'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++# Not a target:
++test/step9.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++.c:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++.c.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 62):
++	$(CC) $(CFLAGS) -c $< -o $@
++
++# Not a target:
++net.c:
++#  Implicit rule search has been done.
++#  Last modified 2022-03-07 19:10:04.249984326
++#  File has been updated.
++#  Successfully updated.
++
++# Not a target:
++platform/linux/driver/ether_tap.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step10.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step15.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step16.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++driver/dummy.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++test/step3.exe: test/step3.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step3'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++# Not a target:
++test/step11.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step17.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++ip.c:
++#  Implicit rule search has been done.
++#  Last modified 2022-03-08 16:53:56.134747162
++#  File has been updated.
++#  Successfully updated.
++
++# Not a target:
++.DEFAULT:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++arp.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step12.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++test/step14.exe: test/step14.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step14'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++test/step6.exe: test/step6.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step6'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++# Not a target:
++driver/loopback.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step2.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step0.c:
++#  Implicit rule search has been done.
++#  Last modified 2022-03-04 11:52:13.667772557
++#  File has been updated.
++#  Successfully updated.
++
++clean:
++#  Phony target (prerequisite of .PHONY).
++#  Implicit rule search has not been done.
++#  File does not exist.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 65):
++	rm -rf $(APPS) $(APPS:.exe=.o) $(OBJS) $(DRIVERS) $(TESTS) $(TESTS:.exe=.o)
++
++# Not a target:
++ 
++test/step5.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++test/step0.exe: test/step0.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step0'
++#  File does not exist.
++#  File has been updated.
++#  Needs to be updated (-q is set).
++# variable set hash-table stats:
++# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++# Not a target:
++test/test.h:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++# Not a target:
++test/step13.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++test/step1.exe: test/step1.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step1'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++# Not a target:
++platform/linux/intr.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++test/step10.exe: test/step10.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step10'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++test/step16.exe: test/step16.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step16'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++util.o: util.c
++#  Implicit rule search has been done.
++#  Implicit/static pattern stem: 'util'
++#  Last modified 2022-03-08 16:55:58.303826785
++#  File has been updated.
++#  Successfully updated.
++#  recipe to execute (from 'Makefile', line 62):
++	$(CC) $(CFLAGS) -c $< -o $@
++
++test/step11.exe: test/step11.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step11'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++# Not a target:
++test/step4.o:
++#  Implicit rule search has not been done.
++#  Modification time never checked.
++#  File has not been updated.
++
++test/step17.exe: test/step17.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h
++#  Implicit rule search has not been done.
++#  Implicit/static pattern stem: 'test/step17'
++#  Modification time never checked.
++#  File has not been updated.
++#  recipe to execute (from 'Makefile', line 59):
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++# files hash-table stats:
++# Load=60/1024=6%, Rehash=0, Collisions=25/344=7%
++# VPATH Search Paths
++
++# No 'vpath' search paths.
++
++# No general ('VPATH' variable) search path.
++
++# strcache buffers: 1 (0) / strings = 116 / storage = 1244 B / avg = 10 B
++# current buf: size = 8162 B / used = 1244 B / count = 116 / avg = 10 B
++
++# strcache performance: lookups = 183 / hit rate = 36%
++# hash-table stats:
++# Load=116/8192=1%, Rehash=0, Collisions=11/183=6%
++# Finished Make data base on Tue Mar  8 16:56:11 2022
++
++ 
+diff --git a/Makefile b/Makefile
+index 71d3c35..c4c2f17 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,32 +1,34 @@
+ APPS = 
+ 
+ DRIVERS = driver/dummy.o \
+-          driver/loopback.o \
++		  driver/loopback.o \
+ 
+ OBJS = util.o \
+-       net.o \
+-       ether.o \
+-       arp.o \
+-       ip.o \
+-       icmp.o \
++	   net.o \
++	   ip.o \
++	   icmp.o \
++	   ether.o \
++	   arp.o \
++
+ 
+ TESTS = test/step0.exe \
+-        test/step1.exe \
+-        test/step2.exe \
+-        test/step3.exe \
+-        test/step4.exe \
+-        test/step5.exe \
+-        test/step6.exe \
+-        test/step7.exe \
+-        test/step8.exe \
+-        test/step9.exe \
+-        test/step10.exe \
+-        test/step11.exe \
+-        test/step12.exe \
+-        test/step13.exe \
+-        test/step14.exe \
+-        test/step15.exe \
+-        test/step16.exe \
++		test/step1.exe \
++		test/step2.exe \
++		test/step3.exe \
++		test/step4.exe \
++		test/step5.exe \
++		test/step6.exe \
++		test/step7.exe \
++		test/step8.exe \
++		test/step9.exe \
++		test/step10.exe \
++		test/step11.exe \
++		test/step12.exe \
++		test/step13.exe \
++		test/step14.exe \
++		test/step15.exe \
++		test/step16.exe \
++		test/step17.exe \
+ 
+ CFLAGS := $(CFLAGS) -g -W -Wall -Wno-unused-parameter -iquote .
+ 
+diff --git a/arp.c b/arp.c
+index cd5d6cd..fbede83 100644
+--- a/arp.c
++++ b/arp.c
+@@ -1,15 +1,15 @@
+-#include <stdio.h>
++#include "arp.h"
++
+ #include <stdint.h>
++#include <stdio.h>
+ #include <string.h>
+ #include <sys/time.h>
+ 
+-#include "platform.h"
+-
+-#include "util.h"
+-#include "net.h"
+ #include "ether.h"
+-#include "arp.h"
+ #include "ip.h"
++#include "net.h"
++#include "platform.h"
++#include "util.h"
+ 
+ /* see https://www.iana.org/assignments/arp-parameters/arp-parameters.txt */
+ #define ARP_HRD_ETHER 0x0001
+@@ -17,15 +17,15 @@
+ #define ARP_PRO_IP ETHER_TYPE_IP
+ 
+ #define ARP_OP_REQUEST 1
+-#define ARP_OP_REPLY   2
++#define ARP_OP_REPLY 2
+ 
+ #define ARP_CACHE_SIZE 32
+-#define ARP_CACHE_TIMEOUT 30 /* seconds */
++#define ARP_CACHE_TIMEOUT 30  // [sec]
+ 
+-#define ARP_CACHE_STATE_FREE       0
++#define ARP_CACHE_STATE_FREE 0
+ #define ARP_CACHE_STATE_INCOMPLETE 1
+-#define ARP_CACHE_STATE_RESOLVED   2
+-#define ARP_CACHE_STATE_STATIC     3
++#define ARP_CACHE_STATE_RESOLVED 2
++#define ARP_CACHE_STATE_STATIC 3
+ 
+ struct arp_hdr {
+     uint16_t hrd;
+@@ -45,46 +45,42 @@ struct arp_ether_ip {
+ 
+ struct arp_cache {
+     unsigned char state;
+-    ip_addr_t pa;
+-    uint8_t ha[ETHER_ADDR_LEN];
+-    struct timeval timestamp;
++    ip_addr_t pa;                // protocol addr
++    uint8_t ha[ETHER_ADDR_LEN];  // hardware addr
++    struct timeval timestamp;    // last update time
+ };
+ 
+ static mutex_t mutex = MUTEX_INITIALIZER;
+-static struct arp_cache caches[ARP_CACHE_SIZE];
++static struct arp_cache caches[ARP_CACHE_SIZE];  // ARP table
+ 
+-static char *
+-arp_opcode_ntoa(uint16_t opcode)
+-{
++static char *arp_opcode_ntoa(uint16_t opcode) {
+     switch (ntoh16(opcode)) {
+-    case ARP_OP_REQUEST:
+-        return "Request";
+-    case ARP_OP_REPLY:
+-        return "Reply";
++        case ARP_OP_REQUEST:
++            return "Request";
++        case ARP_OP_REPLY:
++            return "Reply";
+     }
+     return "Unknown";
+ }
+ 
+-static void
+-arp_dump(const uint8_t *data, size_t len)
+-{
++static void arp_dump(const uint8_t *data, size_t len) {
+     struct arp_ether_ip *message;
+     ip_addr_t spa, tpa;
+     char addr[128];
+ 
+     message = (struct arp_ether_ip *)data;
+     flockfile(stderr);
+-    fprintf(stderr, "        hrd: 0x%04x\n", ntoh16(message->hdr.hrd));
+-    fprintf(stderr, "        pro: 0x%04x\n", ntoh16(message->hdr.pro));
+-    fprintf(stderr, "        hln: %u\n", message->hdr.hln);
+-    fprintf(stderr, "        pln: %u\n", message->hdr.pln);
+-    fprintf(stderr, "         op: %u (%s)\n", ntoh16(message->hdr.op), arp_opcode_ntoa(message->hdr.op));
+-    fprintf(stderr, "        sha: %s\n", ether_addr_ntop(message->sha, addr, sizeof(addr)));
+-    memcpy(&spa, message->spa, sizeof(spa));
+-    fprintf(stderr, "        spa: %s\n", ip_addr_ntop(spa, addr, sizeof(addr)));
+-    fprintf(stderr, "        tha: %s\n", ether_addr_ntop(message->tha, addr, sizeof(addr)));
++    fprintf(stderr, "       hrd: 0x%04x\n", ntoh16(message->hdr.hrd));
++    fprintf(stderr, "       pro: 0x%04x\n", ntoh16(message->hdr.pro));
++    fprintf(stderr, "       hln: %u\n", message->hdr.hln);
++    fprintf(stderr, "       pln: %u\n", message->hdr.pln);
++    fprintf(stderr, "        op: %u (%s)\n", ntoh16(message->hdr.op), arp_opcode_ntoa(message->hdr.op));
++    fprintf(stderr, "       sha: %s\n", ether_addr_ntop(message->sha, addr, sizeof(addr)));  // source hardware addr
++    memcpy(&spa, message->spa, sizeof(spa));                                                 // source protocol addr
++    fprintf(stderr, "       spa: %s\n", ip_addr_ntop(spa, addr, sizeof(addr)));
++    fprintf(stderr, "       tha: %s\n", ether_addr_ntop(message->tha, addr, sizeof(addr)));
+     memcpy(&tpa, message->tpa, sizeof(tpa));
+-    fprintf(stderr, "        tpa: %s\n", ip_addr_ntop(tpa, addr, sizeof(addr)));
++    fprintf(stderr, "       tpa: %s\n", ip_addr_ntop(tpa, addr, sizeof(addr)));
+ #ifdef HEXDUMP
+     hexdump(stderr, data, len);
+ #endif
+@@ -97,28 +93,28 @@ arp_dump(const uint8_t *data, size_t len)
+  * NOTE: ARP Cache functions must be called after mutex locked
+  */
+ 
+-static void
+-arp_cache_delete(struct arp_cache *cache)
+-{
++static void arp_cache_delete(struct arp_cache *cache) {
+     char addr1[IP_ADDR_STR_LEN];
+     char addr2[ETHER_ADDR_STR_LEN];
+ 
+-    debugf("DELETE: pa=%s, ha=%s", ip_addr_ntop(cache->pa, addr1, sizeof(addr1)), ether_addr_ntop(cache->ha, addr2, sizeof(addr2)));
++    debugf("DELETE: pa=%s, ha=%s", ip_addr_ntop(cache->pa, addr1, sizeof(addr1)),
++           ether_addr_ntop(cache->ha, addr2, sizeof(addr2)));
++    // delete entry
+     cache->state = ARP_CACHE_STATE_FREE;
+-    cache->pa = 0;
+     memset(cache->ha, 0, ETHER_ADDR_LEN);
+-    timerclear(&cache->timestamp);
++    cache->pa = 0;
++    timerclear(&(cache->timestamp));
+ }
+ 
+-static struct arp_cache *
+-arp_cache_alloc(void)
+-{
++static struct arp_cache *arp_cache_alloc(void) {
+     struct arp_cache *entry, *oldest = NULL;
+ 
+-    for (entry = caches; entry < tailof(caches); entry++) {
++    for (entry = caches; entry < tailof(caches); ++entry) {
++        // unused entry found, then return it
+         if (entry->state == ARP_CACHE_STATE_FREE) {
+             return entry;
+         }
++        // in case of no vacancy
+         if (!oldest || timercmp(&oldest->timestamp, &entry->timestamp, >)) {
+             oldest = entry;
+         }
+@@ -127,12 +123,10 @@ arp_cache_alloc(void)
+     return oldest;
+ }
+ 
+-static struct arp_cache *
+-arp_cache_select(ip_addr_t pa)
+-{
++static struct arp_cache *arp_cache_select(ip_addr_t pa) {
+     struct arp_cache *entry;
+ 
+-    for (entry = caches; entry < tailof(caches); entry++) {
++    for (entry = caches; entry < tailof(caches); ++entry) {
+         if (entry->state != ARP_CACHE_STATE_FREE && entry->pa == pa) {
+             return entry;
+         }
+@@ -140,50 +134,53 @@ arp_cache_select(ip_addr_t pa)
+     return NULL;
+ }
+ 
+-static struct arp_cache *
+-arp_cache_update(ip_addr_t pa, const uint8_t *ha)
+-{
++static struct arp_cache *arp_cache_update(ip_addr_t pa, const uint8_t *ha) {
+     struct arp_cache *cache;
+     char addr1[IP_ADDR_STR_LEN];
+     char addr2[ETHER_ADDR_STR_LEN];
+ 
++    // search entry
+     cache = arp_cache_select(pa);
+     if (!cache) {
+-        /* not found */
+         return NULL;
+     }
++    // update
+     cache->state = ARP_CACHE_STATE_RESOLVED;
+     memcpy(cache->ha, ha, ETHER_ADDR_LEN);
+-    gettimeofday(&cache->timestamp, NULL);
++    if (gettimeofday(&cache->timestamp, NULL) == -1) {
++        errorf("gettimeofday() failed");
++        return NULL;
++    }
+     debugf("UPDATE: pa=%s, ha=%s", ip_addr_ntop(pa, addr1, sizeof(addr1)), ether_addr_ntop(ha, addr2, sizeof(addr2)));
+     return cache;
+ }
+ 
+-static struct arp_cache *
+-arp_cache_insert(ip_addr_t pa, const uint8_t *ha)
+-{
++static struct arp_cache *arp_cache_insert(ip_addr_t pa, const uint8_t *ha) {
+     struct arp_cache *cache;
+     char addr1[IP_ADDR_STR_LEN];
+     char addr2[ETHER_ADDR_STR_LEN];
+ 
++    // register new entry
+     cache = arp_cache_alloc();
+     if (!cache) {
+-        errorf("arp_cache_alloc() failure");
++        errorf("arp_cache_alloc() failed");
+         return NULL;
+     }
+     cache->state = ARP_CACHE_STATE_RESOLVED;
+     cache->pa = pa;
+     memcpy(cache->ha, ha, ETHER_ADDR_LEN);
+-    gettimeofday(&cache->timestamp, NULL);
++    if (gettimeofday(&cache->timestamp, NULL) == -1) {
++        errorf("gettimeofday() failed");
++        return NULL;
++    }
+     debugf("INSERT: pa=%s, ha=%s", ip_addr_ntop(pa, addr1, sizeof(addr1)), ether_addr_ntop(ha, addr2, sizeof(addr2)));
+     return cache;
+ }
+ 
+-static int
+-arp_request(struct net_iface *iface, ip_addr_t tpa)
+-{
++static int arp_request(struct net_iface *iface, ip_addr_t tpa) {
+     struct arp_ether_ip request;
+ 
++    // generate request msg
+     request.hdr.hrd = hton16(ARP_HRD_ETHER);
+     request.hdr.pro = hton16(ARP_PRO_IP);
+     request.hdr.hln = ETHER_ADDR_LEN;
+@@ -191,23 +188,25 @@ arp_request(struct net_iface *iface, ip_addr_t tpa)
+     request.hdr.op = hton16(ARP_OP_REQUEST);
+     memcpy(request.sha, iface->dev->addr, ETHER_ADDR_LEN);
+     memcpy(request.spa, &((struct ip_iface *)iface)->unicast, IP_ADDR_LEN);
+-    memset(request.tha, 0, ETHER_ADDR_LEN);
+-    memcpy(request.tpa, &tpa, IP_ADDR_LEN);
++    memset(request.tha, 0, ETHER_ADDR_LEN);  // temporary value = 0
++    memcpy(request.tpa, &tpa, sizeof(tpa));
++
+     debugf("dev=%s, len=%zu", iface->dev->name, sizeof(request));
+     arp_dump((uint8_t *)&request, sizeof(request));
++
+     return net_device_output(iface->dev, ETHER_TYPE_ARP, (uint8_t *)&request, sizeof(request), iface->dev->broadcast);
+ }
+ 
+-static int
+-arp_reply(struct net_iface *iface, const uint8_t *tha, ip_addr_t tpa, const uint8_t *dst)
+-{
++static int arp_reply(struct net_iface *iface, const uint8_t *tha, ip_addr_t tpa, const uint8_t *dst) {
+     struct arp_ether_ip reply;
+-
++    // generate reply msg
++    // header
+     reply.hdr.hrd = hton16(ARP_HRD_ETHER);
+     reply.hdr.pro = hton16(ARP_PRO_IP);
+     reply.hdr.hln = ETHER_ADDR_LEN;
+     reply.hdr.pln = IP_ADDR_LEN;
+     reply.hdr.op = hton16(ARP_OP_REPLY);
++    // rest
+     memcpy(reply.sha, iface->dev->addr, ETHER_ADDR_LEN);
+     memcpy(reply.spa, &((struct ip_iface *)iface)->unicast, IP_ADDR_LEN);
+     memcpy(reply.tha, tha, ETHER_ADDR_LEN);
+@@ -217,19 +216,18 @@ arp_reply(struct net_iface *iface, const uint8_t *tha, ip_addr_t tpa, const uint
+     return net_device_output(iface->dev, ETHER_TYPE_ARP, (uint8_t *)&reply, sizeof(reply), dst);
+ }
+ 
+-static void
+-arp_input(const uint8_t *data, size_t len, struct net_device *dev)
+-{
++static void arp_input(const uint8_t *data, size_t len, struct net_device *dev) {
+     struct arp_ether_ip *msg;
+     ip_addr_t spa, tpa;
+-    int marge = 0;
+     struct net_iface *iface;
++    int merge = 0;  // update or not
+ 
+     if (len < sizeof(*msg)) {
+         errorf("too short");
+         return;
+     }
+     msg = (struct arp_ether_ip *)data;
++    // check addr
+     if (ntoh16(msg->hdr.hrd) != ARP_HRD_ETHER || msg->hdr.hln != ETHER_ADDR_LEN) {
+         errorf("unsupported hardware address");
+         return;
+@@ -242,28 +240,30 @@ arp_input(const uint8_t *data, size_t len, struct net_device *dev)
+     arp_dump(data, len);
+     memcpy(&spa, msg->spa, sizeof(spa));
+     memcpy(&tpa, msg->tpa, sizeof(tpa));
++    // access to cache locked
+     mutex_lock(&mutex);
++    // update source cache
+     if (arp_cache_update(spa, msg->sha)) {
+-        /* updated */
+-        marge = 1;
++        merge = 1;
+     }
+     mutex_unlock(&mutex);
++    // access to cache unlocked
+     iface = net_device_get_iface(dev, NET_IFACE_FAMILY_IP);
+     if (iface && ((struct ip_iface *)iface)->unicast == tpa) {
+-        if (!marge) {
++        if (!merge) {
++            // if not updated, then insert
+             mutex_lock(&mutex);
+             arp_cache_insert(spa, msg->sha);
+             mutex_unlock(&mutex);
+         }
+         if (ntoh16(msg->hdr.op) == ARP_OP_REQUEST) {
++            // then, send reply hwaddr
+             arp_reply(iface, msg->sha, spa, msg->sha);
+         }
+     }
+ }
+ 
+-int
+-arp_resolve(struct net_iface *iface, ip_addr_t pa, uint8_t *ha)
+-{
++int arp_resolve(struct net_iface *iface, ip_addr_t pa, uint8_t *ha) {
+     struct arp_cache *cache;
+     char addr1[IP_ADDR_STR_LEN];
+     char addr2[ETHER_ADDR_STR_LEN];
+@@ -276,47 +276,53 @@ arp_resolve(struct net_iface *iface, ip_addr_t pa, uint8_t *ha)
+         debugf("unsupported protocol address type");
+         return ARP_RESOLVE_ERROR;
+     }
++
+     mutex_lock(&mutex);
+     cache = arp_cache_select(pa);
+     if (!cache) {
+-        debugf("cache not found, pa=%s", ip_addr_ntop(pa, addr1, sizeof(addr1)));
++        // incomplete
+         cache = arp_cache_alloc();
+         if (!cache) {
+             mutex_unlock(&mutex);
+-            errorf("arp_cache_alloc() failure");
++            errorf("arp_cache_alloc() failed");
+             return ARP_RESOLVE_ERROR;
+         }
+         cache->state = ARP_CACHE_STATE_INCOMPLETE;
+         cache->pa = pa;
+-        gettimeofday(&cache->timestamp, NULL);
++        // cache->ha := None
++        if (gettimeofday(&cache->timestamp, NULL) == -1) {
++            errorf("gettimeofday() failed");
++            return ARP_RESOLVE_ERROR;
++        }
+         mutex_unlock(&mutex);
+         arp_request(iface, pa);
+         return ARP_RESOLVE_INCOMPLETE;
+     }
+     if (cache->state == ARP_CACHE_STATE_INCOMPLETE) {
+         mutex_unlock(&mutex);
+-        arp_request(iface, pa); /* just in case packet loss */
++        arp_request(iface, pa);  // re-send in case of packet loss
+         return ARP_RESOLVE_INCOMPLETE;
+     }
+     memcpy(ha, cache->ha, ETHER_ADDR_LEN);
+     mutex_unlock(&mutex);
+-    debugf("resolved, pa=%s, ha=%s",
+-        ip_addr_ntop(pa, addr1, sizeof(addr1)), ether_addr_ntop(ha, addr2, sizeof(addr2)));
++
++    debugf("resolved, pa=%s, ha=%s", ip_addr_ntop(pa, addr1, sizeof(addr1)), ether_addr_ntop(ha, addr2, sizeof(addr2)));
++
+     return ARP_RESOLVE_FOUND;
+ }
+ 
+-static void
+-arp_timer_handler(void)
+-{
++static void arp_timer_handler(void) {
+     struct arp_cache *entry;
+     struct timeval now, diff;
+ 
+     mutex_lock(&mutex);
+     gettimeofday(&now, NULL);
+-    for (entry = caches; entry < tailof(caches); entry++) {
++    for (entry = caches; entry < tailof(caches) ; ++entry) {
+         if (entry->state != ARP_CACHE_STATE_FREE && entry->state != ARP_CACHE_STATE_STATIC) {
+-            timersub(&now, &entry->timestamp, &diff);
++            // delete timeout entry
++            timersub(&now, &entry->timestamp, &diff);   // diff = now - entry.ts
+             if (diff.tv_sec > ARP_CACHE_TIMEOUT) {
++                // if diff > timeout, then timeout
+                 arp_cache_delete(entry);
+             }
+         }
+@@ -324,17 +330,14 @@ arp_timer_handler(void)
+     mutex_unlock(&mutex);
+ }
+ 
+-int
+-arp_init(void)
+-{
+-    struct timeval interval = {1, 0}; /* 1s */
+-
++int arp_init(void) {
++    struct timeval interval = {1, 0};   // 1s
+     if (net_protocol_register(NET_PROTOCOL_TYPE_ARP, arp_input) == -1) {
+-        errorf("net_protocol_register() failure");
++        errorf("net_protocol_register() failed");
+         return -1;
+     }
+     if (net_timer_register(interval, arp_timer_handler) == -1) {
+-        errorf("net_timer_register() failure");
++        errorf("net_timer_register() failed");
+         return -1;
+     }
+     return 0;
+diff --git a/arp.h b/arp.h
+index 2ca4380..abb82db 100644
+--- a/arp.h
++++ b/arp.h
+@@ -3,17 +3,15 @@
+ 
+ #include <stdint.h>
+ 
+-#include "net.h"
+ #include "ip.h"
++#include "net.h"
+ 
+-#define ARP_RESOLVE_ERROR      -1
+-#define ARP_RESOLVE_INCOMPLETE  0
+-#define ARP_RESOLVE_FOUND       1
++#define ARP_RESOLVE_ERROR -1
++#define ARP_RESOLVE_INCOMPLETE 0
++#define ARP_RESOLVE_FOUND 1
+ 
+-extern int
+-arp_resolve(struct net_iface *iface, ip_addr_t pa, uint8_t *ha);
++extern int arp_resolve(struct net_iface *iface, ip_addr_t pa, uint8_t *ha);
+ 
+-extern int
+-arp_init(void);
++extern int arp_init(void);
+ 
+-#endif
++#endif
+\ No newline at end of file
+diff --git a/driver/dummy.c b/driver/dummy.c
+index 2f509a9..7e08aed 100644
+--- a/driver/dummy.c
++++ b/driver/dummy.c
+@@ -1,29 +1,25 @@
+-#include <stdio.h>
+ #include <stddef.h>
+ #include <stdint.h>
++#include <stdio.h>
+ 
++#include "net.h"
+ #include "platform.h"
+-
+ #include "util.h"
+-#include "net.h"
+ 
+-#define DUMMY_MTU UINT16_MAX /* maximum size of IP datagram */
++#define DUMMY_MTU UINT16_MAX
+ 
+ #define DUMMY_IRQ INTR_IRQ_BASE
+ 
+-static int
+-dummy_transmit(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst)
+-{
++static int dummy_transmit(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst) {
+     debugf("dev=%s, type=0x%04x, len=%zu", dev->name, type, len);
+     debugdump(data, len);
+-    /* drop data */
++    // drop data
+     intr_raise_irq(DUMMY_IRQ);
+     return 0;
+ }
+ 
+-static int
+-dummy_isr(unsigned int irq, void *id)
+-{
++static int dummy_isr(unsigned int irq, void *id) {
++    // id: net_device like type
+     debugf("irq=%u, dev=%s", irq, ((struct net_device *)id)->name);
+     return 0;
+ }
+@@ -32,26 +28,24 @@ static struct net_device_ops dummy_ops = {
+     .transmit = dummy_transmit,
+ };
+ 
+-struct net_device *
+-dummy_init(void)
+-{
++struct net_device *dummy_init(void) {
+     struct net_device *dev;
+ 
+     dev = net_device_alloc();
+     if (!dev) {
+-        errorf("net_device_alloc() failure");
++        errorf("net_device_alloc() failed");
+         return NULL;
+     }
++    intr_request_irq(DUMMY_IRQ, dummy_isr, INTR_IRQ_SHARED, dev->name, dev);  // register handler
+     dev->type = NET_DEVICE_TYPE_DUMMY;
+     dev->mtu = DUMMY_MTU;
+-    dev->hlen = 0; /* non header */
+-    dev->alen = 0; /* non address */
++    dev->hlen = 0;
++    dev->alen = 0;
+     dev->ops = &dummy_ops;
+     if (net_device_register(dev) == -1) {
+-        errorf("net_device_register() failure");
++        errorf("net_device_register() failed");
+         return NULL;
+     }
+-    intr_request_irq(DUMMY_IRQ, dummy_isr, INTR_IRQ_SHARED, dev->name, dev);
+     debugf("initialized, dev=%s", dev->name);
+     return dev;
+ }
+diff --git a/driver/dummy.h b/driver/dummy.h
+index 23b3b16..11ff225 100644
+--- a/driver/dummy.h
++++ b/driver/dummy.h
+@@ -3,7 +3,6 @@
+ 
+ #include "net.h"
+ 
+-extern struct net_device *
+-dummy_init(void);
++extern struct net_device *dummy_init(void);
+ 
+-#endif
++#endif
+\ No newline at end of file
+diff --git a/driver/ether_tap.h b/driver/ether_tap.h
+index 8f09258..3866d68 100644
+--- a/driver/ether_tap.h
++++ b/driver/ether_tap.h
+@@ -3,7 +3,6 @@
+ 
+ #include "net.h"
+ 
+-extern struct net_device *
+-ether_tap_init(const char *name, const char *addr);
++extern struct net_device *ether_tap_init(const char *name, const char *addr);
+ 
+ #endif
+diff --git a/driver/loopback.c b/driver/loopback.c
+index 9ad213c..384901c 100644
+--- a/driver/loopback.c
++++ b/driver/loopback.c
+@@ -1,19 +1,19 @@
+-#include <stdio.h>
+ #include <stddef.h>
+ #include <stdint.h>
++#include <stdio.h>
+ #include <string.h>
+ 
++#include "net.h"
+ #include "platform.h"
+-
+ #include "util.h"
+-#include "net.h"
+ 
+-#define LOOPBACK_MTU UINT16_MAX /* maximum size of IP datagram */
++#define LOOPBACK_MTU UINT16_MAX
+ #define LOOPBACK_QUEUE_LIMIT 16
+-#define LOOPBACK_IRQ (INTR_IRQ_BASE+1)
++#define LOOPBACK_IRQ (INTR_IRQ_BASE + 1)
+ 
+ #define PRIV(x) ((struct loopback *)x->priv)
+ 
++// private data
+ struct loopback {
+     int irq;
+     mutex_t mutex;
+@@ -23,58 +23,62 @@ struct loopback {
+ struct loopback_queue_entry {
+     uint16_t type;
+     size_t len;
+-    uint8_t data[]; /* flexible array member */
++    uint8_t data[];  // flexible array member
+ };
+ 
+-static int
+-loopback_transmit(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst)
+-{
++static int loopback_transmit(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst) {
+     struct loopback_queue_entry *entry;
+     unsigned int num;
+ 
++    // protect queue begin
+     mutex_lock(&PRIV(dev)->mutex);
+     if (PRIV(dev)->queue.num >= LOOPBACK_QUEUE_LIMIT) {
++        // overflow
+         mutex_unlock(&PRIV(dev)->mutex);
+         errorf("queue is full");
+         return -1;
+     }
+-    entry = memory_alloc(sizeof(*entry) + len);
++    // prepare entry
++    entry = memory_alloc(sizeof(*entry) + len);  // len is for array
+     if (!entry) {
+         mutex_unlock(&PRIV(dev)->mutex);
+-        errorf("memory_alloc() failure");
++        errorf("memory_alloc() failed");
+         return -1;
+     }
+     entry->type = type;
+     entry->len = len;
+     memcpy(entry->data, data, len);
+-    queue_push(&PRIV(dev)->queue, entry);
++    queue_push(&PRIV(dev)->queue, entry);  // push queue
+     num = PRIV(dev)->queue.num;
+     mutex_unlock(&PRIV(dev)->mutex);
+-    debugf("queue pushed (num:%u), dev=%s, type=0x%04x, len=%zu", num, dev->name, type, len);
++    // protect queue end
++    debugf("queue pushed (num:%u), dev=%s, type=0x%04x, len=%zd", num, dev->name, type, len);
+     debugdump(data, len);
+-    intr_raise_irq(PRIV(dev)->irq);
++    intr_raise_irq(PRIV(dev)->irq);  // raise interruption
+     return 0;
+ }
+ 
+-static int
+-loopback_isr(unsigned int irq, void *id)
+-{
++static int loopback_isr(unsigned int irq, void *id) {
+     struct net_device *dev;
+     struct loopback_queue_entry *entry;
+ 
+     dev = (struct net_device *)id;
++    // protect queue begin
+     mutex_lock(&PRIV(dev)->mutex);
+     while (1) {
+         entry = queue_pop(&PRIV(dev)->queue);
+         if (!entry) {
++            // end loop
+             break;
+         }
+-        debugf("queue popped (num:%u), dev=%s, type=0x%04x, len=%zu", PRIV(dev)->queue.num, dev->name, entry->type, entry->len);
++        debugf("queue popped (num:%u), dev=%s, type=0x%04x, len=%zd", PRIV(dev)->queue.num, dev->name, entry->type,
++               entry->len);
+         debugdump(entry->data, entry->len);
+         net_input_handler(entry->type, entry->data, entry->len, dev);
+-        memory_free(entry);
++        memory_free(entry);  // free memory for the entry
+     }
+     mutex_unlock(&PRIV(dev)->mutex);
++    // protect queue end
+     return 0;
+ }
+ 
+@@ -82,37 +86,39 @@ static struct net_device_ops loopback_ops = {
+     .transmit = loopback_transmit,
+ };
+ 
+-struct net_device *
+-loopback_init(void)
+-{
++struct net_device *loopback_init(void) {
+     struct net_device *dev;
+-    struct loopback *lo;
++    struct loopback *lo;  // private data
+ 
++    // device
+     dev = net_device_alloc();
+     if (!dev) {
+-        errorf("net_device_alloc() failure");
++        errorf("net_device_alloc() failed");
+         return NULL;
+     }
+-    dev->type = NET_DEVICE_TYPE_LOOPBACK;
++    dev->type = NET_DEVICE_FLAG_LOOPBACK;
+     dev->mtu = LOOPBACK_MTU;
+-    dev->hlen = 0; /* non header */
+-    dev->alen = 0; /* non address */
++    dev->hlen = 0;
++    dev->alen = 0;
+     dev->flags = NET_DEVICE_FLAG_LOOPBACK;
+     dev->ops = &loopback_ops;
++    // private data
+     lo = memory_alloc(sizeof(*lo));
+     if (!lo) {
+-        errorf("memory_alloc() failure");
++        errorf("memory_alloc() failed");
+         return NULL;
+     }
+     lo->irq = LOOPBACK_IRQ;
+     mutex_init(&lo->mutex);
+     queue_init(&lo->queue);
+-    dev->priv = lo;
++    dev->priv = lo;  // register private data to device
++
+     if (net_device_register(dev) == -1) {
+-        errorf("net_device_register() failure");
++        errorf("net_device_register() failed");
+         return NULL;
+     }
+-    intr_request_irq(lo->irq, loopback_isr, INTR_IRQ_SHARED, dev->name, dev);
++    intr_request_irq(LOOPBACK_IRQ, loopback_isr, INTR_IRQ_SHARED, dev->name, dev);
++
+     debugf("initialized, dev=%s", dev->name);
+     return dev;
+-}
++}
+\ No newline at end of file
+diff --git a/driver/loopback.h b/driver/loopback.h
+index 78ebcda..236f5ff 100644
+--- a/driver/loopback.h
++++ b/driver/loopback.h
+@@ -3,7 +3,6 @@
+ 
+ #include "net.h"
+ 
+-extern struct net_device *
+-loopback_init(void);
++extern struct net_device *loopback_init(void);
+ 
+-#endif
++#endif
+\ No newline at end of file
+diff --git a/ether.c b/ether.c
+index 49e0289..4be202f 100644
+--- a/ether.c
++++ b/ether.c
+@@ -1,13 +1,14 @@
+-#include <stdio.h>
++#include "ether.h"
++
+ #include <stddef.h>
+ #include <stdint.h>
++#include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/types.h>
+ 
+-#include "util.h"
+ #include "net.h"
+-#include "ether.h"
++#include "util.h"
+ 
+ struct ether_hdr {
+     uint8_t dst[ETHER_ADDR_LEN];
+@@ -18,9 +19,7 @@ struct ether_hdr {
+ const uint8_t ETHER_ADDR_ANY[ETHER_ADDR_LEN] = {"\x00\x00\x00\x00\x00\x00"};
+ const uint8_t ETHER_ADDR_BROADCAST[ETHER_ADDR_LEN] = {"\xff\xff\xff\xff\xff\xff"};
+ 
+-int
+-ether_addr_pton(const char *p, uint8_t *n)
+-{
++int ether_addr_pton(const char *p, uint8_t *n) {
+     int index;
+     char *ep;
+     long val;
+@@ -28,7 +27,7 @@ ether_addr_pton(const char *p, uint8_t *n)
+     if (!p || !n) {
+         return -1;
+     }
+-    for (index = 0; index < ETHER_ADDR_LEN; index++) {
++    for (index = 0; index < ETHER_ADDR_LEN; ++index) {
+         val = strtol(p, &ep, 16);
+         if (ep == p || val < 0 || val > 0xff || (index < ETHER_ADDR_LEN - 1 && *ep != ':')) {
+             break;
+@@ -42,9 +41,7 @@ ether_addr_pton(const char *p, uint8_t *n)
+     return 0;
+ }
+ 
+-char *
+-ether_addr_ntop(const uint8_t *n, char *p, size_t size)
+-{
++char *ether_addr_ntop(const uint8_t *n, char *p, size_t size) {
+     if (!n || !p) {
+         return NULL;
+     }
+@@ -52,73 +49,73 @@ ether_addr_ntop(const uint8_t *n, char *p, size_t size)
+     return p;
+ }
+ 
+-static void
+-ether_dump(const uint8_t *frame, size_t flen)
+-{
++static void ether_dump(const uint8_t *frame, size_t flen) {
+     struct ether_hdr *hdr;
+     char addr[ETHER_ADDR_STR_LEN];
+ 
+     hdr = (struct ether_hdr *)frame;
+     flockfile(stderr);
+-    fprintf(stderr, "        src: %s\n", ether_addr_ntop(hdr->src, addr, sizeof(addr)));
+-    fprintf(stderr, "        dst: %s\n", ether_addr_ntop(hdr->dst, addr, sizeof(addr)));
+-    fprintf(stderr, "       type: 0x%04x\n", ntoh16(hdr->type));
++    fprintf(stderr, "       src: %s\n", ether_addr_ntop(hdr->src, addr, sizeof(addr)));
++    fprintf(stderr, "       dst: %s\n", ether_addr_ntop(hdr->dst, addr, sizeof(addr)));
++    fprintf(stderr, "      type: 0x%04x\n", ntoh16(hdr->type));
+ #ifdef HEXDUMP
+     hexdump(stderr, frame, flen);
+ #endif
+     funlockfile(stderr);
+ }
+ 
+-int
+-ether_transmit_helper(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst, ether_transmit_func_t callback)
+-{
++int ether_transmit_helper(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst,
++                          ether_transmit_func_t callback) {
+     uint8_t frame[ETHER_FRAME_SIZE_MAX] = {};
+     struct ether_hdr *hdr;
+     size_t flen, pad = 0;
+ 
++    // generate ethernet frame
+     hdr = (struct ether_hdr *)frame;
+     memcpy(hdr->dst, dst, ETHER_ADDR_LEN);
+     memcpy(hdr->src, dev->addr, ETHER_ADDR_LEN);
+     hdr->type = hton16(type);
+-    memcpy(hdr+1, data, len);
++    memcpy(hdr + 1, data, len);
+     if (len < ETHER_PAYLOAD_SIZE_MIN) {
++        // if shorter than minimum size, insert padding
+         pad = ETHER_PAYLOAD_SIZE_MIN - len;
+     }
+     flen = sizeof(*hdr) + len + pad;
+     debugf("dev=%s, type=0x%04x, len=%zu", dev->name, type, flen);
+     ether_dump(frame, flen);
++    // callback returns length of written frame
+     return callback(dev, frame, flen) == (ssize_t)flen ? 0 : -1;
+ }
+ 
+-int
+-ether_input_helper(struct net_device *dev, ether_input_func_t callback)
+-{
++int ether_input_helper(struct net_device *dev, ether_input_func_t callback) {
+     uint8_t frame[ETHER_FRAME_SIZE_MAX];
+     ssize_t flen;
+     struct ether_hdr *hdr;
+     uint16_t type;
+ 
++    // callback read ethernet frame
+     flen = callback(dev, frame, sizeof(frame));
+     if (flen < (ssize_t)sizeof(*hdr)) {
+         errorf("too short");
+         return -1;
+     }
++    // frame filtering
+     hdr = (struct ether_hdr *)frame;
+     if (memcmp(dev->addr, hdr->dst, ETHER_ADDR_LEN) != 0) {
+         if (memcmp(ETHER_ADDR_BROADCAST, hdr->dst, ETHER_ADDR_LEN) != 0) {
+-            /* for other host */
++            // for other host
+             return -1;
+         }
+     }
+     type = ntoh16(hdr->type);
+     debugf("dev=%s, type=0x%04x, len=%zd", dev->name, type, flen);
+     ether_dump(frame, flen);
+-    return net_input_handler(type, (uint8_t *)(hdr+1), flen - sizeof(*hdr), dev);
++    // pass payload to protocol stack
++    return net_input_handler(type, (uint8_t *)(hdr + 1), flen - sizeof(*hdr), dev);
+ }
+ 
+-void
+-ether_setup_helper(struct net_device *dev)
+-{
++void ether_setup_helper(struct net_device *dev) {
++    // common settings
+     dev->type = NET_DEVICE_TYPE_ETHERNET;
+     dev->mtu = ETHER_PAYLOAD_SIZE_MAX;
+     dev->flags = (NET_DEVICE_FLAG_BROADCAST | NET_DEVICE_FLAG_NEED_ARP);
+diff --git a/ether.h b/ether.h
+index 2c41ba7..e281d38 100644
+--- a/ether.h
++++ b/ether.h
+@@ -1,8 +1,8 @@
+ #ifndef ETHER_H
+ #define ETHER_H
+ 
+-#include <stdint.h>
+ #include <stddef.h>
++#include <stdint.h>
+ #include <sys/types.h>
+ 
+ #include "net.h"
+@@ -11,32 +11,28 @@
+ #define ETHER_ADDR_STR_LEN 18 /* "xx:xx:xx:xx:xx:xx\0" */
+ 
+ #define ETHER_HDR_SIZE 14
+-#define ETHER_FRAME_SIZE_MIN   60 /* without FCS */
++#define ETHER_FRAME_SIZE_MIN 60   /* without FCS */
+ #define ETHER_FRAME_SIZE_MAX 1514 /* without FCS */
+ #define ETHER_PAYLOAD_SIZE_MIN (ETHER_FRAME_SIZE_MIN - ETHER_HDR_SIZE)
+ #define ETHER_PAYLOAD_SIZE_MAX (ETHER_FRAME_SIZE_MAX - ETHER_HDR_SIZE)
+ 
+ /* see https://www.iana.org/assignments/ieee-802-numbers/ieee-802-numbers.txt */
+-#define ETHER_TYPE_IP   0x0800
+-#define ETHER_TYPE_ARP  0x0806
++#define ETHER_TYPE_IP 0x0800
++#define ETHER_TYPE_ARP 0x0806
+ #define ETHER_TYPE_IPV6 0x86dd
+ 
+ extern const uint8_t ETHER_ADDR_ANY[ETHER_ADDR_LEN];
+ extern const uint8_t ETHER_ADDR_BROADCAST[ETHER_ADDR_LEN];
+ 
+-extern int
+-ether_addr_pton(const char *p, uint8_t *n);
+-extern char *
+-ether_addr_ntop(const uint8_t *n, char *p, size_t size);
++extern int ether_addr_pton(const char *p, uint8_t *n);
++extern char *ether_addr_ntop(const uint8_t *n, char *p, size_t size);
+ 
+ typedef ssize_t (*ether_transmit_func_t)(struct net_device *dev, const uint8_t *data, size_t len);
+ typedef ssize_t (*ether_input_func_t)(struct net_device *dev, uint8_t *buf, size_t size);
+ 
+-extern int
+-ether_transmit_helper(struct net_device *dev, uint16_t type, const uint8_t *payload, size_t plen, const void *dst, ether_transmit_func_t callback);
+-extern int
+-ether_input_helper(struct net_device *dev, ether_input_func_t callback);
+-extern void
+-ether_setup_helper(struct net_device *dev);
++extern int ether_transmit_helper(struct net_device *dev, uint16_t type, const uint8_t *payload, size_t plen,
++                                 const void *dst, ether_transmit_func_t callback);
++extern int ether_input_helper(struct net_device *dev, ether_input_func_t callback);
++extern void ether_setup_helper(struct net_device *dev);
+ 
+ #endif
+diff --git a/icmp.c b/icmp.c
+index ebb2ffd..19e614a 100644
+--- a/icmp.c
++++ b/icmp.c
+@@ -1,10 +1,12 @@
+-#include <stdint.h>
++#include "icmp.h"
++
+ #include <stddef.h>
++#include <stdint.h>
++#include <stdio.h>
+ #include <string.h>
+ 
+-#include "util.h"
+ #include "ip.h"
+-#include "icmp.h"
++#include "util.h"
+ 
+ #define ICMP_BUFSIZ IP_PAYLOAD_SIZE_MAX
+ 
+@@ -23,38 +25,35 @@ struct icmp_echo {
+     uint16_t seq;
+ };
+ 
+-static char *
+-icmp_type_ntoa(uint8_t type) {
++static char *icmp_type_ntoa(uint8_t type) {
+     switch (type) {
+-    case ICMP_TYPE_ECHOREPLY:
+-        return "EchoReply";
+-    case ICMP_TYPE_DEST_UNREACH:
+-        return "DestinationUnreachable";
+-    case ICMP_TYPE_SOURCE_QUENCH:
+-        return "SourceQuench";
+-    case ICMP_TYPE_REDIRECT:
+-        return "Redirect";
+-    case ICMP_TYPE_ECHO:
+-        return "Echo";
+-    case ICMP_TYPE_TIME_EXCEEDED:
+-        return "TimeExceeded";
+-    case ICMP_TYPE_PARAM_PROBLEM:
+-        return "ParameterProblem";
+-    case ICMP_TYPE_TIMESTAMP:
+-        return "Timestamp";
+-    case ICMP_TYPE_TIMESTAMPREPLY:
+-        return "TimestampReply";
+-    case ICMP_TYPE_INFO_REQUEST:
+-        return "InformationRequest";
+-    case ICMP_TYPE_INFO_REPLY:
+-        return "InformationReply";
++        case ICMP_TYPE_ECHOREPLY:
++            return "EchoReply";
++        case ICMP_TYPE_DEST_UNREACH:
++            return "DestinationUnreachable";
++        case ICMP_TYPE_SOURCE_QUENCH:
++            return "SourceQuench";
++        case ICMP_TYPE_REDIRECT:
++            return "Redirect";
++        case ICMP_TYPE_ECHO:
++            return "Echo";
++        case ICMP_TYPE_TIME_EXCEEDED:
++            return "TimeExceeded";
++        case ICMP_TYPE_PARAM_PROBLEM:
++            return "ParameterProblem";
++        case ICMP_TYPE_TIMESTAMP:
++            return "Timestamp";
++        case ICMP_TYPE_TIMESTAMPREPLY:
++            return "TimestampReply";
++        case ICMP_TYPE_INFO_REQUEST:
++            return "InformationRequest";
++        case ICMP_TYPE_INFO_REPLY:
++            return "InformationReply";
+     }
+     return "Unknown";
+ }
+ 
+-static void
+-icmp_dump(const uint8_t *data, size_t len)
+-{
++static void icmp_dump(const uint8_t *data, size_t len) {
+     struct icmp_hdr *hdr;
+     struct icmp_echo *echo;
+ 
+@@ -64,79 +63,80 @@ icmp_dump(const uint8_t *data, size_t len)
+     fprintf(stderr, "       code: %u\n", hdr->code);
+     fprintf(stderr, "        sum: 0x%04x\n", ntoh16(hdr->sum));
+     switch (hdr->type) {
+-    case ICMP_TYPE_ECHOREPLY:
+-    case ICMP_TYPE_ECHO:
+-        echo = (struct icmp_echo *)hdr;
+-        fprintf(stderr, "         id: %u\n", ntoh16(echo->id));
+-        fprintf(stderr, "        seq: %u\n", ntoh16(echo->seq));
+-        break;
+-    default:
+-        fprintf(stderr, "     values: 0x%08x\n", ntoh32(hdr->values));
+-        break;
++        case ICMP_TYPE_ECHOREPLY:
++        case ICMP_TYPE_ECHO:
++            echo = (struct icmp_echo *)hdr;
++            fprintf(stderr, "         id: %u\n", ntoh16(echo->id));
++            fprintf(stderr, "        seq: %u\n", ntoh16(echo->seq));
++            break;
++        default:
++            fprintf(stderr, "    values: 0x%08x\n", ntoh32(hdr->values));
++            break;
+     }
+-#ifdef HEXDUMP
++#ifndef HEXDUMP
+     hexdump(stderr, data, len);
+ #endif
+     funlockfile(stderr);
+ }
+ 
+-void
+-icmp_input(const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst, struct ip_iface *iface)
+-{
++void icmp_input(const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst, struct ip_iface *iface) {
+     struct icmp_hdr *hdr;
+     char addr1[IP_ADDR_STR_LEN];
+     char addr2[IP_ADDR_STR_LEN];
+ 
+     if (len < sizeof(*hdr)) {
+-        errorf("too short");
++        errorf("data is shorter than ICMP header");
+         return;
+     }
+     hdr = (struct icmp_hdr *)data;
+     if (cksum16((uint16_t *)data, len, 0) != 0) {
+-        errorf("checksum error, sum=0x%04x, verify=0x%04x", ntoh16(hdr->sum), ntoh16(cksum16((uint16_t *)data, len, -hdr->sum)));
++        errorf("checksum error, sum=0x%04x, verify=0x%04x", ntoh16(hdr->sum),
++               ntoh16(cksum16((uint16_t *)data, len, -hdr->sum)));
+         return;
+     }
++
+     debugf("%s => %s, len=%zu", ip_addr_ntop(src, addr1, sizeof(addr1)), ip_addr_ntop(dst, addr2, sizeof(addr2)), len);
+     icmp_dump(data, len);
++
++    // switch by type
+     switch (hdr->type) {
+-    case ICMP_TYPE_ECHO:
+-        /* Responds with the address of the received interface. */
+-        icmp_output(ICMP_TYPE_ECHOREPLY, hdr->code, hdr->values, (uint8_t *)(hdr + 1), len - sizeof(*hdr), iface->unicast, src);
+-        break;
+-    default:
+-        /* ignore */
+-        break;
++        case ICMP_TYPE_ECHO:
++            icmp_output(ICMP_TYPE_ECHOREPLY, hdr->code, hdr->values, (uint8_t *)(hdr + 1), len - sizeof(*hdr),
++                        iface->unicast, src);
++            break;
++        default:
++            // do nothing
++            break;
+     }
+ }
+ 
+-int
+-icmp_output(uint8_t type, uint8_t code, uint32_t values, const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst)
+-{
++int icmp_output(uint8_t type, uint8_t code, uint32_t values, const uint8_t *data, size_t len, ip_addr_t src,
++                ip_addr_t dst) {
+     uint8_t buf[ICMP_BUFSIZ];
+     struct icmp_hdr *hdr;
+-    size_t msg_len;
++    size_t msg_len;  // ICMP message length = header + data
+     char addr1[IP_ADDR_STR_LEN];
+     char addr2[IP_ADDR_STR_LEN];
+ 
+     hdr = (struct icmp_hdr *)buf;
+     hdr->type = type;
+     hdr->code = code;
+-    hdr->sum = 0;
+     hdr->values = values;
+-    memcpy(hdr+1, data, len);
++    hdr->sum = 0;
++    memcpy(hdr + 1, data, len);
+     msg_len = sizeof(*hdr) + len;
+     hdr->sum = cksum16((uint16_t *)hdr, msg_len, 0);
+-    debugf("%s => %s, len=%zu", ip_addr_ntop(src, addr1, sizeof(addr1)), ip_addr_ntop(dst, addr2, sizeof(addr2)), msg_len);
+-    icmp_dump(buf, msg_len);
++
++    debugf("%s => %s, len=%zu", ip_addr_ntop(src, addr1, sizeof(addr1)), ip_addr_ntop(dst, addr2, sizeof(addr2)),
++           msg_len);
++    icmp_dump((uint8_t *)hdr, msg_len);
+     return ip_output(IP_PROTOCOL_ICMP, buf, msg_len, src, dst);
+ }
+ 
+-int
+-icmp_init(void)
+-{
++int icmp_init(void) {
+     if (ip_protocol_register(IP_PROTOCOL_ICMP, icmp_input) == -1) {
+-        errorf("ip_protocol_register() failure");
++        errorf("ip_protocol_register() failed");
+         return -1;
+     }
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/icmp.h b/icmp.h
+index 4aae98b..3fcb480 100644
+--- a/icmp.h
++++ b/icmp.h
+@@ -8,22 +8,21 @@
+ 
+ #define ICMP_HDR_SIZE 8
+ 
+-#define ICMP_TYPE_ECHOREPLY           0
+-#define ICMP_TYPE_DEST_UNREACH        3
+-#define ICMP_TYPE_SOURCE_QUENCH       4
+-#define ICMP_TYPE_REDIRECT            5
+-#define ICMP_TYPE_ECHO                8
+-#define ICMP_TYPE_TIME_EXCEEDED      11
+-#define ICMP_TYPE_PARAM_PROBLEM      12
+-#define ICMP_TYPE_TIMESTAMP          13
+-#define ICMP_TYPE_TIMESTAMPREPLY     14
+-#define ICMP_TYPE_INFO_REQUEST       15
+-#define ICMP_TYPE_INFO_REPLY         16
++#define ICMP_TYPE_ECHOREPLY 0
++#define ICMP_TYPE_DEST_UNREACH 3
++#define ICMP_TYPE_SOURCE_QUENCH 4
++#define ICMP_TYPE_REDIRECT 5
++#define ICMP_TYPE_ECHO 8
++#define ICMP_TYPE_TIME_EXCEEDED 11
++#define ICMP_TYPE_PARAM_PROBLEM 12
++#define ICMP_TYPE_TIMESTAMP 13
++#define ICMP_TYPE_TIMESTAMPREPLY 14
++#define ICMP_TYPE_INFO_REQUEST 15
++#define ICMP_TYPE_INFO_REPLY 16
+ 
+-extern int
+-icmp_output(uint8_t type, uint8_t code, uint32_t values, const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst);
++extern int icmp_output(uint8_t type, uint8_t code, uint32_t values, const uint8_t *data, size_t len, ip_addr_t src,
++                       ip_addr_t dst);
+ 
+-extern int
+-icmp_init(void);
++extern int icmp_init(void);
+ 
+-#endif
++#endif
+\ No newline at end of file
+diff --git a/ip.c b/ip.c
+index 7a0f544..91e8f70 100644
+--- a/ip.c
++++ b/ip.c
+@@ -1,16 +1,16 @@
+-#include <stdio.h>
+-#include <stdint.h>
++#include "ip.h"
++
+ #include <stddef.h>
++#include <stdint.h>
++#include <stdio.h>
+ #include <stdlib.h>
+-#include <sys/types.h>
+ #include <string.h>
++#include <sys/types.h>
+ 
++#include "arp.h"
++#include "net.h"
+ #include "platform.h"
+-
+ #include "util.h"
+-#include "net.h"
+-#include "arp.h"
+-#include "ip.h"
+ 
+ struct ip_hdr {
+     uint8_t vhl;
+@@ -33,24 +33,22 @@ struct ip_protocol {
+ };
+ 
+ struct ip_route {
+-    struct ip_route *next;
+-    ip_addr_t network;
+-    ip_addr_t netmask;
+-    ip_addr_t nexthop;
+-    struct ip_iface *iface;
++    struct ip_route *next;   // pointer to next ip_route
++    ip_addr_t network;       // network addr
++    ip_addr_t netmask;       // subnetmask
++    ip_addr_t nexthop;       // nexthop
++    struct ip_iface *iface;  // ip interface
+ };
+ 
+-const ip_addr_t IP_ADDR_ANY       = 0x00000000; /* 0.0.0.0 */
++const ip_addr_t IP_ADDR_ANY = 0x00000000;       /* 0.0.0.0 */
+ const ip_addr_t IP_ADDR_BROADCAST = 0xffffffff; /* 255.255.255.255 */
+ 
+ /* NOTE: if you want to add/delete the entries after net_run(), you need to protect these lists with a mutex. */
+ static struct ip_iface *ifaces;
+ static struct ip_protocol *protocols;
+-static struct ip_route *routes;
++static struct ip_route *routes;  // routing table
+ 
+-int
+-ip_addr_pton(const char *p, ip_addr_t *n)
+-{
++int ip_addr_pton(const char *p, ip_addr_t *n) {
+     char *sp, *ep;
+     int idx;
+     long ret;
+@@ -73,9 +71,7 @@ ip_addr_pton(const char *p, ip_addr_t *n)
+     return 0;
+ }
+ 
+-char *
+-ip_addr_ntop(ip_addr_t n, char *p, size_t size)
+-{
++char *ip_addr_ntop(ip_addr_t n, char *p, size_t size) {
+     uint8_t *u8;
+ 
+     u8 = (uint8_t *)&n;
+@@ -83,9 +79,7 @@ ip_addr_ntop(ip_addr_t n, char *p, size_t size)
+     return p;
+ }
+ 
+-static void
+-ip_dump(const uint8_t *data, size_t len)
+-{
++static void ip_dump(const uint8_t *data, size_t len) {
+     struct ip_hdr *hdr;
+     uint8_t v, hl, hlen;
+     uint16_t total, offset;
+@@ -114,31 +108,75 @@ ip_dump(const uint8_t *data, size_t len)
+     funlockfile(stderr);
+ }
+ 
+-/* NOTE: must not be call after net_run() */
+-static struct ip_route *
+-ip_route_add(ip_addr_t network, ip_addr_t netmask, ip_addr_t nexthop, struct ip_iface *iface)
+-{
++static struct ip_route *ip_route_add(ip_addr_t network, ip_addr_t netmask, ip_addr_t nexthop, struct ip_iface *iface) {
++    struct ip_route *route;
++    char addr1[IP_ADDR_STR_LEN];
++    char addr2[IP_ADDR_STR_LEN];
++    char addr3[IP_ADDR_STR_LEN];
++    char addr4[IP_ADDR_STR_LEN];
++
++    // register ip_route info
++    route = memory_alloc(sizeof(*route));
++    if (!route) {
++        errorf("memory_alloc() failed");
++        return NULL;
++    }
++    route->iface = iface;
++    route->network = network;
++    route->netmask = netmask;
++    route->nexthop = nexthop;
++    // append to list
++    route->next = routes;
++    routes = route;
++
++    infof("route added: network=%s, netmask=%s, nexthop=%s, iface=%s, dev=%s",
++          ip_addr_ntop(route->network, addr1, sizeof(addr1)), ip_addr_ntop(route->netmask, addr2, sizeof(addr2)),
++          ip_addr_ntop(route->nexthop, addr3, sizeof(addr3)), ip_addr_ntop(route->iface->unicast, addr4, sizeof(addr4)),
++          NET_IFACE(iface)->dev->name);
++    return route;
+ }
+ 
+-static struct ip_route *
+-ip_route_lookup(ip_addr_t dst)
+-{
++static struct ip_route *ip_route_lookup(ip_addr_t dst) {
++    struct ip_route *route, *candidate = NULL;
++
++    for (route = routes; route; route = route->next) {
++        if ((dst & route->netmask) == (route->network)) {
++            // network addr matched
++            if (!candidate || ntoh32(candidate->netmask) < ntoh32(route->netmask)) {
++                // match netmask longer than candidate
++                candidate = route;
++            }
++        }
++    }
++    return candidate;
+ }
+ 
+-/* NOTE: must not be call after net_run() */
+-int
+-ip_route_set_default_gateway(struct ip_iface *iface, const char *gateway)
+-{
++int ip_route_set_default_gateway(struct ip_iface *iface, const char *gateway) {
++    ip_addr_t gw;  // gateway
++
++    if (ip_addr_pton(gateway, &gw) == -1) {
++        errorf("ip_addr_pton() failed, addr=%s", gateway);
++        return -1;
++    }
++    if (!ip_route_add(IP_ADDR_ANY, IP_ADDR_ANY, gw, iface)) {
++        // 0.0.0.0/0
++        errorf("ip_route_add() failed");
++        return -1;
++    }
++    return 0;
+ }
+ 
+-struct ip_iface *
+-ip_route_get_iface(ip_addr_t dst)
+-{
++struct ip_iface *ip_route_get_iface(ip_addr_t dst) {
++    struct ip_route *route;
++
++    route = ip_route_lookup(dst);
++    if (!route) {
++        return NULL;
++    }
++    return route->iface;
+ }
+ 
+-struct ip_iface *
+-ip_iface_alloc(const char *unicast, const char *netmask)
+-{
++struct ip_iface *ip_iface_alloc(const char *unicast, const char *netmask) {
+     struct ip_iface *iface;
+ 
+     iface = memory_alloc(sizeof(*iface));
+@@ -162,9 +200,7 @@ ip_iface_alloc(const char *unicast, const char *netmask)
+ }
+ 
+ /* NOTE: must not be call after net_run() */
+-int
+-ip_iface_register(struct net_device *dev, struct ip_iface *iface)
+-{
++int ip_iface_register(struct net_device *dev, struct ip_iface *iface) {
+     char addr1[IP_ADDR_STR_LEN];
+     char addr2[IP_ADDR_STR_LEN];
+     char addr3[IP_ADDR_STR_LEN];
+@@ -173,18 +209,21 @@ ip_iface_register(struct net_device *dev, struct ip_iface *iface)
+         errorf("net_device_add_iface() failure");
+         return -1;
+     }
++    ip_addr_t network = (iface->unicast & iface->netmask);
++    // any means to need routing
++    if (!ip_route_add(network, iface->netmask, IP_ADDR_ANY, iface)) {
++        errorf("ip_route_add() failed");
++        return -1;
++    }
+     iface->next = ifaces;
+     ifaces = iface;
+     infof("registered: dev=%s, unicast=%s, netmask=%s, broadcast=%s", dev->name,
+-        ip_addr_ntop(iface->unicast, addr1, sizeof(addr1)),
+-        ip_addr_ntop(iface->netmask, addr2, sizeof(addr2)),
+-        ip_addr_ntop(iface->broadcast, addr3, sizeof(addr3)));
++          ip_addr_ntop(iface->unicast, addr1, sizeof(addr1)), ip_addr_ntop(iface->netmask, addr2, sizeof(addr2)),
++          ip_addr_ntop(iface->broadcast, addr3, sizeof(addr3)));
+     return 0;
+ }
+ 
+-struct ip_iface *
+-ip_iface_select(ip_addr_t addr)
+-{
++struct ip_iface *ip_iface_select(ip_addr_t addr) {
+     struct ip_iface *entry;
+ 
+     for (entry = ifaces; entry; entry = entry->next) {
+@@ -196,9 +235,8 @@ ip_iface_select(ip_addr_t addr)
+ }
+ 
+ /* NOTE: must not be call after net_run() */
+-int
+-ip_protocol_register(uint8_t type, void (*handler)(const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst, struct ip_iface *iface))
+-{
++int ip_protocol_register(uint8_t type, void (*handler)(const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst,
++                                                       struct ip_iface *iface)) {
+     struct ip_protocol *entry;
+ 
+     for (entry = protocols; entry; entry = entry->next) {
+@@ -220,9 +258,7 @@ ip_protocol_register(uint8_t type, void (*handler)(const uint8_t *data, size_t l
+     return 0;
+ }
+ 
+-static void
+-ip_input(const uint8_t *data, size_t len, struct net_device *dev)
+-{
++static void ip_input(const uint8_t *data, size_t len, struct net_device *dev) {
+     struct ip_hdr *hdr;
+     uint8_t v;
+     uint16_t hlen, total, offset;
+@@ -251,7 +287,8 @@ ip_input(const uint8_t *data, size_t len, struct net_device *dev)
+         return;
+     }
+     if (cksum16((uint16_t *)hdr, hlen, 0) != 0) {
+-        errorf("checksum error: sum=0x%04x, verify=0x%04x", ntoh16(hdr->sum), ntoh16(cksum16((uint16_t *)hdr, hlen, -hdr->sum)));
++        errorf("checksum error: sum=0x%04x, verify=0x%04x", ntoh16(hdr->sum),
++               ntoh16(cksum16((uint16_t *)hdr, hlen, -hdr->sum)));
+         return;
+     }
+     offset = ntoh16(hdr->offset);
+@@ -270,8 +307,8 @@ ip_input(const uint8_t *data, size_t len, struct net_device *dev)
+             return;
+         }
+     }
+-    debugf("dev=%s, iface=%s, protocol=%u, total=%u",
+-        dev->name, ip_addr_ntop(iface->unicast, addr, sizeof(addr)), hdr->protocol, total);
++    debugf("dev=%s, iface=%s, protocol=%u, total=%u", dev->name, ip_addr_ntop(iface->unicast, addr, sizeof(addr)),
++           hdr->protocol, total);
+     ip_dump(data, total);
+     for (proto = protocols; proto; proto = proto->next) {
+         if (proto->type == hdr->protocol) {
+@@ -282,9 +319,7 @@ ip_input(const uint8_t *data, size_t len, struct net_device *dev)
+     /* unsupported protocol */
+ }
+ 
+-static int
+-ip_output_device(struct ip_iface *iface, const uint8_t *data, size_t len, ip_addr_t dst)
+-{
++static int ip_output_device(struct ip_iface *iface, const uint8_t *data, size_t len, ip_addr_t dst) {
+     uint8_t hwaddr[NET_DEVICE_ADDR_LEN] = {};
+     int ret;
+ 
+@@ -292,6 +327,7 @@ ip_output_device(struct ip_iface *iface, const uint8_t *data, size_t len, ip_add
+         if (dst == iface->broadcast || dst == IP_ADDR_BROADCAST) {
+             memcpy(hwaddr, NET_IFACE(iface)->dev->broadcast, NET_IFACE(iface)->dev->alen);
+         } else {
++            // arp
+             ret = arp_resolve(NET_IFACE(iface), dst, hwaddr);
+             if (ret != ARP_RESOLVE_FOUND) {
+                 return ret;
+@@ -301,9 +337,8 @@ ip_output_device(struct ip_iface *iface, const uint8_t *data, size_t len, ip_add
+     return net_device_output(NET_IFACE(iface)->dev, NET_PROTOCOL_TYPE_IP, data, len, hwaddr);
+ }
+ 
+-static ssize_t
+-ip_output_core(struct ip_iface *iface, uint8_t protocol, const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst, uint16_t id, uint16_t offset)
+-{
++static ssize_t ip_output_core(struct ip_iface *iface, uint8_t protocol, const uint8_t *data, size_t len, ip_addr_t src,
++                              ip_addr_t dst, ip_addr_t nexthop, uint16_t id, uint16_t offset) {
+     uint8_t buf[IP_TOTAL_SIZE_MAX];
+     struct ip_hdr *hdr;
+     uint16_t hlen, total;
+@@ -323,16 +358,14 @@ ip_output_core(struct ip_iface *iface, uint8_t protocol, const uint8_t *data, si
+     hdr->src = src;
+     hdr->dst = dst;
+     hdr->sum = cksum16((uint16_t *)hdr, hlen, 0); /* don't convert byteoder */
+-    memcpy(hdr+1, data, len);
+-    debugf("dev=%s, dst=%s, protocol=%u, len=%u",
+-        NET_IFACE(iface)->dev->name, ip_addr_ntop(dst, addr, sizeof(addr)), protocol, total);
++    memcpy(hdr + 1, data, len);
++    debugf("dev=%s, dst=%s, protocol=%u, len=%u", NET_IFACE(iface)->dev->name, ip_addr_ntop(dst, addr, sizeof(addr)),
++           protocol, total);
+     ip_dump(buf, total);
+-    return ip_output_device(iface, buf, total, dst);
++    return ip_output_device(iface, buf, total, nexthop);
+ }
+ 
+-static uint16_t
+-ip_generate_id(void)
+-{
++static uint16_t ip_generate_id(void) {
+     static mutex_t mutex = MUTEX_INITIALIZER;
+     static uint16_t id = 128;
+     uint16_t ret;
+@@ -343,36 +376,46 @@ ip_generate_id(void)
+     return ret;
+ }
+ 
+-ssize_t
+-ip_output(uint8_t protocol, const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst)
+-{
++ssize_t ip_output(uint8_t protocol, const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst) {
++    struct ip_route *route;
+     struct ip_iface *iface;
+     char addr[IP_ADDR_STR_LEN];
++    ip_addr_t nexthop;
+     uint16_t id;
+ 
+-    if (src == IP_ADDR_ANY) {
+-        errorf("ip routing does not implement");
++    if (src == IP_ADDR_ANY && dst == IP_ADDR_BROADCAST) {
++        // any -> broadcast is prohibited
++        errorf("source addr is required for broadcast addr");
+         return -1;
+     }
++    route = ip_route_lookup(dst);  // dst addr
++    if (!route) {
++        errorf("no route to host, addr=%s", ip_addr_ntop(dst, addr, sizeof(addr)));
++        return -1;
++    }
++    iface = route->iface;
++    if (src != IP_ADDR_ANY && src != iface->unicast) {
++        errorf("unable to output with specified source address, addr=%s", ip_addr_ntop(src, addr, sizeof(addr)));
++        return -1;
++    }
++    nexthop = (route->nexthop != IP_ADDR_ANY) ? route->nexthop : dst;  // destination of ip packet (!=dst)
+     if (NET_IFACE(iface)->dev->mtu < IP_HDR_SIZE_MIN + len) {
+-        errorf("too long, dev=%s, mtu=%u < %zu",
+-            NET_IFACE(iface)->dev->name, NET_IFACE(iface)->dev->mtu, IP_HDR_SIZE_MIN + len);
++        errorf("too long, dev=%s, mtu=%u < %zu", NET_IFACE(iface)->dev->name, NET_IFACE(iface)->dev->mtu,
++               IP_HDR_SIZE_MIN + len);
+         return -1;
+     }
+     id = ip_generate_id();
+-    if (ip_output_core(iface, protocol, data, len, iface->unicast, dst, id, 0) == -1) {
++    if (ip_output_core(iface, protocol, data, len, iface->unicast, dst, nexthop, id, 0) == -1) {
+         errorf("ip_output_core() failure");
+         return -1;
+     }
+     return len;
+ }
+ 
+-int
+-ip_init(void)
+-{
++int ip_init(void) {
+     if (net_protocol_register(NET_PROTOCOL_TYPE_IP, ip_input) == -1) {
+         errorf("net_protocol_register() failure");
+         return -1;
+     }
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/ip.h b/ip.h
+index aa83528..27cd755 100644
+--- a/ip.h
++++ b/ip.h
+@@ -19,9 +19,9 @@
+ #define IP_ADDR_STR_LEN 16 /* "ddd.ddd.ddd.ddd\0" */
+ 
+ /* see https://www.iana.org/assignments/protocol-numbers/protocol-numbers.txt */
+-#define IP_PROTOCOL_ICMP  1
+-#define IP_PROTOCOL_TCP   6
+-#define IP_PROTOCOL_UDP  17
++#define IP_PROTOCOL_ICMP 1
++#define IP_PROTOCOL_TCP 6
++#define IP_PROTOCOL_UDP 17
+ 
+ typedef uint32_t ip_addr_t;
+ 
+@@ -36,30 +36,21 @@ struct ip_iface {
+ extern const ip_addr_t IP_ADDR_ANY;
+ extern const ip_addr_t IP_ADDR_BROADCAST;
+ 
+-extern int
+-ip_addr_pton(const char *p, ip_addr_t *n);
+-extern char *
+-ip_addr_ntop(ip_addr_t n, char *p, size_t size);
++extern int ip_addr_pton(const char *p, ip_addr_t *n);
++extern char *ip_addr_ntop(ip_addr_t n, char *p, size_t size);
+ 
+-extern int
+-ip_route_set_default_gateway(struct ip_iface *iface, const char *gateway);
+-extern struct ip_iface *
+-ip_route_get_iface(ip_addr_t dst);
++extern int ip_route_set_default_gateway(struct ip_iface *iface, const char *gateway);
++extern struct ip_iface *ip_route_get_iface(ip_addr_t dst);
+ 
+-extern struct ip_iface *
+-ip_iface_alloc(const char *addr, const char *netmask);
+-extern int
+-ip_iface_register(struct net_device *dev, struct ip_iface *iface);
+-extern struct ip_iface *
+-ip_iface_select(ip_addr_t addr);
++extern struct ip_iface *ip_iface_alloc(const char *addr, const char *netmask);
++extern int ip_iface_register(struct net_device *dev, struct ip_iface *iface);
++extern struct ip_iface *ip_iface_select(ip_addr_t addr);
+ 
+-extern ssize_t
+-ip_output(uint8_t protocol, const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst);
++extern ssize_t ip_output(uint8_t protocol, const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst);
+ 
+-extern int
+-ip_protocol_register(uint8_t type, void (*handler)(const uint8_t *data, size_t len, ip_addr_t src, ip_addr_t dst, struct ip_iface *iface));
++extern int ip_protocol_register(uint8_t type, void (*handler)(const uint8_t *data, size_t len, ip_addr_t src,
++                                                              ip_addr_t dst, struct ip_iface *iface));
+ 
+-extern int
+-ip_init(void);
++extern int ip_init(void);
+ 
+-#endif
++#endif
+\ No newline at end of file
+diff --git a/net.c b/net.c
+index d84a351..830f050 100644
+--- a/net.c
++++ b/net.c
+@@ -1,18 +1,21 @@
+-#include <stdio.h>
++#include "net.h"
++
+ #include <stddef.h>
+ #include <stdint.h>
++#include <stdio.h>
+ #include <string.h>
+ #include <sys/time.h>
+ 
++#include "arp.h"
++#include "icmp.h"
++#include "ip.h"
+ #include "platform.h"
+-
+ #include "util.h"
+-#include "net.h"
+ 
+ struct net_protocol {
+     struct net_protocol *next;
+     uint16_t type;
+-    struct queue_head queue; /* input queue */
++    struct queue_head queue;
+     void (*handler)(const uint8_t *data, size_t len, struct net_device *dev);
+ };
+ 
+@@ -23,116 +26,99 @@ struct net_protocol_queue_entry {
+ };
+ 
+ struct net_timer {
+-    struct net_timer *next;
+-    struct timeval interval;
+-    struct timeval last;
+-    void (*handler)(void);
++    struct net_timer *next;   // pointer to next timer
++    struct timeval interval;  // interval of fires
++    struct timeval last;      // last time when timer fired
++    void (*handler)(void);    // callback
+ };
+ 
+-/* NOTE: if you want to add/delete the entries after net_run(), you need to protect these lists with a mutex. */
++/* NOTE: if you want to add/delete the entries after net_run(), you need to
++ * protect these lists with a mutex. */
+ static struct net_device *devices;
+ static struct net_protocol *protocols;
+ static struct net_timer *timers;
+-
+-struct net_device *
+-net_device_alloc(void)
+-{
+-    struct net_device *dev;
+-
+-    dev = memory_alloc(sizeof(*dev));
++struct net_device *net_device_alloc(void) {
++    struct net_device *dev = memory_alloc(sizeof(struct net_device));
+     if (!dev) {
+-        errorf("memory_alloc() failure");
++        errorf("memory_alloc() failed");
+         return NULL;
+     }
+     return dev;
+ }
+ 
+-/* NOTE: must not be call after net_run() */
+-int
+-net_device_register(struct net_device *dev)
+-{
+-    static unsigned int index = 0;
++/* NOTE: must not be called after net_run() */
++int net_device_register(struct net_device *dev) {
++    static unsigned int index = 0;  // device index
+ 
+     dev->index = index++;
+     snprintf(dev->name, sizeof(dev->name), "net%d", dev->index);
+-    dev->next = devices;
++    dev->next = devices;  // append
+     devices = dev;
+     infof("registered, dev=%s, type=0x%04x", dev->name, dev->type);
+     return 0;
+ }
+ 
+-static int
+-net_device_open(struct net_device *dev)
+-{
++static int net_device_open(struct net_device *dev) {
+     if (NET_DEVICE_IS_UP(dev)) {
+         errorf("already opened, dev=%s", dev->name);
+         return -1;
+     }
+     if (dev->ops->open) {
+         if (dev->ops->open(dev) == -1) {
+-            errorf("failure, dev=%s", dev->name);
++            errorf("failed, dev=%s", dev->name);
+             return -1;
+         }
+     }
+-    dev->flags |= NET_DEVICE_FLAG_UP;
++    dev->flags |= NET_DEVICE_FLAG_UP;  // up flag
+     infof("dev=%s, state=%s", dev->name, NET_DEVICE_STATE(dev));
+     return 0;
+ }
+ 
+-static int
+-net_device_close(struct net_device *dev)
+-{
++static int net_device_close(struct net_device *dev) {
+     if (!NET_DEVICE_IS_UP(dev)) {
+-        errorf("not opened, dev=%s", dev->name);
++        errorf("already closed, dev=%s", dev->name);
+         return -1;
+     }
+     if (dev->ops->close) {
+         if (dev->ops->close(dev) == -1) {
+-            errorf("failure, dev=%s", dev->name);
++            errorf("failed, dev=%s", dev->name);
+             return -1;
+         }
+     }
+-    dev->flags &= ~NET_DEVICE_FLAG_UP;
++    dev->flags &= ~NET_DEVICE_FLAG_UP;  // up flag
+     infof("dev=%s, state=%s", dev->name, NET_DEVICE_STATE(dev));
+     return 0;
+ }
+ 
+-/* NOTE: must not be call after net_run() */
+-int
+-net_device_add_iface(struct net_device *dev, struct net_iface *iface)
+-{
++int net_device_add_iface(struct net_device *dev, struct net_iface *iface) {
+     struct net_iface *entry;
+ 
+     for (entry = dev->ifaces; entry; entry = entry->next) {
+         if (entry->family == iface->family) {
+-            /* NOTE: For simplicity, only one iface can be added per family. */
+             errorf("already exists, dev=%s, family=%d", dev->name, entry->family);
+             return -1;
+         }
+     }
+-    iface->next = dev->ifaces;
+     iface->dev = dev;
++    // insert new entry
++    iface->next = dev->ifaces;
+     dev->ifaces = iface;
+     return 0;
+ }
+ 
+-struct net_iface *
+-net_device_get_iface(struct net_device *dev, int family)
+-{
++struct net_iface *net_device_get_iface(struct net_device *dev, int family) {
+     struct net_iface *entry;
+-
+     for (entry = dev->ifaces; entry; entry = entry->next) {
+         if (entry->family == family) {
+-            break;
++            return entry;
+         }
+     }
+-    return entry;
++    return NULL;
+ }
+ 
+-int
+-net_device_output(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst)
+-{
++int net_device_output(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst) {
+     if (!NET_DEVICE_IS_UP(dev)) {
++        // if device is not up, cannot transmit
+         errorf("not opened, dev=%s", dev->name);
+         return -1;
+     }
+@@ -143,27 +129,26 @@ net_device_output(struct net_device *dev, uint16_t type, const uint8_t *data, si
+     debugf("dev=%s, type=0x%04x, len=%zu", dev->name, type, len);
+     debugdump(data, len);
+     if (dev->ops->transmit(dev, type, data, len, dst) == -1) {
+-        errorf("device transmit failure, dev=%s, len=%zu", dev->name, len);
++        errorf("device transmit failed, dev=%s, len=%zu", dev->name, len);
+         return -1;
+     }
+     return 0;
+ }
+ 
+-/* NOTE: must not be call after net_run() */
+-int
+-net_protocol_register(uint16_t type, void (*handler)(const uint8_t *data, size_t len, struct net_device *dev))
+-{
++int net_protocol_register(uint16_t type, void (*handler)(const uint8_t *data, size_t len, struct net_device *dev)) {
+     struct net_protocol *proto;
+ 
++    // check duplication
+     for (proto = protocols; proto; proto = proto->next) {
+-        if (type == proto->type) {
++        if (proto->type == type) {
+             errorf("already registered, type=0x%04x", type);
+             return -1;
+         }
+     }
++    // alloc
+     proto = memory_alloc(sizeof(*proto));
+     if (!proto) {
+-        errorf("memory_alloc() failure");
++        errorf("memory_alloc() failed");
+         return -1;
+     }
+     proto->type = type;
+@@ -174,36 +159,38 @@ net_protocol_register(uint16_t type, void (*handler)(const uint8_t *data, size_t
+     return 0;
+ }
+ 
+-/* NOTE: must not be call after net_run() */
+-int
+-net_timer_register(struct timeval interval, void (*handler)(void))
+-{
++// must not be called after net_run()
++int net_timer_register(struct timeval interval, void (*handler)(void)) {
+     struct net_timer *timer;
+-
++    // register timer
+     timer = memory_alloc(sizeof(*timer));
+     if (!timer) {
+-        errorf("memory_alloc() failure");
++        errorf("memory_alloc() failed");
+         return -1;
+     }
+     timer->interval = interval;
+-    gettimeofday(&timer->last, NULL);
+     timer->handler = handler;
++    if (gettimeofday(&timer->last, NULL) == -1) {
++        errorf("gettimeofday() failed");
++        return -1;
++    }
++    // append list
+     timer->next = timers;
+     timers = timer;
++
+     infof("registered: interval={%d, %d}", interval.tv_sec, interval.tv_usec);
+     return 0;
+ }
+ 
+-int
+-net_timer_handler(void)
+-{
++int net_timer_handler(void) {
+     struct net_timer *timer;
+     struct timeval now, diff;
+ 
+     for (timer = timers; timer; timer = timer->next) {
+         gettimeofday(&now, NULL);
+-        timersub(&now, &timer->last, &diff);
+-        if (timercmp(&timer->interval, &diff, <) != 0) { /* true (!0) or false (0) */
++        timersub(&now, &timer->last, &diff);    // diff = now - last
++        if (timercmp(&timer->interval, &diff, <) != 0) {
++            // if diff > interval, then fire
+             timer->handler();
+             timer->last = now;
+         }
+@@ -211,51 +198,52 @@ net_timer_handler(void)
+     return 0;
+ }
+ 
+-int
+-net_input_handler(uint16_t type, const uint8_t *data, size_t len, struct net_device *dev)
+-{
++int net_input_handler(uint16_t type, const uint8_t *data, size_t len, struct net_device *dev) {
+     struct net_protocol *proto;
+     struct net_protocol_queue_entry *entry;
+ 
+     for (proto = protocols; proto; proto = proto->next) {
+-        if (proto->type == type) {
++        if (proto->type == type) {  // type matched
++            // protect queue begin
++            // allocate
+             entry = memory_alloc(sizeof(*entry) + len);
+             if (!entry) {
+-                errorf("memory_alloc() failure");
++                errorf("memory_alloc() failed");
+                 return -1;
+             }
++            // setting metadata and copy data
+             entry->dev = dev;
+             entry->len = len;
+             memcpy(entry->data, data, len);
+-            if (!queue_push(&proto->queue, entry)) {
+-                errorf("queue_push() failure");
+-                memory_free(entry);
+-                return -1;
+-            }
++            // push
++            queue_push(&proto->queue, entry);
++
+             debugf("queue pushed (num:%u), dev=%s, type=0x%04x, len=%zu", proto->queue.num, dev->name, type, len);
+             debugdump(data, len);
++            // software interruption
+             intr_raise_irq(INTR_IRQ_SOFTIRQ);
+             return 0;
+         }
+     }
+-    /* unsupported protocol */
++    // unsupported protocol
+     return 0;
+ }
+ 
+-int
+-net_softirq_handler(void)
+-{
++int net_softirq_handler(void) {
+     struct net_protocol *proto;
+     struct net_protocol_queue_entry *entry;
+ 
+     for (proto = protocols; proto; proto = proto->next) {
+         while (1) {
++            // pop entry from protocol's queue
+             entry = queue_pop(&proto->queue);
+             if (!entry) {
+                 break;
+             }
+-            debugf("queue popped (num:%u), dev=%s, type=0x%04x, len=%zu", proto->queue.num, entry->dev->name, proto->type, entry->len);
++            debugf("queue popped (num:%u), dev=%s, type=0x%04x, len=%zu", proto->queue.num, entry->dev->name,
++                   proto->type, entry->len);
+             debugdump(entry->data, entry->len);
++            // call handler
+             proto->handler(entry->data, entry->len, entry->dev);
+             memory_free(entry);
+         }
+@@ -263,15 +251,14 @@ net_softirq_handler(void)
+     return 0;
+ }
+ 
+-int
+-net_run(void)
+-{
++int net_run(void) {
+     struct net_device *dev;
+ 
+     if (intr_run() == -1) {
+-        errorf("intr_run() failure");
++        errorf("intr_run() failed");
+         return -1;
+     }
++
+     debugf("open all devices...");
+     for (dev = devices; dev; dev = dev->next) {
+         net_device_open(dev);
+@@ -280,42 +267,35 @@ net_run(void)
+     return 0;
+ }
+ 
+-void
+-net_shutdown(void)
+-{
++void net_shutdown(void) {
+     struct net_device *dev;
+ 
+     debugf("close all devices...");
+     for (dev = devices; dev; dev = dev->next) {
+         net_device_close(dev);
+     }
+-    intr_shutdown();
++    intr_shutdown();  // terminate interrupt
+     debugf("shutting down");
+ }
+ 
+-#include "arp.h"
+-#include "ip.h"
+-#include "icmp.h"
+-
+-int
+-net_init(void)
+-{
++int net_init(void) {
+     if (intr_init() == -1) {
+-        errorf("intr_init() failure");
++        errorf("intr_init() failed");
+         return -1;
+     }
+     if (arp_init() == -1) {
+-        errorf("arp_init() failure");
++        errorf("arp_init() failed");
+         return -1;
+     }
+     if (ip_init() == -1) {
+-        errorf("ip_init() failure");
++        errorf("ip_init() failed");
+         return -1;
+     }
+     if (icmp_init() == -1) {
+-        errorf("icmp_init() failure");
++        errorf("icmp_init() failed");
+         return -1;
+     }
+     infof("initialized");
+     return 0;
+ }
++
+diff --git a/net.h b/net.h
+index 6089f7c..cbbcb60 100644
+--- a/net.h
++++ b/net.h
+@@ -9,48 +9,52 @@
+ #define IFNAMSIZ 16
+ #endif
+ 
+-#define NET_DEVICE_TYPE_DUMMY     0x0000
+-#define NET_DEVICE_TYPE_LOOPBACK  0x0001
+-#define NET_DEVICE_TYPE_ETHERNET  0x0002
+-
+-#define NET_DEVICE_FLAG_UP        0x0001
+-#define NET_DEVICE_FLAG_LOOPBACK  0x0010
++// device types
++#define NET_DEVICE_TYPE_DUMMY 0x0000
++#define NET_DEVICE_TYPE_LOOPBACK 0x0001
++#define NET_DEVICE_TYPE_ETHERNET 0x0002
++
++// flags
++#define NET_DEVICE_FLAG_UP 0x0001
++#define NET_DEVICE_FLAG_LOOPBACK 0x0010
+ #define NET_DEVICE_FLAG_BROADCAST 0x0020
+-#define NET_DEVICE_FLAG_P2P       0x0040
+-#define NET_DEVICE_FLAG_NEED_ARP  0x0100
++#define NET_DEVICE_FLAG_P2P 0x0040
++#define NET_DEVICE_FLAG_NEED_ARP 0x0100
+ 
+ #define NET_DEVICE_ADDR_LEN 16
+ 
++// util funcs
+ #define NET_DEVICE_IS_UP(x) ((x)->flags & NET_DEVICE_FLAG_UP)
+ #define NET_DEVICE_STATE(x) (NET_DEVICE_IS_UP(x) ? "up" : "down")
+ 
+-/* NOTE: use same value as the Ethernet types */
+-#define NET_PROTOCOL_TYPE_IP   0x0800
+-#define NET_PROTOCOL_TYPE_ARP  0x0806
++// protocols
++#define NET_PROTOCOL_TYPE_IP 0x0800
++#define NET_PROTOCOL_TYPE_ARP 0x0806
+ #define NTT_PROTOCOL_TYPE_IPV6 0x86dd
+ 
+-#define NET_IFACE_FAMILY_IP    1
+-#define NET_IFACE_FAMILY_IPV6  2
++#define NET_IFACE_FAMILY_IP 1
++#define NET_IFACE_FAMILY_IPV6 2
+ 
+ #define NET_IFACE(x) ((struct net_iface *)(x))
+ 
+ struct net_device {
+     struct net_device *next;
+-    struct net_iface *ifaces; /* NOTE: if you want to add/delete the entries after net_run(), you need to protect ifaces with a mutex. */
++    struct net_iface *ifaces; /* NOTE: if you want to add/delete the entries after net_run(), you need to protect ifaces
++                                 with a mutex. */
+     unsigned int index;
+     char name[IFNAMSIZ];
+-    uint16_t type;
+-    uint16_t mtu;
+-    uint16_t flags;
+-    uint16_t hlen; /* header length */
+-    uint16_t alen; /* address length */
+-    uint8_t addr[NET_DEVICE_ADDR_LEN];
++    uint16_t type;                      // type of device
++    uint16_t mtu;                       // maximum transmission unit
++    uint16_t flags;                     // flags
++    uint16_t hlen;                      // header length
++    uint16_t alen;                      // address length
++    uint8_t addr[NET_DEVICE_ADDR_LEN];  // hardware address
+     union {
+         uint8_t peer[NET_DEVICE_ADDR_LEN];
+         uint8_t broadcast[NET_DEVICE_ADDR_LEN];
+     };
+-    struct net_device_ops *ops;
+-    void *priv;
++    struct net_device_ops *ops;  // operations
++    void *priv;                  // private data
+ };
+ 
+ struct net_device_ops {
+@@ -61,40 +65,27 @@ struct net_device_ops {
+ 
+ struct net_iface {
+     struct net_iface *next;
+-    struct net_device *dev; /* back pointer to parent */
++    struct net_device *dev;  // back pointer to parent
+     int family;
+-    /* depends on implementation of protocols. */
+ };
+ 
+-extern struct net_device *
+-net_device_alloc(void);
+-extern int
+-net_device_register(struct net_device *dev);
+-extern int
+-net_device_add_iface(struct net_device *dev, struct net_iface *iface);
+-extern struct net_iface *
+-net_device_get_iface(struct net_device *dev, int family);
+-extern int
+-net_device_output(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst);
+-
+-extern int
+-net_protocol_register(uint16_t type, void (*handler)(const uint8_t *data, size_t len, struct net_device *dev));
+-
+-extern int
+-net_timer_register(struct timeval interval, void (*handler)(void));
+-extern int
+-net_timer_handler(void);
+-
+-extern int
+-net_input_handler(uint16_t type, const uint8_t *data, size_t len, struct net_device *dev);
+-extern int
+-net_softirq_handler(void);
+-
+-extern int
+-net_run(void);
+-extern void
+-net_shutdown(void);
+-extern int
+-net_init(void);
++extern struct net_device *net_device_alloc(void);
++extern int net_device_register(struct net_device *dev);
++extern int net_device_add_iface(struct net_device *dev, struct net_iface *iface);
++extern struct net_iface *net_device_get_iface(struct net_device *dev, int family);
++extern int net_device_output(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst);
+ 
+-#endif
++extern int net_protocol_register(uint16_t type,
++                                 void (*handler)(const uint8_t *data, size_t len, struct net_device *dev));
++
++extern int net_timer_register(struct timeval interval, void (*handler)(void));
++extern int net_timer_handler(void);
++
++extern int net_input_handler(uint16_t type, const uint8_t *data, size_t len, struct net_device *dev);
++extern int net_softirq_handler(void);
++
++extern int net_run(void);
++extern void net_shutdown(void);
++extern int net_init(void);
++
++#endif
+\ No newline at end of file
+diff --git a/platform/linux/driver/ether_tap.c b/platform/linux/driver/ether_tap.c
+index 682f558..fad8db8 100644
+--- a/platform/linux/driver/ether_tap.c
++++ b/platform/linux/driver/ether_tap.c
+@@ -1,29 +1,28 @@
+ #define _GNU_SOURCE /* for F_SETSIG */
+-#include <stdio.h>
++#include "driver/ether_tap.h"
++
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/if.h>
++#include <linux/if_tun.h>
+ #include <stdint.h>
++#include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <unistd.h>
+-#include <fcntl.h>
+-#include <errno.h>
+-#include <sys/types.h>
+-#include <sys/socket.h>
+ #include <sys/ioctl.h>
+ #include <sys/poll.h>
+-#include <linux/if.h>
+-#include <linux/if_tun.h>
++#include <sys/socket.h>
++#include <sys/types.h>
++#include <unistd.h>
+ 
++#include "ether.h"
++#include "net.h"
+ #include "platform.h"
+-
+ #include "util.h"
+-#include "net.h"
+-#include "ether.h"
+-
+-#include "driver/ether_tap.h"
+ 
+ #define CLONE_DEVICE "/dev/net/tun"
+ 
+-#define ETHER_TAP_IRQ (INTR_IRQ_BASE+2)
++#define ETHER_TAP_IRQ (INTR_IRQ_BASE + 2)
+ 
+ struct ether_tap {
+     char name[IFNAMSIZ];
+@@ -33,9 +32,7 @@ struct ether_tap {
+ 
+ #define PRIV(x) ((struct ether_tap *)x->priv)
+ 
+-static int
+-ether_tap_addr(struct net_device *dev)
+-{
++static int ether_tap_addr(struct net_device *dev) {
+     int soc;
+     struct ifreq ifr = {};
+ 
+@@ -44,9 +41,10 @@ ether_tap_addr(struct net_device *dev)
+         errorf("socket: %s, dev=%s", strerror(errno), dev->name);
+         return -1;
+     }
+-    strncpy(ifr.ifr_name, PRIV(dev)->name, sizeof(ifr.ifr_name)-1);
++    strncpy(ifr.ifr_name, PRIV(dev)->name, sizeof(ifr.ifr_name) - 1);
++    // request hardware addr
+     if (ioctl(soc, SIOCGIFHWADDR, &ifr) == -1) {
+-        errorf("ioctl(SIOCGIFHWADDR): %s, dev=%s", strerror(errno), dev->name);
++        errorf("ioctl [SIOCGIFHWADDR]: %s, dev=%s", strerror(errno), dev->name);
+         close(soc);
+         return -1;
+     }
+@@ -55,46 +53,48 @@ ether_tap_addr(struct net_device *dev)
+     return 0;
+ }
+ 
+-static int
+-ether_tap_open(struct net_device *dev)
+-{
++static int ether_tap_open(struct net_device *dev) {
+     struct ether_tap *tap;
+-    struct ifreq ifr = {};
++    struct ifreq ifr = {};  // use in ioctl()
+ 
+     tap = PRIV(dev);
++    // TUN/TAP control device open
+     tap->fd = open(CLONE_DEVICE, O_RDWR);
+     if (tap->fd == -1) {
+         errorf("open: %s, dev=%s", strerror(errno), dev->name);
+         return -1;
+     }
+-    strncpy(ifr.ifr_name, tap->name, sizeof(ifr.ifr_name)-1);
+-    ifr.ifr_flags = IFF_TAP | IFF_NO_PI;
++    // name of tap device
++    strncpy(ifr.ifr_name, tap->name, sizeof(ifr.ifr_name) - 1);
++    // set flags
++    ifr.ifr_flags = IFF_TAP | IFF_NO_PI;  // TAP MODE | no packet info hdr
++    // tap device register
+     if (ioctl(tap->fd, TUNSETIFF, &ifr) == -1) {
+-        errorf("ioctl(TUNSETIFF): %s, dev=%s", strerror(errno), dev->name);
++        errorf("ioctl [TUNSETIFF]: %s, dev=%s", strerror(errno), dev->name);
+         close(tap->fd);
+         return -1;
+     }
+-    /* Set Asynchronous I/O signal delivery destination */
++    // set async I/O signal delivery dest
+     if (fcntl(tap->fd, F_SETOWN, getpid()) == -1) {
+         errorf("fcntl(F_SETOWN): %s, dev=%s", strerror(errno), dev->name);
+         close(tap->fd);
+         return -1;
+     }
+-    /* Enable Asynchronous I/O */
++    // enable async I/O
+     if (fcntl(tap->fd, F_SETFL, O_ASYNC) == -1) {
+         errorf("fcntl(F_SETFL): %s, dev=%s", strerror(errno), dev->name);
+         close(tap->fd);
+         return -1;
+     }
+-    /* Use other signal instead of SIGIO */
++    // use other signal instead of SIGIO
+     if (fcntl(tap->fd, F_SETSIG, tap->irq) == -1) {
+-        errorf("fcntl(F_SETSIG): %s, dev=%s", strerror(errno), dev->name);
++        errorf("fcntl(F_SETSIG: %s, dev=%s", strerror(errno), dev->name);
+         close(tap->fd);
+         return -1;
+     }
+     if (memcmp(dev->addr, ETHER_ADDR_ANY, ETHER_ADDR_LEN) == 0) {
+         if (ether_tap_addr(dev) == -1) {
+-            errorf("ether_tap_addr() failure, dev=%s", dev->name);
++            errorf("ether_tap_addr() failed, dev=%s", dev->name);
+             close(tap->fd);
+             return -1;
+         }
+@@ -102,29 +102,23 @@ ether_tap_open(struct net_device *dev)
+     return 0;
+ }
+ 
+-static int
+-ether_tap_close(struct net_device *dev)
+-{
+-    return close(PRIV(dev)->fd);
++static int ether_tap_close(struct net_device *dev) {
++    close(PRIV(dev)->fd);
++    return 0;
+ }
+ 
+-static ssize_t
+-ether_tap_write(struct net_device *dev, const uint8_t *frame, size_t flen)
+-{
+-    return write(PRIV(dev)->fd, frame, flen);
++static ssize_t ether_tap_write(struct net_device *dev, const uint8_t *frame, size_t flen) {
++    return write(PRIV(dev)->fd, frame, flen);  // write syscall
+ }
+ 
+-int
+-ether_tap_transmit(struct net_device *dev, uint16_t type, const uint8_t *buf, size_t len, const void *dst)
+-{
++int ether_tap_transmit(struct net_device *dev, uint16_t type, const uint8_t *buf, size_t len, const void *dst) {
+     return ether_transmit_helper(dev, type, buf, len, dst, ether_tap_write);
+ }
+ 
+-static ssize_t
+-ether_tap_read(struct net_device *dev, uint8_t *buf, size_t size)
+-{
++static ssize_t ether_tap_read(struct net_device *dev, uint8_t *buf, size_t size) {
+     ssize_t len;
+ 
++    // read buffer
+     len = read(PRIV(dev)->fd, buf, size);
+     if (len <= 0) {
+         if (len == -1 && errno != EINTR) {
+@@ -135,10 +129,8 @@ ether_tap_read(struct net_device *dev, uint8_t *buf, size_t size)
+     return len;
+ }
+ 
+-static int
+-ether_tap_isr(unsigned int irq, void *id)
+-{
+-    struct net_device *dev;;
++static int ether_tap_isr(unsigned int irq, void *id) {
++    struct net_device *dev;
+     struct pollfd pfd;
+     int ret;
+ 
+@@ -146,16 +138,16 @@ ether_tap_isr(unsigned int irq, void *id)
+     pfd.fd = PRIV(dev)->fd;
+     pfd.events = POLLIN;
+     while (1) {
+-        ret = poll(&pfd, 1, 0);
++        // check readable data ?
++        ret = poll(&pfd, 1, 0);  // timeout == 0
+         if (ret == -1) {
+             if (errno == EINTR) {
+-                continue;
++                continue;  // signal interrupt error, then recover
+             }
+             errorf("poll: %s, dev=%s", strerror(errno), dev->name);
+             return -1;
+         }
+         if (ret == 0) {
+-            /* No frames to input immediately. */
+             break;
+         }
+         ether_input_helper(dev, ether_tap_read);
+@@ -169,40 +161,45 @@ static struct net_device_ops ether_tap_ops = {
+     .transmit = ether_tap_transmit,
+ };
+ 
+-struct net_device *
+-ether_tap_init(const char *name, const char *addr)
+-{
++struct net_device *ether_tap_init(const char *name, const char *addr) {
+     struct net_device *dev;
+     struct ether_tap *tap;
+ 
++    // generate device
+     dev = net_device_alloc();
+     if (!dev) {
+-        errorf("net_device_alloc() failure");
++        errorf("net_device_alloc() failed");
+         return NULL;
+     }
++    // common params for ethernet
+     ether_setup_helper(dev);
++    // convert to byte seq
+     if (addr) {
+         if (ether_addr_pton(addr, dev->addr) == -1) {
+-            errorf("invalid address, addr=%s", addr);
++            errorf("invalid address: addr=%s", addr);
+             return NULL;
+         }
+     }
++    // operations
+     dev->ops = &ether_tap_ops;
++    // tap (private data)
+     tap = memory_alloc(sizeof(*tap));
+     if (!tap) {
+-        errorf("memory_alloc() failure");
++        errorf("memory_alloc() failed");
+         return NULL;
+     }
+-    strncpy(tap->name, name, sizeof(tap->name)-1);
+-    tap->fd = -1;
++    strncpy(tap->name, name, sizeof(tap->name) - 1);
++    tap->fd = -1;  // invalid value as init
+     tap->irq = ETHER_TAP_IRQ;
+     dev->priv = tap;
++    // register device to protocol stack
+     if (net_device_register(dev) == -1) {
+-        errorf("net_device_register() failure");
++        errorf("net_device_register() failed");
+         memory_free(tap);
+         return NULL;
+     }
++    // intr handler register
+     intr_request_irq(tap->irq, ether_tap_isr, INTR_IRQ_SHARED, dev->name, dev);
+     infof("ethernet device initialized, dev=%s", dev->name);
+     return dev;
+-}
++}
+\ No newline at end of file
+diff --git a/platform/linux/intr.c b/platform/linux/intr.c
+index eadbe35..fafe613 100644
+--- a/platform/linux/intr.c
++++ b/platform/linux/intr.c
+@@ -1,14 +1,13 @@
++#include <errno.h>
++#include <pthread.h>
++#include <signal.h>
+ #include <stdio.h>
+ #include <string.h>
+-#include <signal.h>
+-#include <pthread.h>
+ #include <time.h>
+-#include <errno.h>
+ 
++#include "net.h"
+ #include "platform.h"
+-
+ #include "util.h"
+-#include "net.h"
+ 
+ struct irq_entry {
+     struct irq_entry *next;
+@@ -27,48 +26,44 @@ static sigset_t sigmask;
+ static pthread_t tid;
+ static pthread_barrier_t barrier;
+ 
+-int
+-intr_request_irq(unsigned int irq, int (*handler)(unsigned int irq, void *dev), int flags, const char *name, void *dev)
+-{
++int intr_request_irq(unsigned int irq, int (*handler)(unsigned int irq, void *dev), int flags, const char *name,
++                     void *dev) {
+     struct irq_entry *entry;
+ 
+     debugf("irq=%u, flags=%d, name=%s", irq, flags, name);
+     for (entry = irqs; entry; entry = entry->next) {
+         if (entry->irq == irq) {
++            // already registered, then check if it is allowed to be shared
+             if (entry->flags ^ INTR_IRQ_SHARED || flags ^ INTR_IRQ_SHARED) {
+                 errorf("conflicts with already registered IRQs");
+                 return -1;
+             }
+         }
+     }
++
++    // add new entry to list
+     entry = memory_alloc(sizeof(*entry));
+     if (!entry) {
+-        errorf("memory_alloc() failure");
++        errorf("memory_alloc() failed");
+         return -1;
+     }
+     entry->irq = irq;
+     entry->handler = handler;
+     entry->flags = flags;
+-    strncpy(entry->name, name, sizeof(entry->name)-1);
++    strncpy(entry->name, name, sizeof(entry->name) - 1);
+     entry->dev = dev;
+     entry->next = irqs;
+     irqs = entry;
+     sigaddset(&sigmask, irq);
+     debugf("registered: irq=%u, name=%s", irq, name);
++
+     return 0;
+ }
+ 
+-int
+-intr_raise_irq(unsigned int irq)
+-{
+-    return pthread_kill(tid, (int)irq);
+-}
++int intr_raise_irq(unsigned int irq) { return pthread_kill(tid, (int)irq); }
+ 
+-static int
+-intr_timer_setup(struct itimerspec *interval)
+-{
++static int intr_timer_setup(struct itimerspec *interval) {
+     timer_t id;
+-
+     if (timer_create(CLOCK_REALTIME, NULL, &id) == -1) {
+         errorf("timer_create: %s", strerror(errno));
+         return -1;
+@@ -80,20 +75,20 @@ intr_timer_setup(struct itimerspec *interval)
+     return 0;
+ }
+ 
+-static void *
+-intr_thread(void *arg)
+-{
+-    const struct timespec ts = {0, 1000000}; /* 1ms */
++static void *intr_thread(void *arg) {
++    const struct timespec ts = {0, 1000000};  // ms
+     struct itimerspec interval = {ts, ts};
++
+     int terminate = 0, sig, err;
+     struct irq_entry *entry;
+ 
+     debugf("start...");
+     pthread_barrier_wait(&barrier);
+     if (intr_timer_setup(&interval) == -1) {
+-        errorf("intr_timer_setup() failure");
++        errorf("intr_timer_setup() failed");
+         return NULL;
+     }
++
+     while (!terminate) {
+         err = sigwait(&sigmask, &sig);
+         if (err) {
+@@ -101,32 +96,32 @@ intr_thread(void *arg)
+             break;
+         }
+         switch (sig) {
+-        case SIGHUP:
+-            terminate = 1;
+-            break;
+-        case SIGUSR1:
+-            net_softirq_handler();
+-            break;
+-        case SIGALRM:
+-            net_timer_handler();
+-            break;
+-        default:
+-            for (entry = irqs; entry; entry = entry->next) {
+-                if (entry->irq == (unsigned int)sig) {
+-                    debugf("irq=%d, name=%s", entry->irq, entry->name);
+-                    entry->handler(entry->irq, entry->dev);
++            case SIGHUP:  // end of interruption
++                terminate = 1;
++                break;
++            case SIGALRM:
++                // timer
++                net_timer_handler();
++                break;
++            case SIGUSR1:
++                net_softirq_handler();  // SIGUSR1, then software irq
++                break;
++            default:
++                for (entry = irqs; entry; entry = entry->next) {
++                    // call handler whose irq-idx equals to entry's irq-idx
++                    if (entry->irq == (unsigned int)sig) {
++                        debugf("irq=%d, name=%s", entry->irq, entry->name);
++                        entry->handler(entry->irq, entry->dev);
++                    }
+                 }
+-            }
+-            break;
++                break;
+         }
+     }
+     debugf("terminated");
+     return NULL;
+ }
+ 
+-int
+-intr_run(void)
+-{
++int intr_run(void) {
+     int err;
+ 
+     err = pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
+@@ -139,29 +134,26 @@ intr_run(void)
+         errorf("pthread_create() %s", strerror(err));
+         return -1;
+     }
++    // wait until thread starts
+     pthread_barrier_wait(&barrier);
+     return 0;
+ }
+ 
+-void
+-intr_shutdown(void)
+-{
++void intr_shutdown(void) {
+     if (pthread_equal(tid, pthread_self()) != 0) {
+-        /* Thread not created. */
++        // thread not created
+         return;
+     }
+-    pthread_kill(tid, SIGHUP);
++    pthread_kill(tid, SIGHUP);  // send SIGHUP
+     pthread_join(tid, NULL);
+ }
+ 
+-int
+-intr_init(void)
+-{
++int intr_init(void) {
+     tid = pthread_self();
+-    pthread_barrier_init(&barrier, NULL, 2);
+-    sigemptyset(&sigmask);
+-    sigaddset(&sigmask, SIGHUP);
+-    sigaddset(&sigmask, SIGUSR1);
+-    sigaddset(&sigmask, SIGALRM);
++    pthread_barrier_init(&barrier, NULL, 2);  // number of threads to wait = 2
++    sigemptyset(&sigmask);                    // init signal set
++    sigaddset(&sigmask, SIGHUP);              // add SIGHUP to signal set
++    sigaddset(&sigmask, SIGUSR1);             // add SIGUSR1 to signal set
++    sigaddset(&sigmask, SIGALRM);             // add SIGALRM to signal set
+     return 0;
+ }
+diff --git a/platform/linux/platform.h b/platform/linux/platform.h
+index dce9073..30eff9f 100644
+--- a/platform/linux/platform.h
++++ b/platform/linux/platform.h
+@@ -1,26 +1,18 @@
+ #ifndef PLATFORM_H
+ #define PLATFORM_H
+ 
+-#include <stddef.h>
+-#include <stdlib.h>
+ #include <pthread.h>
+ #include <signal.h>
++#include <stddef.h>
++#include <stdlib.h>
+ 
+ /*
+  * Memory
+  */
+ 
+-static inline void *
+-memory_alloc(size_t size)
+-{
+-    return calloc(1, size);
+-}
++static inline void *memory_alloc(size_t size) { return calloc(1, size); }
+ 
+-static inline void
+-memory_free(void *ptr)
+-{
+-    free(ptr);
+-}
++static inline void memory_free(void *ptr) { free(ptr); }
+ 
+ /*
+  * Mutex
+@@ -30,43 +22,28 @@ typedef pthread_mutex_t mutex_t;
+ 
+ #define MUTEX_INITIALIZER PTHREAD_MUTEX_INITIALIZER
+ 
+-static inline int
+-mutex_init(mutex_t *mutex)
+-{
+-    return pthread_mutex_init(mutex, NULL);
+-}
++static inline int mutex_init(mutex_t *mutex) { return pthread_mutex_init(mutex, NULL); }
+ 
+-static inline int
+-mutex_lock(mutex_t *mutex)
+-{
+-    return pthread_mutex_lock(mutex);
+-}
++static inline int mutex_lock(mutex_t *mutex) { return pthread_mutex_lock(mutex); }
+ 
+-static inline int
+-mutex_unlock(mutex_t *mutex)
+-{
+-    return pthread_mutex_unlock(mutex);
+-}
++static inline int mutex_unlock(mutex_t *mutex) { return pthread_mutex_unlock(mutex); }
+ 
+ /*
+  * Interrupt
+  */
+ 
+-#define INTR_IRQ_BASE (SIGRTMIN+1)
++#define INTR_IRQ_BASE (SIGRTMIN + 1)
+ #define INTR_IRQ_SOFTIRQ SIGUSR1
+ 
+ #define INTR_IRQ_SHARED 0x0001
+ 
+-extern int
+-intr_request_irq(unsigned int irq, int (*handler)(unsigned int irq, void *id), int flags, const char *name, void *dev);
+-extern int
+-intr_raise_irq(unsigned int irq);
+-
+-extern int
+-intr_run(void);
+-extern void
+-intr_shutdown(void);
+-extern int
+-intr_init(void);
++extern int intr_request_irq(unsigned int irq, int (*handler)(unsigned int irq, void *id), int flags, const char *name,
++                            void *dev);
++
++extern int intr_raise_irq(unsigned int irq);
++
++extern int intr_run(void);
++extern void intr_shutdown(void);
++extern int intr_init(void);
+ 
+ #endif
+diff --git a/test/step0.c b/test/step0.c
+index 80f28c3..59ce711 100644
+--- a/test/step0.c
++++ b/test/step0.c
+@@ -1,9 +1,7 @@
+-#include "util.h"
+ #include "test.h"
++#include "util.h"
+ 
+-int
+-main(void)
+-{
++int main(void) {
+     debugf("Hello, World!");
+ 
+     debugdump(test_data, sizeof(test_data));
+diff --git a/test/step1.c b/test/step1.c
+index dadaa72..6be3130 100644
+--- a/test/step1.c
++++ b/test/step1.c
+@@ -1,49 +1,44 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-
+ #include "driver/dummy.h"
+-
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     struct net_device *dev;
+ 
+-    signal(SIGINT, on_signal);
++    signal(SIGINT, on_signal);  // set signal handler
+     if (net_init() == -1) {
+-        errorf("net_init() failure");
++        errorf("net_init() failed");
+         return -1;
+     }
+     dev = dummy_init();
+     if (!dev) {
+-        errorf("dummy_init() failure");
++        errorf("dummy_init() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+-        errorf("net_run() failure");
++        errorf("net_run() failed");
+         return -1;
+     }
++    // ctrl+c -> terminate is set 1
+     while (!terminate) {
+         if (net_device_output(dev, 0x0800, test_data, sizeof(test_data), NULL) == -1) {
+-            errorf("net_device_output() failure");
+-            break;
++            errorf("net_device_output() failed");
++            return -1;
+         }
+         sleep(1);
+     }
+     net_shutdown();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step10.c b/test/step10.c
+index 7cb944f..6267abc 100644
+--- a/test/step10.c
++++ b/test/step10.c
+@@ -1,28 +1,22 @@
+-#include <stdio.h>
+-#include <stddef.h>
+ #include <signal.h>
++#include <stddef.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-#include "ip.h"
+-
+ #include "driver/loopback.h"
+-
++#include "ip.h"
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-static int
+-setup(void)
+-{
++static int setup(void) {
+     struct net_device *dev;
+     struct ip_iface *iface;
+ 
+@@ -52,15 +46,9 @@ setup(void)
+     return 0;
+ }
+ 
+-static void
+-cleanup(void)
+-{
+-    net_shutdown();
+-}
++static void cleanup(void) { net_shutdown(); }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     ip_addr_t src, dst;
+     size_t offset = IP_HDR_SIZE_MIN;
+ 
+@@ -79,4 +67,4 @@ main(int argc, char *argv[])
+     }
+     cleanup();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step11.c b/test/step11.c
+index 5feddea..769c3cb 100644
+--- a/test/step11.c
++++ b/test/step11.c
+@@ -1,31 +1,23 @@
+-#include <stdio.h>
+-#include <stddef.h>
+-#include <stdint.h>
+ #include <signal.h>
+-#include <sys/types.h>
++#include <stddef.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-#include "ip.h"
+-#include "icmp.h"
+-
+ #include "driver/loopback.h"
+-
++#include "icmp.h"
++#include "ip.h"
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-static int
+-setup(void)
+-{
++static int setup(void) {
+     struct net_device *dev;
+     struct ip_iface *iface;
+ 
+@@ -55,15 +47,9 @@ setup(void)
+     return 0;
+ }
+ 
+-static void
+-cleanup(void)
+-{
+-    net_shutdown();
+-}
++static void cleanup(void) { net_shutdown(); }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     ip_addr_t src, dst;
+     uint16_t id, seq = 0;
+     size_t offset = IP_HDR_SIZE_MIN + ICMP_HDR_SIZE;
+@@ -74,9 +60,10 @@ main(int argc, char *argv[])
+     }
+     ip_addr_pton(LOOPBACK_IP_ADDR, &src);
+     dst = src;
+-    id = getpid() % UINT16_MAX;
++    id = getpid() % UINT16_MAX;  // get id from process id
+     while (!terminate) {
+-        if (icmp_output(ICMP_TYPE_ECHO, 0, hton32(id << 16 | ++seq), test_data + offset, sizeof(test_data) - offset, src, dst) == -1) {
++        if (icmp_output(ICMP_TYPE_ECHO, 0, hton32(id << 16 | ++seq), test_data + offset, sizeof(test_data) - offset,
++                        src, dst) == -1) {
+             errorf("icmp_output() failure");
+             break;
+         }
+@@ -84,4 +71,4 @@ main(int argc, char *argv[])
+     }
+     cleanup();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step12.c b/test/step12.c
+index f81d629..b223a20 100644
+--- a/test/step12.c
++++ b/test/step12.c
+@@ -1,28 +1,24 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stddef.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-#include "ip.h"
+-
+-#include "driver/loopback.h"
+ #include "driver/ether_tap.h"
+-
++#include "driver/loopback.h"
++#include "icmp.h"
++#include "ip.h"
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-static int
+-setup(void)
+-{
++static int setup(void) {
+     struct net_device *dev;
+     struct ip_iface *iface;
+ 
+@@ -47,16 +43,16 @@ setup(void)
+     }
+     dev = ether_tap_init(ETHER_TAP_NAME, ETHER_TAP_HW_ADDR);
+     if (!dev) {
+-        errorf("ether_tap_init() failure");
++        errorf("ether_tap_init() failed");
+         return -1;
+     }
+     iface = ip_iface_alloc(ETHER_TAP_IP_ADDR, ETHER_TAP_NETMASK);
+     if (!iface) {
+-        errorf("ip_iface_alloc() failure");
++        errorf("ip_iface_alloc() failed");
+         return -1;
+     }
+     if (ip_iface_register(dev, iface) == -1) {
+-        errorf("ip_iface_register() failure");
++        errorf("ip_iface_register() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+@@ -66,15 +62,11 @@ setup(void)
+     return 0;
+ }
+ 
+-static void
+-cleanup(void)
+-{
+-    net_shutdown();
+-}
++static void cleanup(void) { net_shutdown(); }
++
++int main(int argc, char *argv[]) {
++    signal(SIGINT, on_signal);
+ 
+-int
+-main(int argc, char *argv[])
+-{
+     if (setup() == -1) {
+         errorf("setup() failure");
+         return -1;
+@@ -84,4 +76,4 @@ main(int argc, char *argv[])
+     }
+     cleanup();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step13.c b/test/step13.c
+index f81d629..b223a20 100644
+--- a/test/step13.c
++++ b/test/step13.c
+@@ -1,28 +1,24 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stddef.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-#include "ip.h"
+-
+-#include "driver/loopback.h"
+ #include "driver/ether_tap.h"
+-
++#include "driver/loopback.h"
++#include "icmp.h"
++#include "ip.h"
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-static int
+-setup(void)
+-{
++static int setup(void) {
+     struct net_device *dev;
+     struct ip_iface *iface;
+ 
+@@ -47,16 +43,16 @@ setup(void)
+     }
+     dev = ether_tap_init(ETHER_TAP_NAME, ETHER_TAP_HW_ADDR);
+     if (!dev) {
+-        errorf("ether_tap_init() failure");
++        errorf("ether_tap_init() failed");
+         return -1;
+     }
+     iface = ip_iface_alloc(ETHER_TAP_IP_ADDR, ETHER_TAP_NETMASK);
+     if (!iface) {
+-        errorf("ip_iface_alloc() failure");
++        errorf("ip_iface_alloc() failed");
+         return -1;
+     }
+     if (ip_iface_register(dev, iface) == -1) {
+-        errorf("ip_iface_register() failure");
++        errorf("ip_iface_register() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+@@ -66,15 +62,11 @@ setup(void)
+     return 0;
+ }
+ 
+-static void
+-cleanup(void)
+-{
+-    net_shutdown();
+-}
++static void cleanup(void) { net_shutdown(); }
++
++int main(int argc, char *argv[]) {
++    signal(SIGINT, on_signal);
+ 
+-int
+-main(int argc, char *argv[])
+-{
+     if (setup() == -1) {
+         errorf("setup() failure");
+         return -1;
+@@ -84,4 +76,4 @@ main(int argc, char *argv[])
+     }
+     cleanup();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step14.c b/test/step14.c
+index f81d629..b223a20 100644
+--- a/test/step14.c
++++ b/test/step14.c
+@@ -1,28 +1,24 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stddef.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-#include "ip.h"
+-
+-#include "driver/loopback.h"
+ #include "driver/ether_tap.h"
+-
++#include "driver/loopback.h"
++#include "icmp.h"
++#include "ip.h"
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-static int
+-setup(void)
+-{
++static int setup(void) {
+     struct net_device *dev;
+     struct ip_iface *iface;
+ 
+@@ -47,16 +43,16 @@ setup(void)
+     }
+     dev = ether_tap_init(ETHER_TAP_NAME, ETHER_TAP_HW_ADDR);
+     if (!dev) {
+-        errorf("ether_tap_init() failure");
++        errorf("ether_tap_init() failed");
+         return -1;
+     }
+     iface = ip_iface_alloc(ETHER_TAP_IP_ADDR, ETHER_TAP_NETMASK);
+     if (!iface) {
+-        errorf("ip_iface_alloc() failure");
++        errorf("ip_iface_alloc() failed");
+         return -1;
+     }
+     if (ip_iface_register(dev, iface) == -1) {
+-        errorf("ip_iface_register() failure");
++        errorf("ip_iface_register() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+@@ -66,15 +62,11 @@ setup(void)
+     return 0;
+ }
+ 
+-static void
+-cleanup(void)
+-{
+-    net_shutdown();
+-}
++static void cleanup(void) { net_shutdown(); }
++
++int main(int argc, char *argv[]) {
++    signal(SIGINT, on_signal);
+ 
+-int
+-main(int argc, char *argv[])
+-{
+     if (setup() == -1) {
+         errorf("setup() failure");
+         return -1;
+@@ -84,4 +76,4 @@ main(int argc, char *argv[])
+     }
+     cleanup();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step15.c b/test/step15.c
+index 81a1471..e7f13b5 100644
+--- a/test/step15.c
++++ b/test/step15.c
+@@ -1,32 +1,24 @@
+-#include <stdio.h>
+-#include <stddef.h>
+-#include <stdint.h>
+ #include <signal.h>
+-#include <sys/types.h>
++#include <stddef.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-#include "ip.h"
+-#include "icmp.h"
+-
+-#include "driver/loopback.h"
+ #include "driver/ether_tap.h"
+-
++#include "driver/loopback.h"
++#include "icmp.h"
++#include "ip.h"
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-static int
+-setup(void)
+-{
++static int setup(void) {
+     struct net_device *dev;
+     struct ip_iface *iface;
+ 
+@@ -51,16 +43,16 @@ setup(void)
+     }
+     dev = ether_tap_init(ETHER_TAP_NAME, ETHER_TAP_HW_ADDR);
+     if (!dev) {
+-        errorf("ether_tap_init() failure");
++        errorf("ether_tap_init() failed");
+         return -1;
+     }
+     iface = ip_iface_alloc(ETHER_TAP_IP_ADDR, ETHER_TAP_NETMASK);
+     if (!iface) {
+-        errorf("ip_iface_alloc() failure");
++        errorf("ip_iface_alloc() failed");
+         return -1;
+     }
+     if (ip_iface_register(dev, iface) == -1) {
+-        errorf("ip_iface_register() failure");
++        errorf("ip_iface_register() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+@@ -70,33 +62,30 @@ setup(void)
+     return 0;
+ }
+ 
+-static void
+-cleanup(void)
+-{
+-    net_shutdown();
+-}
++static void cleanup(void) { net_shutdown(); }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     ip_addr_t src, dst;
+     uint16_t id, seq = 0;
+     size_t offset = IP_HDR_SIZE_MIN + ICMP_HDR_SIZE;
+ 
++    signal(SIGINT, on_signal);
++
+     if (setup() == -1) {
+         errorf("setup() failure");
+         return -1;
+     }
+     ip_addr_pton("192.0.2.2", &src);
+     ip_addr_pton("192.0.2.1", &dst);
+-    id = getpid() % UINT16_MAX;
++    id = getpid() & UINT16_MAX;
+     while (!terminate) {
+-        if (icmp_output(ICMP_TYPE_ECHO, 0, hton32(id << 16 | ++seq), test_data + offset, sizeof(test_data) - offset, src, dst) == -1) {
+-            errorf("icmp_output() failure");
++        if (icmp_output(ICMP_TYPE_ECHO, 0, hton32(id << 16 | ++seq), test_data + offset, sizeof(test_data) - offset,
++                        src, dst) == -1) {
++            errorf("icmp_output() failed");
+             break;
+         }
+         sleep(1);
+     }
+     cleanup();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step16.c b/test/step16.c
+index f81d629..b223a20 100644
+--- a/test/step16.c
++++ b/test/step16.c
+@@ -1,28 +1,24 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stddef.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-#include "ip.h"
+-
+-#include "driver/loopback.h"
+ #include "driver/ether_tap.h"
+-
++#include "driver/loopback.h"
++#include "icmp.h"
++#include "ip.h"
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-static int
+-setup(void)
+-{
++static int setup(void) {
+     struct net_device *dev;
+     struct ip_iface *iface;
+ 
+@@ -47,16 +43,16 @@ setup(void)
+     }
+     dev = ether_tap_init(ETHER_TAP_NAME, ETHER_TAP_HW_ADDR);
+     if (!dev) {
+-        errorf("ether_tap_init() failure");
++        errorf("ether_tap_init() failed");
+         return -1;
+     }
+     iface = ip_iface_alloc(ETHER_TAP_IP_ADDR, ETHER_TAP_NETMASK);
+     if (!iface) {
+-        errorf("ip_iface_alloc() failure");
++        errorf("ip_iface_alloc() failed");
+         return -1;
+     }
+     if (ip_iface_register(dev, iface) == -1) {
+-        errorf("ip_iface_register() failure");
++        errorf("ip_iface_register() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+@@ -66,15 +62,11 @@ setup(void)
+     return 0;
+ }
+ 
+-static void
+-cleanup(void)
+-{
+-    net_shutdown();
+-}
++static void cleanup(void) { net_shutdown(); }
++
++int main(int argc, char *argv[]) {
++    signal(SIGINT, on_signal);
+ 
+-int
+-main(int argc, char *argv[])
+-{
+     if (setup() == -1) {
+         errorf("setup() failure");
+         return -1;
+@@ -84,4 +76,4 @@ main(int argc, char *argv[])
+     }
+     cleanup();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step2.c b/test/step2.c
+index dadaa72..6be3130 100644
+--- a/test/step2.c
++++ b/test/step2.c
+@@ -1,49 +1,44 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-
+ #include "driver/dummy.h"
+-
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     struct net_device *dev;
+ 
+-    signal(SIGINT, on_signal);
++    signal(SIGINT, on_signal);  // set signal handler
+     if (net_init() == -1) {
+-        errorf("net_init() failure");
++        errorf("net_init() failed");
+         return -1;
+     }
+     dev = dummy_init();
+     if (!dev) {
+-        errorf("dummy_init() failure");
++        errorf("dummy_init() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+-        errorf("net_run() failure");
++        errorf("net_run() failed");
+         return -1;
+     }
++    // ctrl+c -> terminate is set 1
+     while (!terminate) {
+         if (net_device_output(dev, 0x0800, test_data, sizeof(test_data), NULL) == -1) {
+-            errorf("net_device_output() failure");
+-            break;
++            errorf("net_device_output() failed");
++            return -1;
+         }
+         sleep(1);
+     }
+     net_shutdown();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step3.c b/test/step3.c
+index d7e8a25..cfeb2ae 100644
+--- a/test/step3.c
++++ b/test/step3.c
+@@ -1,49 +1,44 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-
+ #include "driver/loopback.h"
+-
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     struct net_device *dev;
+ 
+-    signal(SIGINT, on_signal);
++    signal(SIGINT, on_signal);  // set signal handler
+     if (net_init() == -1) {
+-        errorf("net_init() failure");
++        errorf("net_init() failed");
+         return -1;
+     }
+     dev = loopback_init();
+     if (!dev) {
+-        errorf("loopback_init() failure");
++        errorf("loopback_init() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+-        errorf("net_run() failure");
++        errorf("net_run() failed");
+         return -1;
+     }
++    // ctrl+c -> terminate is set 1
+     while (!terminate) {
+         if (net_device_output(dev, 0x0800, test_data, sizeof(test_data), NULL) == -1) {
+-            errorf("net_device_output() failure");
+-            break;
++            errorf("net_device_output() failed");
++            return -1;
+         }
+         sleep(1);
+     }
+     net_shutdown();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step4.c b/test/step4.c
+index 75809dc..5ecc50d 100644
+--- a/test/step4.c
++++ b/test/step4.c
+@@ -1,49 +1,44 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-
+ #include "driver/loopback.h"
+-
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     struct net_device *dev;
+ 
+-    signal(SIGINT, on_signal);
++    signal(SIGINT, on_signal);  // set signal handler
+     if (net_init() == -1) {
+-        errorf("net_init() failure");
++        errorf("net_init() failed");
+         return -1;
+     }
+     dev = loopback_init();
+     if (!dev) {
+-        errorf("loopback_init() failure");
++        errorf("loopback_init() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+-        errorf("net_run() failure");
++        errorf("net_run() failed");
+         return -1;
+     }
++    // ctrl+c -> terminate is set 1
+     while (!terminate) {
+         if (net_device_output(dev, NET_PROTOCOL_TYPE_IP, test_data, sizeof(test_data), NULL) == -1) {
+-            errorf("net_device_output() failure");
+-            break;
++            errorf("net_device_output() failed");
++            return -1;
+         }
+         sleep(1);
+     }
+     net_shutdown();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step5.c b/test/step5.c
+index 75809dc..5ecc50d 100644
+--- a/test/step5.c
++++ b/test/step5.c
+@@ -1,49 +1,44 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-
+ #include "driver/loopback.h"
+-
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     struct net_device *dev;
+ 
+-    signal(SIGINT, on_signal);
++    signal(SIGINT, on_signal);  // set signal handler
+     if (net_init() == -1) {
+-        errorf("net_init() failure");
++        errorf("net_init() failed");
+         return -1;
+     }
+     dev = loopback_init();
+     if (!dev) {
+-        errorf("loopback_init() failure");
++        errorf("loopback_init() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+-        errorf("net_run() failure");
++        errorf("net_run() failed");
+         return -1;
+     }
++    // ctrl+c -> terminate is set 1
+     while (!terminate) {
+         if (net_device_output(dev, NET_PROTOCOL_TYPE_IP, test_data, sizeof(test_data), NULL) == -1) {
+-            errorf("net_device_output() failure");
+-            break;
++            errorf("net_device_output() failed");
++            return -1;
+         }
+         sleep(1);
+     }
+     net_shutdown();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step6.c b/test/step6.c
+index 75809dc..5ecc50d 100644
+--- a/test/step6.c
++++ b/test/step6.c
+@@ -1,49 +1,44 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-
+ #include "driver/loopback.h"
+-
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     struct net_device *dev;
+ 
+-    signal(SIGINT, on_signal);
++    signal(SIGINT, on_signal);  // set signal handler
+     if (net_init() == -1) {
+-        errorf("net_init() failure");
++        errorf("net_init() failed");
+         return -1;
+     }
+     dev = loopback_init();
+     if (!dev) {
+-        errorf("loopback_init() failure");
++        errorf("loopback_init() failed");
+         return -1;
+     }
+     if (net_run() == -1) {
+-        errorf("net_run() failure");
++        errorf("net_run() failed");
+         return -1;
+     }
++    // ctrl+c -> terminate is set 1
+     while (!terminate) {
+         if (net_device_output(dev, NET_PROTOCOL_TYPE_IP, test_data, sizeof(test_data), NULL) == -1) {
+-            errorf("net_device_output() failure");
+-            break;
++            errorf("net_device_output() failed");
++            return -1;
+         }
+         sleep(1);
+     }
+     net_shutdown();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step7.c b/test/step7.c
+index 6232978..f28bfaa 100644
+--- a/test/step7.c
++++ b/test/step7.c
+@@ -1,60 +1,56 @@
+-#include <stdio.h>
+ #include <signal.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-#include "ip.h"
+-
+ #include "driver/loopback.h"
+-
++#include "ip.h"
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     struct net_device *dev;
+     struct ip_iface *iface;
+ 
+-    signal(SIGINT, on_signal);
++    signal(SIGINT, on_signal);  // set signal handler
+     if (net_init() == -1) {
+-        errorf("net_init() failure");
++        errorf("net_init() failed");
+         return -1;
+     }
+     dev = loopback_init();
+     if (!dev) {
+-        errorf("loopback_init() failure");
++        errorf("loopback_init() failed");
+         return -1;
+     }
+     iface = ip_iface_alloc(LOOPBACK_IP_ADDR, LOOPBACK_NETMASK);
+     if (!iface) {
+-        errorf("ip_iface_alloc() failure");
++        errorf("ip_iface_alloc() failed");
+         return -1;
+     }
+     if (ip_iface_register(dev, iface) == -1) {
+-        errorf("ip_iface_register() failure");
++        errorf("ip_iface_register() failed");
+         return -1;
+     }
++
+     if (net_run() == -1) {
+-        errorf("net_run() failure");
++        errorf("net_run() failed");
+         return -1;
+     }
++    // ctrl+c -> terminate is set 1
+     while (!terminate) {
+         if (net_device_output(dev, NET_PROTOCOL_TYPE_IP, test_data, sizeof(test_data), NULL) == -1) {
+-            errorf("net_device_output() failure");
+-            break;
++            errorf("net_device_output() failed");
++            return -1;
+         }
+         sleep(1);
+     }
+     net_shutdown();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step8.c b/test/step8.c
+index 4fdcce4..7ea1bbd 100644
+--- a/test/step8.c
++++ b/test/step8.c
+@@ -1,28 +1,22 @@
+-#include <stdio.h>
+-#include <stddef.h>
+ #include <signal.h>
++#include <stddef.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-#include "ip.h"
+-
+ #include "driver/loopback.h"
+-
++#include "ip.h"
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-static int
+-setup(void)
+-{
++static int setup(void) {
+     struct net_device *dev;
+     struct ip_iface *iface;
+ 
+@@ -52,15 +46,9 @@ setup(void)
+     return 0;
+ }
+ 
+-static void
+-cleanup(void)
+-{
+-    net_shutdown();
+-}
++static void cleanup(void) { net_shutdown(); }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     ip_addr_t src, dst;
+     size_t offset = IP_HDR_SIZE_MIN;
+ 
+@@ -79,4 +67,4 @@ main(int argc, char *argv[])
+     }
+     cleanup();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/step9.c b/test/step9.c
+index 7cb944f..6267abc 100644
+--- a/test/step9.c
++++ b/test/step9.c
+@@ -1,28 +1,22 @@
+-#include <stdio.h>
+-#include <stddef.h>
+ #include <signal.h>
++#include <stddef.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+-#include "net.h"
+-#include "ip.h"
+-
+ #include "driver/loopback.h"
+-
++#include "ip.h"
++#include "net.h"
+ #include "test.h"
++#include "util.h"
+ 
+ static volatile sig_atomic_t terminate;
+ 
+-static void
+-on_signal(int s)
+-{
++static void on_signal(int s) {
+     (void)s;
+     terminate = 1;
+ }
+ 
+-static int
+-setup(void)
+-{
++static int setup(void) {
+     struct net_device *dev;
+     struct ip_iface *iface;
+ 
+@@ -52,15 +46,9 @@ setup(void)
+     return 0;
+ }
+ 
+-static void
+-cleanup(void)
+-{
+-    net_shutdown();
+-}
++static void cleanup(void) { net_shutdown(); }
+ 
+-int
+-main(int argc, char *argv[])
+-{
++int main(int argc, char *argv[]) {
+     ip_addr_t src, dst;
+     size_t offset = IP_HDR_SIZE_MIN;
+ 
+@@ -79,4 +67,4 @@ main(int argc, char *argv[])
+     }
+     cleanup();
+     return 0;
+-}
++}
+\ No newline at end of file
+diff --git a/test/test.h b/test/test.h
+index 0cc02a5..b6034c9 100644
+--- a/test/test.h
++++ b/test/test.h
+@@ -3,32 +3,25 @@
+ 
+ #include <stdint.h>
+ 
+-/* Scope of Internet host loopback address. see https://tools.ietf.org/html/rfc5735 */
++/* Scope of Internet host loopback address. see
++ * https://tools.ietf.org/html/rfc5735 */
+ #define LOOPBACK_IP_ADDR "127.0.0.1"
+ #define LOOPBACK_NETMASK "255.0.0.0"
+ 
+ #define ETHER_TAP_NAME "tap0"
+-/* Scope of EUI-48 Documentation Values. see https://tools.ietf.org/html/rfc7042 */
++/* Scope of EUI-48 Documentation Values. see https://tools.ietf.org/html/rfc7042
++ */
+ #define ETHER_TAP_HW_ADDR "00:00:5e:00:53:01"
+-/* Scope of Documentation Address Blocks (TEST-NET-1). see https://tools.ietf.org/html/rfc5731 */
++/* Scope of Documentation Address Blocks (TEST-NET-1). see
++ * https://tools.ietf.org/html/rfc5731 */
+ #define ETHER_TAP_IP_ADDR "192.0.2.2"
+ #define ETHER_TAP_NETMASK "255.255.255.0"
+ 
+ #define DEFAULT_GATEWAY "192.0.2.1"
+ 
+-const uint8_t test_data[] = {
+-    0x45, 0x00, 0x00, 0x30,
+-    0x00, 0x80, 0x00, 0x00,
+-    0xff, 0x01, 0xbd, 0x4a,
+-    0x7f, 0x00, 0x00, 0x01,
+-    0x7f, 0x00, 0x00, 0x01,
+-    0x08, 0x00, 0x35, 0x64,
+-    0x00, 0x80, 0x00, 0x01,
+-    0x31, 0x32, 0x33, 0x34,
+-    0x35, 0x36, 0x37, 0x38,
+-    0x39, 0x30, 0x21, 0x40,
+-    0x23, 0x24, 0x25, 0x5e,
+-    0x26, 0x2a, 0x28, 0x29
+-};
++const uint8_t test_data[] = {0x45, 0x00, 0x00, 0x30, 0x00, 0x80, 0x00, 0x00, 0xff, 0x01, 0xbd, 0x4a,
++                             0x7f, 0x00, 0x00, 0x01, 0x7f, 0x00, 0x00, 0x01, 0x08, 0x00, 0x35, 0x64,
++                             0x00, 0x80, 0x00, 0x01, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38,
++                             0x39, 0x30, 0x21, 0x40, 0x23, 0x24, 0x25, 0x5e, 0x26, 0x2a, 0x28, 0x29};
+ 
+ #endif
+diff --git a/util.c b/util.c
+index bd7697b..9b88319 100644
+--- a/util.c
++++ b/util.c
+@@ -1,25 +1,23 @@
+-#include <stdio.h>
++#include "util.h"
++
++#include <ctype.h>
++#include <errno.h>
++#include <limits.h>
+ #include <stdarg.h>
+ #include <stdint.h>
++#include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <errno.h>
+-#include <limits.h>
+-#include <ctype.h>
+-#include <time.h>
+ #include <sys/time.h>
++#include <time.h>
+ 
+ #include "platform.h"
+ 
+-#include "util.h"
+-
+ /*
+  * Logging
+  */
+ 
+-int
+-lprintf(FILE *fp, int level, const char *file, int line, const char *func, const char *fmt, ...)
+-{
++int lprintf(FILE *fp, int level, const char *file, int line, const char *func, const char *fmt, ...) {
+     struct timeval tv;
+     struct tm tm;
+     char timestamp[32];
+@@ -38,28 +36,28 @@ lprintf(FILE *fp, int level, const char *file, int line, const char *func, const
+     return n;
+ }
+ 
+-void
+-hexdump(FILE *fp, const void *data, size_t size)
+-{
++void hexdump(FILE *fp, const void *data, size_t size) {
+     unsigned char *src;
+     int offset, index;
+ 
+     flockfile(fp);
+     src = (unsigned char *)data;
+-    fprintf(fp, "+------+-------------------------------------------------+------------------+\n");
+-    for(offset = 0; offset < (int)size; offset += 16) {
++    fprintf(fp,
++            "+------+-------------------------------------------------+------"
++            "------------+\n");
++    for (offset = 0; offset < (int)size; offset += 16) {
+         fprintf(fp, "| %04x | ", offset);
+-        for(index = 0; index < 16; index++) {
+-            if(offset + index < (int)size) {
++        for (index = 0; index < 16; index++) {
++            if (offset + index < (int)size) {
+                 fprintf(fp, "%02x ", 0xff & src[offset + index]);
+             } else {
+                 fprintf(fp, "   ");
+             }
+         }
+         fprintf(fp, "| ");
+-        for(index = 0; index < 16; index++) {
+-            if(offset + index < (int)size) {
+-                if(isascii(src[offset + index]) && isprint(src[offset + index])) {
++        for (index = 0; index < 16; index++) {
++            if (offset + index < (int)size) {
++                if (isascii(src[offset + index]) && isprint(src[offset + index])) {
+                     fprintf(fp, "%c", src[offset + index]);
+                 } else {
+                     fprintf(fp, ".");
+@@ -70,7 +68,9 @@ hexdump(FILE *fp, const void *data, size_t size)
+         }
+         fprintf(fp, " |\n");
+     }
+-    fprintf(fp, "+------+-------------------------------------------------+------------------+\n");
++    fprintf(fp,
++            "+------+-------------------------------------------------+------"
++            "------------+\n");
+     funlockfile(fp);
+ }
+ 
+@@ -83,17 +83,13 @@ struct queue_entry {
+     void *data;
+ };
+ 
+-void
+-queue_init(struct queue_head *queue)
+-{
++void queue_init(struct queue_head *queue) {
+     queue->head = NULL;
+     queue->tail = NULL;
+     queue->num = 0;
+ }
+ 
+-void *
+-queue_push(struct queue_head *queue, void *data)
+-{
++void *queue_push(struct queue_head *queue, void *data) {
+     struct queue_entry *entry;
+ 
+     if (!queue) {
+@@ -116,9 +112,7 @@ queue_push(struct queue_head *queue, void *data)
+     return data;
+ }
+ 
+-void *
+-queue_pop(struct queue_head *queue)
+-{
++void *queue_pop(struct queue_head *queue) {
+     struct queue_entry *entry;
+     void *data;
+ 
+@@ -136,18 +130,14 @@ queue_pop(struct queue_head *queue)
+     return data;
+ }
+ 
+-void *
+-queue_peek(struct queue_head *queue)
+-{
++void *queue_peek(struct queue_head *queue) {
+     if (!queue || !queue->head) {
+         return NULL;
+     }
+     return queue->head->data;
+ }
+ 
+-void
+-queue_foreach(struct queue_head *queue, void (*func)(void *arg, void *data), void *arg)
+-{
++void queue_foreach(struct queue_head *queue, void (*func)(void *arg, void *data), void *arg) {
+     struct queue_entry *entry;
+ 
+     if (!queue || !func) {
+@@ -171,55 +161,40 @@ queue_foreach(struct queue_head *queue, void (*func)(void *arg, void *data), voi
+ 
+ static int endian;
+ 
+-static int
+-byteorder(void) {
++static int byteorder(void) {
+     uint32_t x = 0x00000001;
+ 
+     return *(uint8_t *)&x ? __LITTLE_ENDIAN : __BIG_ENDIAN;
+ }
+ 
+-static uint16_t
+-byteswap16(uint16_t v)
+-{
+-    return (v & 0x00ff) << 8 | (v & 0xff00 ) >> 8;
+-}
++static uint16_t byteswap16(uint16_t v) { return (v & 0x00ff) << 8 | (v & 0xff00) >> 8; }
+ 
+-static uint32_t
+-byteswap32(uint32_t v)
+-{
++static uint32_t byteswap32(uint32_t v) {
+     return (v & 0x000000ff) << 24 | (v & 0x0000ff00) << 8 | (v & 0x00ff0000) >> 8 | (v & 0xff000000) >> 24;
+ }
+ 
+-uint16_t
+-hton16(uint16_t h)
+-{
++uint16_t hton16(uint16_t h) {
+     if (!endian) {
+         endian = byteorder();
+     }
+     return endian == __LITTLE_ENDIAN ? byteswap16(h) : h;
+ }
+ 
+-uint16_t
+-ntoh16(uint16_t n)
+-{
++uint16_t ntoh16(uint16_t n) {
+     if (!endian) {
+         endian = byteorder();
+     }
+     return endian == __LITTLE_ENDIAN ? byteswap16(n) : n;
+ }
+ 
+-uint32_t
+-hton32(uint32_t h)
+-{
++uint32_t hton32(uint32_t h) {
+     if (!endian) {
+         endian = byteorder();
+     }
+     return endian == __LITTLE_ENDIAN ? byteswap32(h) : h;
+ }
+ 
+-uint32_t
+-ntoh32(uint32_t n)
+-{
++uint32_t ntoh32(uint32_t n) {
+     if (!endian) {
+         endian = byteorder();
+     }
+@@ -230,9 +205,7 @@ ntoh32(uint32_t n)
+  * Checksum
+  */
+ 
+-uint16_t
+-cksum16(uint16_t *addr, uint16_t count, uint32_t init)
+-{
++uint16_t cksum16(uint16_t *addr, uint16_t count, uint32_t init) {
+     uint32_t sum;
+ 
+     sum = init;
+diff --git a/util.h b/util.h
+index ea4e491..8758d50 100644
+--- a/util.h
++++ b/util.h
+@@ -1,8 +1,8 @@
+ #ifndef UTIL_H
+ #define UTIL_H
+ 
+-#include <stdio.h>
+ #include <stdint.h>
++#include <stdio.h>
+ #include <unistd.h>
+ 
+ /*
+@@ -36,7 +36,7 @@
+             (x)->tv_sec += 1;          \
+             (x)->tv_usec -= 1000000;   \
+         }                              \
+-    } while(0);
++    } while (0);
+ 
+ #define timespec_add_nsec(x, y)           \
+     do {                                  \
+@@ -46,7 +46,7 @@
+             (x)->tv_sec += 1;             \
+             (x)->tv_nsec -= 1000000000;   \
+         }                                 \
+-    } while(0);
++    } while (0);
+ 
+ /*
+  * Logging
+@@ -63,10 +63,8 @@
+ #define debugdump(...)
+ #endif
+ 
+-extern int
+-lprintf(FILE *fp, int level, const char *file, int line, const char *func, const char *fmt, ...);
+-extern void
+-hexdump(FILE *fp, const void *data, size_t size);
++extern int lprintf(FILE *fp, int level, const char *file, int line, const char *func, const char *fmt, ...);
++extern void hexdump(FILE *fp, const void *data, size_t size);
+ 
+ /*
+  * Queue
+@@ -80,35 +78,25 @@ struct queue_head {
+     unsigned int num;
+ };
+ 
+-extern void
+-queue_init(struct queue_head *queue);
+-extern void *
+-queue_push(struct queue_head *queue, void *data);
+-extern void *
+-queue_pop(struct queue_head *queue);
+-extern void *
+-queue_peek(struct queue_head *queue);
+-extern void
+-queue_foreach(struct queue_head *queue, void (*func)(void *arg, void *data), void *arg);
++extern void queue_init(struct queue_head *queue);
++extern void *queue_push(struct queue_head *queue, void *data);
++extern void *queue_pop(struct queue_head *queue);
++extern void *queue_peek(struct queue_head *queue);
++extern void queue_foreach(struct queue_head *queue, void (*func)(void *arg, void *data), void *arg);
+ 
+ /*
+  * Byteorder
+  */
+ 
+-extern uint16_t
+-hton16(uint16_t h);
+-extern uint16_t
+-ntoh16(uint16_t n);
+-extern uint32_t
+-hton32(uint32_t h);
+-extern uint32_t
+-ntoh32(uint32_t n);
++extern uint16_t hton16(uint16_t h);
++extern uint16_t ntoh16(uint16_t n);
++extern uint32_t hton32(uint32_t h);
++extern uint32_t ntoh32(uint32_t n);
+ 
+ /*
+  * Checksum
+  */
+ 
+-extern uint16_t
+-cksum16(uint16_t *addr, uint16_t count, uint32_t init);
++extern uint16_t cksum16(uint16_t *addr, uint16_t count, uint32_t init);
+ 
+ #endif

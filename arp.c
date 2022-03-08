@@ -76,10 +76,10 @@ static void arp_dump(const uint8_t *data, size_t len) {
     fprintf(stderr, "       pln: %u\n", message->hdr.pln);
     fprintf(stderr, "        op: %u (%s)\n", ntoh16(message->hdr.op), arp_opcode_ntoa(message->hdr.op));
     fprintf(stderr, "       sha: %s\n", ether_addr_ntop(message->sha, addr, sizeof(addr)));  // source hardware addr
-    memcpy(&spa, message->spa, sizeof(spa));                                                 // source protocol addr
+    memcpy(&spa, message->spa, IP_ADDR_LEN);                                                 // source protocol addr
     fprintf(stderr, "       spa: %s\n", ip_addr_ntop(spa, addr, sizeof(addr)));
     fprintf(stderr, "       tha: %s\n", ether_addr_ntop(message->tha, addr, sizeof(addr)));
-    memcpy(&tpa, message->tpa, sizeof(tpa));
+    memcpy(&tpa, message->tpa, IP_ADDR_LEN);
     fprintf(stderr, "       tpa: %s\n", ip_addr_ntop(tpa, addr, sizeof(addr)));
 #ifdef HEXDUMP
     hexdump(stderr, data, len);
@@ -189,7 +189,7 @@ static int arp_request(struct net_iface *iface, ip_addr_t tpa) {
     memcpy(request.sha, iface->dev->addr, ETHER_ADDR_LEN);
     memcpy(request.spa, &((struct ip_iface *)iface)->unicast, IP_ADDR_LEN);
     memset(request.tha, 0, ETHER_ADDR_LEN);  // temporary value = 0
-    memcpy(request.tpa, &tpa, sizeof(tpa));
+    memcpy(request.tpa, &tpa, IP_ADDR_LEN);
 
     debugf("dev=%s, len=%zu", iface->dev->name, sizeof(request));
     arp_dump((uint8_t *)&request, sizeof(request));

@@ -1,5 +1,47 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory '/home/yutarooguri/devs/microps'
-make: Nothing to be done for 'all'.
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c ip.c -o ip.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c icmp.c -o icmp.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c ether.c -o ether.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c arp.c -o arp.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c platform/linux/intr.c -o platform/linux/intr.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c driver/dummy.c -o driver/dummy.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c driver/loopback.c -o driver/loopback.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c platform/linux/driver/ether_tap.c -o platform/linux/driver/ether_tap.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step0.exe test/step0.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step1.c -o test/step1.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step1.exe test/step1.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step2.c -o test/step2.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step2.exe test/step2.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step3.c -o test/step3.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step3.exe test/step3.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step4.c -o test/step4.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step4.exe test/step4.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step5.c -o test/step5.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step5.exe test/step5.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step6.c -o test/step6.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step6.exe test/step6.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step7.c -o test/step7.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step7.exe test/step7.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step8.c -o test/step8.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step8.exe test/step8.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step9.c -o test/step9.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step9.exe test/step9.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step10.c -o test/step10.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step10.exe test/step10.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step11.c -o test/step11.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step11.exe test/step11.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step12.c -o test/step12.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step12.exe test/step12.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step13.c -o test/step13.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step13.exe test/step13.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step14.c -o test/step14.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step14.exe test/step14.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step15.c -o test/step15.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step15.exe test/step15.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step16.c -o test/step16.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step16.exe test/step16.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -c test/step17.c -o test/step17.o
+cc  -g -W -Wall -Wno-unused-parameter -iquote . -pthread -iquote platform/linux -o test/step17.exe test/step17.o util.o net.o ip.o icmp.o ether.o arp.o platform/linux/intr.o driver/dummy.o driver/loopback.o platform/linux/driver/ether_tap.o test/test.h  -lrt
 make: Leaving directory '/home/yutarooguri/devs/microps'
  

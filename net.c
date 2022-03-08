@@ -38,7 +38,9 @@ static struct net_device *devices;
 static struct net_protocol *protocols;
 static struct net_timer *timers;
 struct net_device *net_device_alloc(void) {
-    struct net_device *dev = memory_alloc(sizeof(struct net_device));
+    struct net_device *dev;
+
+    dev = memory_alloc(sizeof(*dev));
     if (!dev) {
         errorf("memory_alloc() failed");
         return NULL;
@@ -216,8 +218,11 @@ int net_input_handler(uint16_t type, const uint8_t *data, size_t len, struct net
             entry->len = len;
             memcpy(entry->data, data, len);
             // push
-            queue_push(&proto->queue, entry);
-
+            if (!queue_push(&proto->queue, entry)) {
+                errorf("queue_push() failed");
+                memory_free(entry);
+                return -1;
+            }
             debugf("queue pushed (num:%u), dev=%s, type=0x%04x, len=%zu", proto->queue.num, dev->name, type, len);
             debugdump(data, len);
             // software interruption
@@ -298,4 +303,3 @@ int net_init(void) {
     infof("initialized");
     return 0;
 }
-
