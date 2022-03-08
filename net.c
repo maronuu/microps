@@ -10,6 +10,7 @@
 #include "icmp.h"
 #include "ip.h"
 #include "platform.h"
+#include "udp.h"
 #include "util.h"
 
 struct net_protocol {
@@ -190,7 +191,7 @@ int net_timer_handler(void) {
 
     for (timer = timers; timer; timer = timer->next) {
         gettimeofday(&now, NULL);
-        timersub(&now, &timer->last, &diff);    // diff = now - last
+        timersub(&now, &timer->last, &diff);  // diff = now - last
         if (timercmp(&timer->interval, &diff, <) != 0) {
             // if diff > interval, then fire
             timer->handler();
@@ -298,6 +299,10 @@ int net_init(void) {
     }
     if (icmp_init() == -1) {
         errorf("icmp_init() failed");
+        return -1;
+    }
+    if (udp_init() == -1) {
+        errorf("udp_init() failed");
         return -1;
     }
     infof("initialized");
